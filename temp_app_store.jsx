@@ -1,0 +1,2 @@
+"- `[x]` Create task list\n- `[/]` Create `INDISearchAppStore.jsx` with premium glassmorphism UI\n- `[ ]` Update `App.jsx` to handle routing for `'appstore'`\n- `[ ]` Add `App Store` shortcut to the INDISearch homepage\n- `[ ]` Create downloading animation
+<truncated 49 bytes>

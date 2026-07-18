@@ -1,0 +1,1404 @@
+
+> frontend@0.0.0 lint
+> eslint .
+
+
+C:\Users\LC\Desktop\indisearch\frontend\src\App.jsx
+   1:8  error  'React' is defined but never used             no-unused-vars
+  14:8  error  'QuickChatLogo' is defined but never used    no-unused-vars
+  15:8  error  'PixoraLogo' is defined but never used  no-unused-vars
+  17:8  error  'BharatAILogo' is defined but never used      no-unused-vars
+
+C:\Users\LC\Desktop\indisearch\frontend\src\components\AIOverview.jsx
+  1:8  error  'React' is defined but never used  no-unused-vars
+
+C:\Users\LC\Desktop\indisearch\frontend\src\components\AppsMenu.jsx
+  1:8  error  'React' is defined but never used  no-unused-vars
+
+C:\Users\LC\Desktop\indisearch\frontend\src\components\BharatAI.jsx
+   1:8   error  'React' is defined but never used     no-unused-vars
+   2:78  error  'Sparkles' is defined but never used  no-unused-vars
+  69:14  error  'error' is defined but never used     no-unused-vars
+
+C:\Users\LC\Desktop\indisearch\frontend\src\components\BharatAILogo.jsx
+  1:8  error  'React' is defined but never used  no-unused-vars
+
+C:\Users\LC\Desktop\indisearch\frontend\src\components\QuickChat.jsx
+    1:8    error  'React' is defined but never used                         no-unused-vars
+    2:57   error  'Paperclip' is defined but never used                     no-unused-vars
+    2:161  error  'Calendar' is defined but never used                      no-unused-vars
+    2:171  error  'AudioWaveform' is defined but never used                 no-unused-vars
+    2:193  error  'WifiOff' is defined but never used                       no-unused-vars
+    2:338  error  'Edit' is defined but never used                          no-unused-vars
+    2:344  error  'Info' is defined but never used                          no-unused-vars
+    2:357  error  'SmilePlus' is defined but never used                     no-unused-vars
+    2:368  error  'ChevronDown' is defined but never used                   no-unused-vars
+    2:381  error  'Home' is defined but never used                          no-unused-vars
+    2:387  error  'Compass' is defined but never used                       no-unused-vars
+    2:396  error  'Clapperboard' is defined but never used                  no-unused-vars
+    2:410  error  'Heart' is defined but never used                         no-unused-vars
+    2:417  error  'SquarePlus' is defined but never used                    no-unused-vars
+    2:429  error  'Menu' is defined but never used                          no-unused-vars
+    3:8    error  'chatLogoImg' is defined but never used                   no-unused-vars
+    5:38   error  'onBack' is defined but never used                        no-unused-vars
+    9:20   error  'setCallType' is assigned a value but never used          no-unused-vars
+   12:21   error  'setGhostMode' is assigned a value but never used         no-unused-vars
+   13:10   error  'meshMode' is assigned a value but never used             no-unused-vars
+   13:20   error  'setMeshMode' is assigned a value but never used          no-unused-vars
+   14:10   error  'aiGuardian' is assigned a value but never used           no-unused-vars
+   14:22   error  'setAiGuardian' is assigned a value but never used        no-unused-vars
+   21:10   error  'isScanningBrain' is assigned a value but never used      no-unused-vars
+   22:10   error  'sidebarTab' is assigned a value but never used           no-unused-vars
+   25:25   error  'setSelectedGroup' is assigned a value but never used     no-unused-vars
+   61:9    error  'notesData' is assigned a value but never used            no-unused-vars
+   75:10   error  'statuses' is assigned a value but never used             no-unused-vars
+   84:9    error  'callHistoryData' is assigned a value but never used      no-unused-vars
+  283:9    error  'handleThoughtToText' is assigned a value but never used  no-unused-vars
+  367:9    error  'handleStatusClick' is assigned a value but never used    no-unused-vars
+
+C:\Users\LC\Desktop\indisearch\frontend\src\components\QuickChatLogo.jsx
+  1:8  error  'React' is defined but never used  no-unused-vars
+
+C:\Users\LC\Desktop\indisearch\frontend\src\components\BharatCloud.jsx
+  1:8   error  'React' is defined but never used      no-unused-vars
+  2:21  error  'HardDrive' is defined but never used  no-unused-vars
+
+C:\Users\LC\Desktop\indisearch\frontend\src\components\BharatCloudLogo.jsx
+  1:8  error  'React' is defined but never used  no-unused-vars
+
+C:\Users\LC\Desktop\indisearch\frontend\src\components\BharatConnect.jsx
+  1:8  error  'React' is defined but never used  no-unused-vars
+
+C:\Users\LC\Desktop\indisearch\frontend\src\components\BharatDrive.jsx
+   1:8  error  'React' is defined but never used  no-unused-vars
+  11:3  error  'Video' is defined but never used  no-unused-vars
+
+C:\Users\LC\Desktop\indisearch\frontend\src\components\BharatMapLogo.jsx
+  1:8  error  'React' is defined but never used  no-unused-vars
+
+C:\Users\LC\Desktop\indisearch\frontend\src\components\BharatMaps.jsx
+    2:33  error  'MapPin' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   no-unused-vars
+  107:18  error  'e' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        no-unused-vars
+  124:5   error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  122 |
+  123 |   React.useEffect(() => {
+> 124 |     handleRecenter();
+      |     ^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  125 |   }, [handleRecenter]);
+  126 |
+  127 |   return (  react-hooks/set-state-in-effect
+
+C:\Users\LC\Desktop\indisearch\frontend\src\components\BharatMeet.jsx
+  1:8   error  'React' is defined but never used         no-unused-vars
+  3:44  error  'PhoneOff' is defined but never used      no-unused-vars
+  4:43  error  'Maximize' is defined but never used      no-unused-vars
+  6:3   error  'Info' is defined but never used          no-unused-vars
+  6:25  error  'CheckCircle2' is defined but never used  no-unused-vars
+
+C:\Users\LC\Desktop\indisearch\frontend\src\components\BharatNetLogo.jsx
+  1:8  error  'React' is defined but never used  no-unused-vars
+
+C:\Users\LC\Desktop\indisearch\frontend\src\components\BharatNetShowcase.jsx
+  1:8  error  'React' is defined but never used  no-unused-vars
+
+C:\Users\LC\Desktop\indisearch\frontend\src\components\BharatPay.jsx
+    1:8    error  'React' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       no-unused-vars
+    3:14   error  'IndianRupee' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 no-unused-vars
+    6:15   error  'Gem' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         no-unused-vars
+    6:31   error  'Briefcase' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   no-unused-vars
+  365:144  error  Error: Cannot call impure function during render
+
+`Math.random` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+  363 |       
+  364 |       <div className="bg-[#1a1a1a] border border-white/10 rounded-2xl p-6 w-full max-w-sm mb-8 space-y-3 text-sm">
+> 365 |         <div className="flex justify-between"><span className="text-gray-400">Transaction ID</span><span className="font-mono">BHRT{Math.floor(Math.random()*1000000000)}</span></div>
+      |                                                                                                                                                ^^^^^^^^^^^^^ Cannot call impure function
+  366 |         <div className="flex justify-between"><span className="text-gray-400">Date & Time</span><span>{new Date().toLocaleString()}</span></div>
+  367 |         <div className="flex justify-between"><span className="text-gray-400">Paid from</span><span>{linkedBank}</span></div>
+  368 |       </div>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         react-hooks/purity
+  468:36   error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+  466 |       </header>
+  467 |
+> 468 |       {currentFlow === 'login' && <LoginView />}
+      |                                    ^^^^^^^^^ This component is created during render
+  469 |       {currentFlow === 'otp' && <OTPView />}
+  470 |
+  471 |       {currentFlow === 'dashboard' && (
+
+  144 |   
+  145 |
+> 146 |   const LoginView = () => (
+      |                     ^^^^^^^
+> 147 |     <div className="flex-1 p-6 flex flex-col items-center justify-center animate-in fade-in slide-in-from-bottom-4 relative">
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 148 |       <div className="absolute top-10 left-0 w-full flex justify-center opacity-10 blur-xl pointer-events-none">
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 184 |     </div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 185 |   );
+      | ^^^^ The component is created during render here
+  186 |
+  187 |   const OTPView = () => (
+  188 |     <div className="flex-1 p-6 flex flex-col items-center justify-center animate-in fade-in slide-in-from-right-8 relative">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               react-hooks/static-components
+  469:34   error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+  467 |
+  468 |       {currentFlow === 'login' && <LoginView />}
+> 469 |       {currentFlow === 'otp' && <OTPView />}
+      |                                  ^^^^^^^ This component is created during render
+  470 |
+  471 |       {currentFlow === 'dashboard' && (
+  472 |         <div className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-10 relative z-10 hide-scrollbar pb-24 animate-in fade-in">
+
+  185 |   );
+  186 |
+> 187 |   const OTPView = () => (
+      |                   ^^^^^^^
+> 188 |     <div className="flex-1 p-6 flex flex-col items-center justify-center animate-in fade-in slide-in-from-right-8 relative">
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 189 |       <div className="w-20 h-20 rounded-3xl bg-[#138808]/10 border border-[#138808]/20 flex items-center justify-center mb-8 shadow-[0_0_30px_rgba(19,136,8,0.2)]">
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 223 |     </div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 224 |   );
+      | ^^^^ The component is created during render here
+  225 |
+  226 |   
+  227 |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                react-hooks/static-components
+  525:14   error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+  523 |
+  524 |             {}
+> 525 |             <Section title="Transfer Money">
+      |              ^^^^^^^ This component is created during render
+  526 |               <ActionButton icon={Smartphone} label="To Mobile" colorClass="text-[#FF9933]" bgClass="bg-[#FF9933]/10" glowColor="orange" />
+  527 |               <ActionButton icon={Landmark} label="To Bank/UPI" colorClass="text-[#4285F4]" bgClass="bg-[#4285F4]/10" glowColor="blue" />
+  528 |               <ActionButton icon={CircleDollarSign} label="To Self" colorClass="text-purple-400" bgClass="bg-purple-500/10" glowColor="purple" />
+
+  400 |   );
+  401 |
+> 402 |   const Section = ({ title, children }) => (
+      |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 403 |     <div className="bg-[#1a1a1a] border border-white/10 rounded-3xl p-5 sm:p-6 mb-6 shadow-xl relative overflow-hidden">
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 404 |       <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)', backgroundSize: '20px 20px' }}></div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 405 |       <h3 className="text-lg font-bold mb-5 flex items-center text-gray-100 relative z-10">{title}</h3>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 406 |       <div className="grid grid-cols-4 gap-y-6 gap-x-2 sm:gap-x-4 relative z-10">{children}</div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 407 |     </div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 408 |   );
+      | ^^^^ The component is created during render here
+  409 |
+  410 |   return (
+  411 |     <div className="flex flex-col h-screen w-full bg-[#050505] text-white font-sans overflow-hidden">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    react-hooks/static-components
+  526:16   error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+  524 |             {}
+  525 |             <Section title="Transfer Money">
+> 526 |               <ActionButton icon={Smartphone} label="To Mobile" colorClass="text-[#FF9933]" bgClass="bg-[#FF9933]/10" glowColor="orange" />
+      |                ^^^^^^^^^^^^ This component is created during render
+  527 |               <ActionButton icon={Landmark} label="To Bank/UPI" colorClass="text-[#4285F4]" bgClass="bg-[#4285F4]/10" glowColor="blue" />
+  528 |               <ActionButton icon={CircleDollarSign} label="To Self" colorClass="text-purple-400" bgClass="bg-purple-500/10" glowColor="purple" />
+  529 |               <ActionButton icon={Wallet} label="Check Balance" colorClass="text-[#138808]" bgClass="bg-[#138808]/10" glowColor="green" />
+
+  390 |   
+  391 |
+> 392 |   const ActionButton = ({ icon: Icon, label, colorClass, bgClass, glowColor }) => (
+      |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 393 |     <button onClick={() => handleActionClick({ icon: Icon, label, colorClass, bgClass })} className="flex flex-col items-center group relative w-full">
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 394 |       <div className={`absolute inset-0 bg-${glowColor}-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 395 |       <div className={`relative w-14 h-14 sm:w-16 sm:h-16 rounded-2xl ${bgClass} flex items-center justify-center mb-2 sm:mb-3 group-hover:-translate-y-1 transition-all shadow-lg border border-white/10 z-10`}>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 396 |         {Icon && <Icon size={28} className={colorClass} />}
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 397 |       </div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 398 |       <span className="text-[10px] sm:text-xs font-medium text-center text-gray-300 group-hover:text-white transition-colors leading-tight">{label}</span>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 399 |     </button>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 400 |   );
+      | ^^^^ The component is created during render here
+  401 |
+  402 |   const Section = ({ title, children }) => (
+  403 |     <div className="bg-[#1a1a1a] border border-white/10 rounded-3xl p-5 sm:p-6 mb-6 shadow-xl relative overflow-hidden">                                                                                                                                                                                                  react-hooks/static-components
+  527:16   error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+  525 |             <Section title="Transfer Money">
+  526 |               <ActionButton icon={Smartphone} label="To Mobile" colorClass="text-[#FF9933]" bgClass="bg-[#FF9933]/10" glowColor="orange" />
+> 527 |               <ActionButton icon={Landmark} label="To Bank/UPI" colorClass="text-[#4285F4]" bgClass="bg-[#4285F4]/10" glowColor="blue" />
+      |                ^^^^^^^^^^^^ This component is created during render
+  528 |               <ActionButton icon={CircleDollarSign} label="To Self" colorClass="text-purple-400" bgClass="bg-purple-500/10" glowColor="purple" />
+  529 |               <ActionButton icon={Wallet} label="Check Balance" colorClass="text-[#138808]" bgClass="bg-[#138808]/10" glowColor="green" />
+  530 |             </Section>
+
+  390 |   
+  391 |
+> 392 |   const ActionButton = ({ icon: Icon, label, colorClass, bgClass, glowColor }) => (
+      |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 393 |     <button onClick={() => handleActionClick({ icon: Icon, label, colorClass, bgClass })} className="flex flex-col items-center group relative w-full">
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 394 |       <div className={`absolute inset-0 bg-${glowColor}-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 395 |       <div className={`relative w-14 h-14 sm:w-16 sm:h-16 rounded-2xl ${bgClass} flex items-center justify-center mb-2 sm:mb-3 group-hover:-translate-y-1 transition-all shadow-lg border border-white/10 z-10`}>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 396 |         {Icon && <Icon size={28} className={colorClass} />}
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 397 |       </div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 398 |       <span className="text-[10px] sm:text-xs font-medium text-center text-gray-300 group-hover:text-white transition-colors leading-tight">{label}</span>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 399 |     </button>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 400 |   );
+      | ^^^^ The component is created during render here
+  401 |
+  402 |   const Section = ({ title, children }) => (
+  403 |     <div className="bg-[#1a1a1a] border border-white/10 rounded-3xl p-5 sm:p-6 mb-6 shadow-xl relative overflow-hidden">                                                                                                                                                                                          react-hooks/static-components
+  528:16   error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+  526 |               <ActionButton icon={Smartphone} label="To Mobile" colorClass="text-[#FF9933]" bgClass="bg-[#FF9933]/10" glowColor="orange" />
+  527 |               <ActionButton icon={Landmark} label="To Bank/UPI" colorClass="text-[#4285F4]" bgClass="bg-[#4285F4]/10" glowColor="blue" />
+> 528 |               <ActionButton icon={CircleDollarSign} label="To Self" colorClass="text-purple-400" bgClass="bg-purple-500/10" glowColor="purple" />
+      |                ^^^^^^^^^^^^ This component is created during render
+  529 |               <ActionButton icon={Wallet} label="Check Balance" colorClass="text-[#138808]" bgClass="bg-[#138808]/10" glowColor="green" />
+  530 |             </Section>
+  531 |
+
+  390 |   
+  391 |
+> 392 |   const ActionButton = ({ icon: Icon, label, colorClass, bgClass, glowColor }) => (
+      |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 393 |     <button onClick={() => handleActionClick({ icon: Icon, label, colorClass, bgClass })} className="flex flex-col items-center group relative w-full">
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 394 |       <div className={`absolute inset-0 bg-${glowColor}-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 395 |       <div className={`relative w-14 h-14 sm:w-16 sm:h-16 rounded-2xl ${bgClass} flex items-center justify-center mb-2 sm:mb-3 group-hover:-translate-y-1 transition-all shadow-lg border border-white/10 z-10`}>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 396 |         {Icon && <Icon size={28} className={colorClass} />}
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 397 |       </div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 398 |       <span className="text-[10px] sm:text-xs font-medium text-center text-gray-300 group-hover:text-white transition-colors leading-tight">{label}</span>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 399 |     </button>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 400 |   );
+      | ^^^^ The component is created during render here
+  401 |
+  402 |   const Section = ({ title, children }) => (
+  403 |     <div className="bg-[#1a1a1a] border border-white/10 rounded-3xl p-5 sm:p-6 mb-6 shadow-xl relative overflow-hidden">                                                                                                                                                                                                                                       react-hooks/static-components
+  529:16   error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+  527 |               <ActionButton icon={Landmark} label="To Bank/UPI" colorClass="text-[#4285F4]" bgClass="bg-[#4285F4]/10" glowColor="blue" />
+  528 |               <ActionButton icon={CircleDollarSign} label="To Self" colorClass="text-purple-400" bgClass="bg-purple-500/10" glowColor="purple" />
+> 529 |               <ActionButton icon={Wallet} label="Check Balance" colorClass="text-[#138808]" bgClass="bg-[#138808]/10" glowColor="green" />
+      |                ^^^^^^^^^^^^ This component is created during render
+  530 |             </Section>
+  531 |
+  532 |             {}
+
+  390 |   
+  391 |
+> 392 |   const ActionButton = ({ icon: Icon, label, colorClass, bgClass, glowColor }) => (
+      |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 393 |     <button onClick={() => handleActionClick({ icon: Icon, label, colorClass, bgClass })} className="flex flex-col items-center group relative w-full">
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 394 |       <div className={`absolute inset-0 bg-${glowColor}-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 395 |       <div className={`relative w-14 h-14 sm:w-16 sm:h-16 rounded-2xl ${bgClass} flex items-center justify-center mb-2 sm:mb-3 group-hover:-translate-y-1 transition-all shadow-lg border border-white/10 z-10`}>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 396 |         {Icon && <Icon size={28} className={colorClass} />}
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 397 |       </div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 398 |       <span className="text-[10px] sm:text-xs font-medium text-center text-gray-300 group-hover:text-white transition-colors leading-tight">{label}</span>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 399 |     </button>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 400 |   );
+      | ^^^^ The component is created during render here
+  401 |
+  402 |   const Section = ({ title, children }) => (
+  403 |     <div className="bg-[#1a1a1a] border border-white/10 rounded-3xl p-5 sm:p-6 mb-6 shadow-xl relative overflow-hidden">                                                                                                                                                                                                                                                                                                                                                                    react-hooks/static-components
+  533:14   error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+  531 |
+  532 |             {}
+> 533 |             <Section title="Recharge & Pay Bills">
+      |              ^^^^^^^ This component is created during render
+  534 |               <ActionButton icon={Smartphone} label="Mobile Recharge" colorClass="text-blue-400" bgClass="bg-blue-500/10" glowColor="blue" />
+  535 |               <ActionButton icon={MonitorPlay} label="DTH" colorClass="text-orange-400" bgClass="bg-orange-500/10" glowColor="orange" />
+  536 |               <ActionButton icon={Zap} label="Electricity" colorClass="text-yellow-400" bgClass="bg-yellow-500/10" glowColor="yellow" />
+
+  400 |   );
+  401 |
+> 402 |   const Section = ({ title, children }) => (
+      |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 403 |     <div className="bg-[#1a1a1a] border border-white/10 rounded-3xl p-5 sm:p-6 mb-6 shadow-xl relative overflow-hidden">
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 404 |       <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)', backgroundSize: '20px 20px' }}></div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 405 |       <h3 className="text-lg font-bold mb-5 flex items-center text-gray-100 relative z-10">{title}</h3>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 406 |       <div className="grid grid-cols-4 gap-y-6 gap-x-2 sm:gap-x-4 relative z-10">{children}</div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 407 |     </div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 408 |   );
+      | ^^^^ The component is created during render here
+  409 |
+  410 |   return (
+  411 |     <div className="flex flex-col h-screen w-full bg-[#050505] text-white font-sans overflow-hidden">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      react-hooks/static-components
+  534:16   error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+  532 |             {}
+  533 |             <Section title="Recharge & Pay Bills">
+> 534 |               <ActionButton icon={Smartphone} label="Mobile Recharge" colorClass="text-blue-400" bgClass="bg-blue-500/10" glowColor="blue" />
+      |                ^^^^^^^^^^^^ This component is created during render
+  535 |               <ActionButton icon={MonitorPlay} label="DTH" colorClass="text-orange-400" bgClass="bg-orange-500/10" glowColor="orange" />
+  536 |               <ActionButton icon={Zap} label="Electricity" colorClass="text-yellow-400" bgClass="bg-yellow-500/10" glowColor="yellow" />
+  537 |               <ActionButton icon={CreditCard} label="Credit Card" colorClass="text-pink-400" bgClass="bg-pink-500/10" glowColor="pink" />
+
+  390 |   
+  391 |
+> 392 |   const ActionButton = ({ icon: Icon, label, colorClass, bgClass, glowColor }) => (
+      |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 393 |     <button onClick={() => handleActionClick({ icon: Icon, label, colorClass, bgClass })} className="flex flex-col items-center group relative w-full">
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 394 |       <div className={`absolute inset-0 bg-${glowColor}-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 395 |       <div className={`relative w-14 h-14 sm:w-16 sm:h-16 rounded-2xl ${bgClass} flex items-center justify-center mb-2 sm:mb-3 group-hover:-translate-y-1 transition-all shadow-lg border border-white/10 z-10`}>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 396 |         {Icon && <Icon size={28} className={colorClass} />}
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 397 |       </div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 398 |       <span className="text-[10px] sm:text-xs font-medium text-center text-gray-300 group-hover:text-white transition-colors leading-tight">{label}</span>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 399 |     </button>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 400 |   );
+      | ^^^^ The component is created during render here
+  401 |
+  402 |   const Section = ({ title, children }) => (
+  403 |     <div className="bg-[#1a1a1a] border border-white/10 rounded-3xl p-5 sm:p-6 mb-6 shadow-xl relative overflow-hidden">                                                                                                                                                                                                     react-hooks/static-components
+  535:16   error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+  533 |             <Section title="Recharge & Pay Bills">
+  534 |               <ActionButton icon={Smartphone} label="Mobile Recharge" colorClass="text-blue-400" bgClass="bg-blue-500/10" glowColor="blue" />
+> 535 |               <ActionButton icon={MonitorPlay} label="DTH" colorClass="text-orange-400" bgClass="bg-orange-500/10" glowColor="orange" />
+      |                ^^^^^^^^^^^^ This component is created during render
+  536 |               <ActionButton icon={Zap} label="Electricity" colorClass="text-yellow-400" bgClass="bg-yellow-500/10" glowColor="yellow" />
+  537 |               <ActionButton icon={CreditCard} label="Credit Card" colorClass="text-pink-400" bgClass="bg-pink-500/10" glowColor="pink" />
+  538 |               <ActionButton icon={Home} label="Rent" colorClass="text-teal-400" bgClass="bg-teal-500/10" glowColor="teal" />
+
+  390 |   
+  391 |
+> 392 |   const ActionButton = ({ icon: Icon, label, colorClass, bgClass, glowColor }) => (
+      |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 393 |     <button onClick={() => handleActionClick({ icon: Icon, label, colorClass, bgClass })} className="flex flex-col items-center group relative w-full">
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 394 |       <div className={`absolute inset-0 bg-${glowColor}-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 395 |       <div className={`relative w-14 h-14 sm:w-16 sm:h-16 rounded-2xl ${bgClass} flex items-center justify-center mb-2 sm:mb-3 group-hover:-translate-y-1 transition-all shadow-lg border border-white/10 z-10`}>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 396 |         {Icon && <Icon size={28} className={colorClass} />}
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 397 |       </div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 398 |       <span className="text-[10px] sm:text-xs font-medium text-center text-gray-300 group-hover:text-white transition-colors leading-tight">{label}</span>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 399 |     </button>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 400 |   );
+      | ^^^^ The component is created during render here
+  401 |
+  402 |   const Section = ({ title, children }) => (
+  403 |     <div className="bg-[#1a1a1a] border border-white/10 rounded-3xl p-5 sm:p-6 mb-6 shadow-xl relative overflow-hidden">                                                                                       react-hooks/static-components
+  536:16   error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+  534 |               <ActionButton icon={Smartphone} label="Mobile Recharge" colorClass="text-blue-400" bgClass="bg-blue-500/10" glowColor="blue" />
+  535 |               <ActionButton icon={MonitorPlay} label="DTH" colorClass="text-orange-400" bgClass="bg-orange-500/10" glowColor="orange" />
+> 536 |               <ActionButton icon={Zap} label="Electricity" colorClass="text-yellow-400" bgClass="bg-yellow-500/10" glowColor="yellow" />
+      |                ^^^^^^^^^^^^ This component is created during render
+  537 |               <ActionButton icon={CreditCard} label="Credit Card" colorClass="text-pink-400" bgClass="bg-pink-500/10" glowColor="pink" />
+  538 |               <ActionButton icon={Home} label="Rent" colorClass="text-teal-400" bgClass="bg-teal-500/10" glowColor="teal" />
+  539 |               <ActionButton icon={Building2} label="Loan" colorClass="text-indigo-400" bgClass="bg-indigo-500/10" glowColor="indigo" />
+
+  390 |   
+  391 |
+> 392 |   const ActionButton = ({ icon: Icon, label, colorClass, bgClass, glowColor }) => (
+      |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 393 |     <button onClick={() => handleActionClick({ icon: Icon, label, colorClass, bgClass })} className="flex flex-col items-center group relative w-full">
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 394 |       <div className={`absolute inset-0 bg-${glowColor}-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 395 |       <div className={`relative w-14 h-14 sm:w-16 sm:h-16 rounded-2xl ${bgClass} flex items-center justify-center mb-2 sm:mb-3 group-hover:-translate-y-1 transition-all shadow-lg border border-white/10 z-10`}>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 396 |         {Icon && <Icon size={28} className={colorClass} />}
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 397 |       </div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 398 |       <span className="text-[10px] sm:text-xs font-medium text-center text-gray-300 group-hover:text-white transition-colors leading-tight">{label}</span>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 399 |     </button>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 400 |   );
+      | ^^^^ The component is created during render here
+  401 |
+  402 |   const Section = ({ title, children }) => (
+  403 |     <div className="bg-[#1a1a1a] border border-white/10 rounded-3xl p-5 sm:p-6 mb-6 shadow-xl relative overflow-hidden">  react-hooks/static-components
+  537:16   error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+  535 |               <ActionButton icon={MonitorPlay} label="DTH" colorClass="text-orange-400" bgClass="bg-orange-500/10" glowColor="orange" />
+  536 |               <ActionButton icon={Zap} label="Electricity" colorClass="text-yellow-400" bgClass="bg-yellow-500/10" glowColor="yellow" />
+> 537 |               <ActionButton icon={CreditCard} label="Credit Card" colorClass="text-pink-400" bgClass="bg-pink-500/10" glowColor="pink" />
+      |                ^^^^^^^^^^^^ This component is created during render
+  538 |               <ActionButton icon={Home} label="Rent" colorClass="text-teal-400" bgClass="bg-teal-500/10" glowColor="teal" />
+  539 |               <ActionButton icon={Building2} label="Loan" colorClass="text-indigo-400" bgClass="bg-indigo-500/10" glowColor="indigo" />
+  540 |               <ActionButton icon={PiggyBank} label="Education" colorClass="text-[#FF9933]" bgClass="bg-[#FF9933]/10" glowColor="orange" />
+
+  390 |   
+  391 |
+> 392 |   const ActionButton = ({ icon: Icon, label, colorClass, bgClass, glowColor }) => (
+      |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 393 |     <button onClick={() => handleActionClick({ icon: Icon, label, colorClass, bgClass })} className="flex flex-col items-center group relative w-full">
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 394 |       <div className={`absolute inset-0 bg-${glowColor}-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 395 |       <div className={`relative w-14 h-14 sm:w-16 sm:h-16 rounded-2xl ${bgClass} flex items-center justify-center mb-2 sm:mb-3 group-hover:-translate-y-1 transition-all shadow-lg border border-white/10 z-10`}>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 396 |         {Icon && <Icon size={28} className={colorClass} />}
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 397 |       </div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 398 |       <span className="text-[10px] sm:text-xs font-medium text-center text-gray-300 group-hover:text-white transition-colors leading-tight">{label}</span>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 399 |     </button>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 400 |   );
+      | ^^^^ The component is created during render here
+  401 |
+  402 |   const Section = ({ title, children }) => (
+  403 |     <div className="bg-[#1a1a1a] border border-white/10 rounded-3xl p-5 sm:p-6 mb-6 shadow-xl relative overflow-hidden">     react-hooks/static-components
+  538:16   error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+  536 |               <ActionButton icon={Zap} label="Electricity" colorClass="text-yellow-400" bgClass="bg-yellow-500/10" glowColor="yellow" />
+  537 |               <ActionButton icon={CreditCard} label="Credit Card" colorClass="text-pink-400" bgClass="bg-pink-500/10" glowColor="pink" />
+> 538 |               <ActionButton icon={Home} label="Rent" colorClass="text-teal-400" bgClass="bg-teal-500/10" glowColor="teal" />
+      |                ^^^^^^^^^^^^ This component is created during render
+  539 |               <ActionButton icon={Building2} label="Loan" colorClass="text-indigo-400" bgClass="bg-indigo-500/10" glowColor="indigo" />
+  540 |               <ActionButton icon={PiggyBank} label="Education" colorClass="text-[#FF9933]" bgClass="bg-[#FF9933]/10" glowColor="orange" />
+  541 |               <ActionButton icon={Ticket} label="View All" colorClass="text-gray-300" bgClass="bg-gray-700/50" glowColor="gray" />
+
+  390 |   
+  391 |
+> 392 |   const ActionButton = ({ icon: Icon, label, colorClass, bgClass, glowColor }) => (
+      |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 393 |     <button onClick={() => handleActionClick({ icon: Icon, label, colorClass, bgClass })} className="flex flex-col items-center group relative w-full">
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 394 |       <div className={`absolute inset-0 bg-${glowColor}-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 395 |       <div className={`relative w-14 h-14 sm:w-16 sm:h-16 rounded-2xl ${bgClass} flex items-center justify-center mb-2 sm:mb-3 group-hover:-translate-y-1 transition-all shadow-lg border border-white/10 z-10`}>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 396 |         {Icon && <Icon size={28} className={colorClass} />}
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 397 |       </div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 398 |       <span className="text-[10px] sm:text-xs font-medium text-center text-gray-300 group-hover:text-white transition-colors leading-tight">{label}</span>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 399 |     </button>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 400 |   );
+      | ^^^^ The component is created during render here
+  401 |
+  402 |   const Section = ({ title, children }) => (
+  403 |     <div className="bg-[#1a1a1a] border border-white/10 rounded-3xl p-5 sm:p-6 mb-6 shadow-xl relative overflow-hidden">           react-hooks/static-components
+  539:16   error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+  537 |               <ActionButton icon={CreditCard} label="Credit Card" colorClass="text-pink-400" bgClass="bg-pink-500/10" glowColor="pink" />
+  538 |               <ActionButton icon={Home} label="Rent" colorClass="text-teal-400" bgClass="bg-teal-500/10" glowColor="teal" />
+> 539 |               <ActionButton icon={Building2} label="Loan" colorClass="text-indigo-400" bgClass="bg-indigo-500/10" glowColor="indigo" />
+      |                ^^^^^^^^^^^^ This component is created during render
+  540 |               <ActionButton icon={PiggyBank} label="Education" colorClass="text-[#FF9933]" bgClass="bg-[#FF9933]/10" glowColor="orange" />
+  541 |               <ActionButton icon={Ticket} label="View All" colorClass="text-gray-300" bgClass="bg-gray-700/50" glowColor="gray" />
+  542 |             </Section>
+
+  390 |   
+  391 |
+> 392 |   const ActionButton = ({ icon: Icon, label, colorClass, bgClass, glowColor }) => (
+      |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 393 |     <button onClick={() => handleActionClick({ icon: Icon, label, colorClass, bgClass })} className="flex flex-col items-center group relative w-full">
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 394 |       <div className={`absolute inset-0 bg-${glowColor}-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 395 |       <div className={`relative w-14 h-14 sm:w-16 sm:h-16 rounded-2xl ${bgClass} flex items-center justify-center mb-2 sm:mb-3 group-hover:-translate-y-1 transition-all shadow-lg border border-white/10 z-10`}>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 396 |         {Icon && <Icon size={28} className={colorClass} />}
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 397 |       </div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 398 |       <span className="text-[10px] sm:text-xs font-medium text-center text-gray-300 group-hover:text-white transition-colors leading-tight">{label}</span>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 399 |     </button>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 400 |   );
+      | ^^^^ The component is created during render here
+  401 |
+  402 |   const Section = ({ title, children }) => (
+  403 |     <div className="bg-[#1a1a1a] border border-white/10 rounded-3xl p-5 sm:p-6 mb-6 shadow-xl relative overflow-hidden">                                                                                                                             react-hooks/static-components
+  540:16   error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+  538 |               <ActionButton icon={Home} label="Rent" colorClass="text-teal-400" bgClass="bg-teal-500/10" glowColor="teal" />
+  539 |               <ActionButton icon={Building2} label="Loan" colorClass="text-indigo-400" bgClass="bg-indigo-500/10" glowColor="indigo" />
+> 540 |               <ActionButton icon={PiggyBank} label="Education" colorClass="text-[#FF9933]" bgClass="bg-[#FF9933]/10" glowColor="orange" />
+      |                ^^^^^^^^^^^^ This component is created during render
+  541 |               <ActionButton icon={Ticket} label="View All" colorClass="text-gray-300" bgClass="bg-gray-700/50" glowColor="gray" />
+  542 |             </Section>
+  543 |
+
+  390 |   
+  391 |
+> 392 |   const ActionButton = ({ icon: Icon, label, colorClass, bgClass, glowColor }) => (
+      |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 393 |     <button onClick={() => handleActionClick({ icon: Icon, label, colorClass, bgClass })} className="flex flex-col items-center group relative w-full">
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 394 |       <div className={`absolute inset-0 bg-${glowColor}-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 395 |       <div className={`relative w-14 h-14 sm:w-16 sm:h-16 rounded-2xl ${bgClass} flex items-center justify-center mb-2 sm:mb-3 group-hover:-translate-y-1 transition-all shadow-lg border border-white/10 z-10`}>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 396 |         {Icon && <Icon size={28} className={colorClass} />}
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 397 |       </div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 398 |       <span className="text-[10px] sm:text-xs font-medium text-center text-gray-300 group-hover:text-white transition-colors leading-tight">{label}</span>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 399 |     </button>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 400 |   );
+      | ^^^^ The component is created during render here
+  401 |
+  402 |   const Section = ({ title, children }) => (
+  403 |     <div className="bg-[#1a1a1a] border border-white/10 rounded-3xl p-5 sm:p-6 mb-6 shadow-xl relative overflow-hidden">                                                                                                                                                                                                                                                                       react-hooks/static-components
+  541:16   error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+  539 |               <ActionButton icon={Building2} label="Loan" colorClass="text-indigo-400" bgClass="bg-indigo-500/10" glowColor="indigo" />
+  540 |               <ActionButton icon={PiggyBank} label="Education" colorClass="text-[#FF9933]" bgClass="bg-[#FF9933]/10" glowColor="orange" />
+> 541 |               <ActionButton icon={Ticket} label="View All" colorClass="text-gray-300" bgClass="bg-gray-700/50" glowColor="gray" />
+      |                ^^^^^^^^^^^^ This component is created during render
+  542 |             </Section>
+  543 |
+  544 |             {}
+
+  390 |   
+  391 |
+> 392 |   const ActionButton = ({ icon: Icon, label, colorClass, bgClass, glowColor }) => (
+      |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 393 |     <button onClick={() => handleActionClick({ icon: Icon, label, colorClass, bgClass })} className="flex flex-col items-center group relative w-full">
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 394 |       <div className={`absolute inset-0 bg-${glowColor}-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 395 |       <div className={`relative w-14 h-14 sm:w-16 sm:h-16 rounded-2xl ${bgClass} flex items-center justify-center mb-2 sm:mb-3 group-hover:-translate-y-1 transition-all shadow-lg border border-white/10 z-10`}>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 396 |         {Icon && <Icon size={28} className={colorClass} />}
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 397 |       </div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 398 |       <span className="text-[10px] sm:text-xs font-medium text-center text-gray-300 group-hover:text-white transition-colors leading-tight">{label}</span>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 399 |     </button>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 400 |   );
+      | ^^^^ The component is created during render here
+  401 |
+  402 |   const Section = ({ title, children }) => (
+  403 |     <div className="bg-[#1a1a1a] border border-white/10 rounded-3xl p-5 sm:p-6 mb-6 shadow-xl relative overflow-hidden">                                                                                                                                                                                                                                                                                                                                                                                     react-hooks/static-components
+  545:14   error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+  543 |
+  544 |             {}
+> 545 |             <Section title="Insurance">
+      |              ^^^^^^^ This component is created during render
+  546 |               <ActionButton icon={Car} label="Bike/Car" colorClass="text-blue-400" bgClass="bg-blue-500/10" glowColor="blue" />
+  547 |               <ActionButton icon={Activity} label="Health" colorClass="text-red-400" bgClass="bg-red-500/10" glowColor="red" />
+  548 |               <ActionButton icon={Plane} label="Travel" colorClass="text-teal-400" bgClass="bg-teal-500/10" glowColor="teal" />
+
+  400 |   );
+  401 |
+> 402 |   const Section = ({ title, children }) => (
+      |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 403 |     <div className="bg-[#1a1a1a] border border-white/10 rounded-3xl p-5 sm:p-6 mb-6 shadow-xl relative overflow-hidden">
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 404 |       <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)', backgroundSize: '20px 20px' }}></div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 405 |       <h3 className="text-lg font-bold mb-5 flex items-center text-gray-100 relative z-10">{title}</h3>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 406 |       <div className="grid grid-cols-4 gap-y-6 gap-x-2 sm:gap-x-4 relative z-10">{children}</div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 407 |     </div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 408 |   );
+      | ^^^^ The component is created during render here
+  409 |
+  410 |   return (
+  411 |     <div className="flex flex-col h-screen w-full bg-[#050505] text-white font-sans overflow-hidden">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 react-hooks/static-components
+  546:16   error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+  544 |             {}
+  545 |             <Section title="Insurance">
+> 546 |               <ActionButton icon={Car} label="Bike/Car" colorClass="text-blue-400" bgClass="bg-blue-500/10" glowColor="blue" />
+      |                ^^^^^^^^^^^^ This component is created during render
+  547 |               <ActionButton icon={Activity} label="Health" colorClass="text-red-400" bgClass="bg-red-500/10" glowColor="red" />
+  548 |               <ActionButton icon={Plane} label="Travel" colorClass="text-teal-400" bgClass="bg-teal-500/10" glowColor="teal" />
+  549 |               <ActionButton icon={Shield} label="Life" colorClass="text-purple-400" bgClass="bg-purple-500/10" glowColor="purple" />
+
+  390 |   
+  391 |
+> 392 |   const ActionButton = ({ icon: Icon, label, colorClass, bgClass, glowColor }) => (
+      |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 393 |     <button onClick={() => handleActionClick({ icon: Icon, label, colorClass, bgClass })} className="flex flex-col items-center group relative w-full">
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 394 |       <div className={`absolute inset-0 bg-${glowColor}-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 395 |       <div className={`relative w-14 h-14 sm:w-16 sm:h-16 rounded-2xl ${bgClass} flex items-center justify-center mb-2 sm:mb-3 group-hover:-translate-y-1 transition-all shadow-lg border border-white/10 z-10`}>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 396 |         {Icon && <Icon size={28} className={colorClass} />}
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 397 |       </div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 398 |       <span className="text-[10px] sm:text-xs font-medium text-center text-gray-300 group-hover:text-white transition-colors leading-tight">{label}</span>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 399 |     </button>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 400 |   );
+      | ^^^^ The component is created during render here
+  401 |
+  402 |   const Section = ({ title, children }) => (
+  403 |     <div className="bg-[#1a1a1a] border border-white/10 rounded-3xl p-5 sm:p-6 mb-6 shadow-xl relative overflow-hidden">                                                                                                                                                                                                                                                     react-hooks/static-components
+  547:16   error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+  545 |             <Section title="Insurance">
+  546 |               <ActionButton icon={Car} label="Bike/Car" colorClass="text-blue-400" bgClass="bg-blue-500/10" glowColor="blue" />
+> 547 |               <ActionButton icon={Activity} label="Health" colorClass="text-red-400" bgClass="bg-red-500/10" glowColor="red" />
+      |                ^^^^^^^^^^^^ This component is created during render
+  548 |               <ActionButton icon={Plane} label="Travel" colorClass="text-teal-400" bgClass="bg-teal-500/10" glowColor="teal" />
+  549 |               <ActionButton icon={Shield} label="Life" colorClass="text-purple-400" bgClass="bg-purple-500/10" glowColor="purple" />
+  550 |             </Section>
+
+  390 |   
+  391 |
+> 392 |   const ActionButton = ({ icon: Icon, label, colorClass, bgClass, glowColor }) => (
+      |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 393 |     <button onClick={() => handleActionClick({ icon: Icon, label, colorClass, bgClass })} className="flex flex-col items-center group relative w-full">
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 394 |       <div className={`absolute inset-0 bg-${glowColor}-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 395 |       <div className={`relative w-14 h-14 sm:w-16 sm:h-16 rounded-2xl ${bgClass} flex items-center justify-center mb-2 sm:mb-3 group-hover:-translate-y-1 transition-all shadow-lg border border-white/10 z-10`}>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 396 |         {Icon && <Icon size={28} className={colorClass} />}
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 397 |       </div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 398 |       <span className="text-[10px] sm:text-xs font-medium text-center text-gray-300 group-hover:text-white transition-colors leading-tight">{label}</span>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 399 |     </button>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 400 |   );
+      | ^^^^ The component is created during render here
+  401 |
+  402 |   const Section = ({ title, children }) => (
+  403 |     <div className="bg-[#1a1a1a] border border-white/10 rounded-3xl p-5 sm:p-6 mb-6 shadow-xl relative overflow-hidden">                                                                                                                                                                                                                                             react-hooks/static-components
+  548:16   error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+  546 |               <ActionButton icon={Car} label="Bike/Car" colorClass="text-blue-400" bgClass="bg-blue-500/10" glowColor="blue" />
+  547 |               <ActionButton icon={Activity} label="Health" colorClass="text-red-400" bgClass="bg-red-500/10" glowColor="red" />
+> 548 |               <ActionButton icon={Plane} label="Travel" colorClass="text-teal-400" bgClass="bg-teal-500/10" glowColor="teal" />
+      |                ^^^^^^^^^^^^ This component is created during render
+  549 |               <ActionButton icon={Shield} label="Life" colorClass="text-purple-400" bgClass="bg-purple-500/10" glowColor="purple" />
+  550 |             </Section>
+  551 |
+
+  390 |   
+  391 |
+> 392 |   const ActionButton = ({ icon: Icon, label, colorClass, bgClass, glowColor }) => (
+      |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 393 |     <button onClick={() => handleActionClick({ icon: Icon, label, colorClass, bgClass })} className="flex flex-col items-center group relative w-full">
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 394 |       <div className={`absolute inset-0 bg-${glowColor}-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 395 |       <div className={`relative w-14 h-14 sm:w-16 sm:h-16 rounded-2xl ${bgClass} flex items-center justify-center mb-2 sm:mb-3 group-hover:-translate-y-1 transition-all shadow-lg border border-white/10 z-10`}>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 396 |         {Icon && <Icon size={28} className={colorClass} />}
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 397 |       </div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 398 |       <span className="text-[10px] sm:text-xs font-medium text-center text-gray-300 group-hover:text-white transition-colors leading-tight">{label}</span>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 399 |     </button>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 400 |   );
+      | ^^^^ The component is created during render here
+  401 |
+  402 |   const Section = ({ title, children }) => (
+  403 |     <div className="bg-[#1a1a1a] border border-white/10 rounded-3xl p-5 sm:p-6 mb-6 shadow-xl relative overflow-hidden">                                                                                                                                                                                                                                                                                     react-hooks/static-components
+  549:16   error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+  547 |               <ActionButton icon={Activity} label="Health" colorClass="text-red-400" bgClass="bg-red-500/10" glowColor="red" />
+  548 |               <ActionButton icon={Plane} label="Travel" colorClass="text-teal-400" bgClass="bg-teal-500/10" glowColor="teal" />
+> 549 |               <ActionButton icon={Shield} label="Life" colorClass="text-purple-400" bgClass="bg-purple-500/10" glowColor="purple" />
+      |                ^^^^^^^^^^^^ This component is created during render
+  550 |             </Section>
+  551 |
+  552 |             {}
+
+  390 |   
+  391 |
+> 392 |   const ActionButton = ({ icon: Icon, label, colorClass, bgClass, glowColor }) => (
+      |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 393 |     <button onClick={() => handleActionClick({ icon: Icon, label, colorClass, bgClass })} className="flex flex-col items-center group relative w-full">
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 394 |       <div className={`absolute inset-0 bg-${glowColor}-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 395 |       <div className={`relative w-14 h-14 sm:w-16 sm:h-16 rounded-2xl ${bgClass} flex items-center justify-center mb-2 sm:mb-3 group-hover:-translate-y-1 transition-all shadow-lg border border-white/10 z-10`}>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 396 |         {Icon && <Icon size={28} className={colorClass} />}
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 397 |       </div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 398 |       <span className="text-[10px] sm:text-xs font-medium text-center text-gray-300 group-hover:text-white transition-colors leading-tight">{label}</span>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 399 |     </button>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 400 |   );
+      | ^^^^ The component is created during render here
+  401 |
+  402 |   const Section = ({ title, children }) => (
+  403 |     <div className="bg-[#1a1a1a] border border-white/10 rounded-3xl p-5 sm:p-6 mb-6 shadow-xl relative overflow-hidden">                                                                                                                                                                                                                                                                                                                                                                                                      react-hooks/static-components
+  553:14   error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+  551 |
+  552 |             {}
+> 553 |             <Section title="AI Financial Health">
+      |              ^^^^^^^ This component is created during render
+  554 |               <div className="col-span-4 bg-black/40 rounded-2xl p-5 border border-white/5 relative overflow-hidden group">
+  555 |                 <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 blur-2xl rounded-full group-hover:bg-blue-500/20 transition-all"></div>
+  556 |                 <div className="flex flex-col md:flex-row gap-6 relative z-10">
+
+  400 |   );
+  401 |
+> 402 |   const Section = ({ title, children }) => (
+      |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 403 |     <div className="bg-[#1a1a1a] border border-white/10 rounded-3xl p-5 sm:p-6 mb-6 shadow-xl relative overflow-hidden">
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 404 |       <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)', backgroundSize: '20px 20px' }}></div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 405 |       <h3 className="text-lg font-bold mb-5 flex items-center text-gray-100 relative z-10">{title}</h3>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 406 |       <div className="grid grid-cols-4 gap-y-6 gap-x-2 sm:gap-x-4 relative z-10">{children}</div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 407 |     </div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 408 |   );
+      | ^^^^ The component is created during render here
+  409 |
+  410 |   return (
+  411 |     <div className="flex flex-col h-screen w-full bg-[#050505] text-white font-sans overflow-hidden">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   react-hooks/static-components
+  598:14   error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+  596 |
+  597 |             {}
+> 598 |             <Section title="Travel & Bookings">
+      |              ^^^^^^^ This component is created during render
+  599 |               <ActionButton icon={Plane} label="Flights" colorClass="text-blue-400" bgClass="bg-blue-500/10" glowColor="blue" />
+  600 |               <ActionButton icon={Train} label="Trains" colorClass="text-orange-400" bgClass="bg-orange-500/10" glowColor="orange" />
+  601 |               <ActionButton icon={Bus} label="Bus" colorClass="text-green-400" bgClass="bg-green-500/10" glowColor="green" />
+
+  400 |   );
+  401 |
+> 402 |   const Section = ({ title, children }) => (
+      |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 403 |     <div className="bg-[#1a1a1a] border border-white/10 rounded-3xl p-5 sm:p-6 mb-6 shadow-xl relative overflow-hidden">
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 404 |       <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)', backgroundSize: '20px 20px' }}></div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 405 |       <h3 className="text-lg font-bold mb-5 flex items-center text-gray-100 relative z-10">{title}</h3>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 406 |       <div className="grid grid-cols-4 gap-y-6 gap-x-2 sm:gap-x-4 relative z-10">{children}</div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 407 |     </div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 408 |   );
+      | ^^^^ The component is created during render here
+  409 |
+  410 |   return (
+  411 |     <div className="flex flex-col h-screen w-full bg-[#050505] text-white font-sans overflow-hidden">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    react-hooks/static-components
+  599:16   error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+  597 |             {}
+  598 |             <Section title="Travel & Bookings">
+> 599 |               <ActionButton icon={Plane} label="Flights" colorClass="text-blue-400" bgClass="bg-blue-500/10" glowColor="blue" />
+      |                ^^^^^^^^^^^^ This component is created during render
+  600 |               <ActionButton icon={Train} label="Trains" colorClass="text-orange-400" bgClass="bg-orange-500/10" glowColor="orange" />
+  601 |               <ActionButton icon={Bus} label="Bus" colorClass="text-green-400" bgClass="bg-green-500/10" glowColor="green" />
+  602 |               <ActionButton icon={Home} label="Hotels" colorClass="text-purple-400" bgClass="bg-purple-500/10" glowColor="purple" />
+
+  390 |   
+  391 |
+> 392 |   const ActionButton = ({ icon: Icon, label, colorClass, bgClass, glowColor }) => (
+      |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 393 |     <button onClick={() => handleActionClick({ icon: Icon, label, colorClass, bgClass })} className="flex flex-col items-center group relative w-full">
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 394 |       <div className={`absolute inset-0 bg-${glowColor}-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 395 |       <div className={`relative w-14 h-14 sm:w-16 sm:h-16 rounded-2xl ${bgClass} flex items-center justify-center mb-2 sm:mb-3 group-hover:-translate-y-1 transition-all shadow-lg border border-white/10 z-10`}>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 396 |         {Icon && <Icon size={28} className={colorClass} />}
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 397 |       </div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 398 |       <span className="text-[10px] sm:text-xs font-medium text-center text-gray-300 group-hover:text-white transition-colors leading-tight">{label}</span>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 399 |     </button>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 400 |   );
+      | ^^^^ The component is created during render here
+  401 |
+  402 |   const Section = ({ title, children }) => (
+  403 |     <div className="bg-[#1a1a1a] border border-white/10 rounded-3xl p-5 sm:p-6 mb-6 shadow-xl relative overflow-hidden">                                                                                                                                                                                                                                        react-hooks/static-components
+  600:16   error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+  598 |             <Section title="Travel & Bookings">
+  599 |               <ActionButton icon={Plane} label="Flights" colorClass="text-blue-400" bgClass="bg-blue-500/10" glowColor="blue" />
+> 600 |               <ActionButton icon={Train} label="Trains" colorClass="text-orange-400" bgClass="bg-orange-500/10" glowColor="orange" />
+      |                ^^^^^^^^^^^^ This component is created during render
+  601 |               <ActionButton icon={Bus} label="Bus" colorClass="text-green-400" bgClass="bg-green-500/10" glowColor="green" />
+  602 |               <ActionButton icon={Home} label="Hotels" colorClass="text-purple-400" bgClass="bg-purple-500/10" glowColor="purple" />
+  603 |             </Section>
+
+  390 |   
+  391 |
+> 392 |   const ActionButton = ({ icon: Icon, label, colorClass, bgClass, glowColor }) => (
+      |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 393 |     <button onClick={() => handleActionClick({ icon: Icon, label, colorClass, bgClass })} className="flex flex-col items-center group relative w-full">
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 394 |       <div className={`absolute inset-0 bg-${glowColor}-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 395 |       <div className={`relative w-14 h-14 sm:w-16 sm:h-16 rounded-2xl ${bgClass} flex items-center justify-center mb-2 sm:mb-3 group-hover:-translate-y-1 transition-all shadow-lg border border-white/10 z-10`}>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 396 |         {Icon && <Icon size={28} className={colorClass} />}
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 397 |       </div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 398 |       <span className="text-[10px] sm:text-xs font-medium text-center text-gray-300 group-hover:text-white transition-colors leading-tight">{label}</span>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 399 |     </button>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 400 |   );
+      | ^^^^ The component is created during render here
+  401 |
+  402 |   const Section = ({ title, children }) => (
+  403 |     <div className="bg-[#1a1a1a] border border-white/10 rounded-3xl p-5 sm:p-6 mb-6 shadow-xl relative overflow-hidden">                                                                                                                                                                                                                                react-hooks/static-components
+  601:16   error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+  599 |               <ActionButton icon={Plane} label="Flights" colorClass="text-blue-400" bgClass="bg-blue-500/10" glowColor="blue" />
+  600 |               <ActionButton icon={Train} label="Trains" colorClass="text-orange-400" bgClass="bg-orange-500/10" glowColor="orange" />
+> 601 |               <ActionButton icon={Bus} label="Bus" colorClass="text-green-400" bgClass="bg-green-500/10" glowColor="green" />
+      |                ^^^^^^^^^^^^ This component is created during render
+  602 |               <ActionButton icon={Home} label="Hotels" colorClass="text-purple-400" bgClass="bg-purple-500/10" glowColor="purple" />
+  603 |             </Section>
+  604 |
+
+  390 |   
+  391 |
+> 392 |   const ActionButton = ({ icon: Icon, label, colorClass, bgClass, glowColor }) => (
+      |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 393 |     <button onClick={() => handleActionClick({ icon: Icon, label, colorClass, bgClass })} className="flex flex-col items-center group relative w-full">
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 394 |       <div className={`absolute inset-0 bg-${glowColor}-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 395 |       <div className={`relative w-14 h-14 sm:w-16 sm:h-16 rounded-2xl ${bgClass} flex items-center justify-center mb-2 sm:mb-3 group-hover:-translate-y-1 transition-all shadow-lg border border-white/10 z-10`}>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 396 |         {Icon && <Icon size={28} className={colorClass} />}
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 397 |       </div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 398 |       <span className="text-[10px] sm:text-xs font-medium text-center text-gray-300 group-hover:text-white transition-colors leading-tight">{label}</span>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 399 |     </button>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 400 |   );
+      | ^^^^ The component is created during render here
+  401 |
+  402 |   const Section = ({ title, children }) => (
+  403 |     <div className="bg-[#1a1a1a] border border-white/10 rounded-3xl p-5 sm:p-6 mb-6 shadow-xl relative overflow-hidden">                                                                                                                                                                                                                                                                                react-hooks/static-components
+  602:16   error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+  600 |               <ActionButton icon={Train} label="Trains" colorClass="text-orange-400" bgClass="bg-orange-500/10" glowColor="orange" />
+  601 |               <ActionButton icon={Bus} label="Bus" colorClass="text-green-400" bgClass="bg-green-500/10" glowColor="green" />
+> 602 |               <ActionButton icon={Home} label="Hotels" colorClass="text-purple-400" bgClass="bg-purple-500/10" glowColor="purple" />
+      |                ^^^^^^^^^^^^ This component is created during render
+  603 |             </Section>
+  604 |
+  605 |             {}
+
+  390 |   
+  391 |
+> 392 |   const ActionButton = ({ icon: Icon, label, colorClass, bgClass, glowColor }) => (
+      |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 393 |     <button onClick={() => handleActionClick({ icon: Icon, label, colorClass, bgClass })} className="flex flex-col items-center group relative w-full">
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 394 |       <div className={`absolute inset-0 bg-${glowColor}-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 395 |       <div className={`relative w-14 h-14 sm:w-16 sm:h-16 rounded-2xl ${bgClass} flex items-center justify-center mb-2 sm:mb-3 group-hover:-translate-y-1 transition-all shadow-lg border border-white/10 z-10`}>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 396 |         {Icon && <Icon size={28} className={colorClass} />}
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 397 |       </div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 398 |       <span className="text-[10px] sm:text-xs font-medium text-center text-gray-300 group-hover:text-white transition-colors leading-tight">{label}</span>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 399 |     </button>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 400 |   );
+      | ^^^^ The component is created during render here
+  401 |
+  402 |   const Section = ({ title, children }) => (
+  403 |     <div className="bg-[#1a1a1a] border border-white/10 rounded-3xl p-5 sm:p-6 mb-6 shadow-xl relative overflow-hidden">                                                                                                                                                                                                                                                                                                                                                                                                  react-hooks/static-components
+  638:38   error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+  636 |       )}
+  637 |
+> 638 |       {currentFlow === 'addBank' && <AddBankView />}
+      |                                      ^^^^^^^^^^^ This component is created during render
+  639 |       {currentFlow === 'verifyingBank' && <VerifyingBankView />}
+  640 |       {currentFlow === 'setPin' && <SetPinView />}
+  641 |       {currentFlow === 'actionInput' && <ActionInputView />}
+
+  226 |   
+  227 |
+> 228 |   const AddBankView = () => (
+      |                       ^^^^^^^
+> 229 |     <div className="flex-1 p-6 flex flex-col items-center justify-center animate-in fade-in slide-in-from-bottom-4">
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 230 |       <Landmark size={48} className="text-[#138808] mb-6" />
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 249 |     </div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 250 |   );
+      | ^^^^ The component is created during render here
+  251 |
+  252 |   const VerifyingBankView = () => (
+  253 |     <div className="flex-1 p-6 flex flex-col items-center justify-center animate-in fade-in">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           react-hooks/static-components
+  639:44   error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+  637 |
+  638 |       {currentFlow === 'addBank' && <AddBankView />}
+> 639 |       {currentFlow === 'verifyingBank' && <VerifyingBankView />}
+      |                                            ^^^^^^^^^^^^^^^^^ This component is created during render
+  640 |       {currentFlow === 'setPin' && <SetPinView />}
+  641 |       {currentFlow === 'actionInput' && <ActionInputView />}
+  642 |       {currentFlow === 'enterPin' && <EnterPinView />}
+
+  250 |   );
+  251 |
+> 252 |   const VerifyingBankView = () => (
+      |                             ^^^^^^^
+> 253 |     <div className="flex-1 p-6 flex flex-col items-center justify-center animate-in fade-in">
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 254 |       <div className="relative mb-8">
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 273 |     </div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 274 |   );
+      | ^^^^ The component is created during render here
+  275 |
+  276 |   const SetPinView = () => (
+  277 |     <div className="flex-1 p-6 flex flex-col items-center justify-center animate-in fade-in slide-in-from-right-8">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       react-hooks/static-components
+  640:37   error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+  638 |       {currentFlow === 'addBank' && <AddBankView />}
+  639 |       {currentFlow === 'verifyingBank' && <VerifyingBankView />}
+> 640 |       {currentFlow === 'setPin' && <SetPinView />}
+      |                                     ^^^^^^^^^^ This component is created during render
+  641 |       {currentFlow === 'actionInput' && <ActionInputView />}
+  642 |       {currentFlow === 'enterPin' && <EnterPinView />}
+  643 |       {currentFlow === 'success' && <SuccessView />}
+
+  274 |   );
+  275 |
+> 276 |   const SetPinView = () => (
+      |                      ^^^^^^^
+> 277 |     <div className="flex-1 p-6 flex flex-col items-center justify-center animate-in fade-in slide-in-from-right-8">
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 278 |       <ShieldCheck size={48} className="text-[#4ade80] mb-6" />
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 289 |     </div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 290 |   );
+      | ^^^^ The component is created during render here
+  291 |
+  292 |   const ActionInputView = () => {
+  293 |     const Icon = activeAction?.icon || Send;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              react-hooks/static-components
+  641:42   error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+  639 |       {currentFlow === 'verifyingBank' && <VerifyingBankView />}
+  640 |       {currentFlow === 'setPin' && <SetPinView />}
+> 641 |       {currentFlow === 'actionInput' && <ActionInputView />}
+      |                                          ^^^^^^^^^^^^^^^ This component is created during render
+  642 |       {currentFlow === 'enterPin' && <EnterPinView />}
+  643 |       {currentFlow === 'success' && <SuccessView />}
+  644 |       {currentFlow === 'checkBalance' && <CheckBalanceView />}
+
+  290 |   );
+  291 |
+> 292 |   const ActionInputView = () => {
+      |                           ^^^^^^^
+> 293 |     const Icon = activeAction?.icon || Send;
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 294 |     return (
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 332 |     );
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 333 |   };
+      | ^^^^ The component is created during render here
+  334 |
+  335 |   const EnterPinView = () => (
+  336 |     <div className="flex-1 p-6 flex flex-col items-center justify-center animate-in fade-in slide-in-from-bottom-8">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              react-hooks/static-components
+  642:39   error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+  640 |       {currentFlow === 'setPin' && <SetPinView />}
+  641 |       {currentFlow === 'actionInput' && <ActionInputView />}
+> 642 |       {currentFlow === 'enterPin' && <EnterPinView />}
+      |                                       ^^^^^^^^^^^^ This component is created during render
+  643 |       {currentFlow === 'success' && <SuccessView />}
+  644 |       {currentFlow === 'checkBalance' && <CheckBalanceView />}
+  645 |
+
+  333 |   };
+  334 |
+> 335 |   const EnterPinView = () => (
+      |                        ^^^^^^^
+> 336 |     <div className="flex-1 p-6 flex flex-col items-center justify-center animate-in fade-in slide-in-from-bottom-8">
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 337 |       <Fingerprint size={48} className="text-[#FF9933] mb-6" />
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 353 |     </div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 354 |   );
+      | ^^^^ The component is created during render here
+  355 |
+  356 |   const SuccessView = () => (
+  357 |     <div className="flex-1 p-6 flex flex-col items-center justify-center animate-in zoom-in-95 duration-500">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            react-hooks/static-components
+  643:38   error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+  641 |       {currentFlow === 'actionInput' && <ActionInputView />}
+  642 |       {currentFlow === 'enterPin' && <EnterPinView />}
+> 643 |       {currentFlow === 'success' && <SuccessView />}
+      |                                      ^^^^^^^^^^^ This component is created during render
+  644 |       {currentFlow === 'checkBalance' && <CheckBalanceView />}
+  645 |
+  646 |     </div>
+
+  354 |   );
+  355 |
+> 356 |   const SuccessView = () => (
+      |                       ^^^^^^^
+> 357 |     <div className="flex-1 p-6 flex flex-col items-center justify-center animate-in zoom-in-95 duration-500">
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 358 |       <div className="w-32 h-32 rounded-full bg-[#138808]/20 flex items-center justify-center mb-8 shadow-[0_0_50px_rgba(19,136,8,0.4)]">
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 373 |     </div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 374 |   );
+      | ^^^^ The component is created during render here
+  375 |
+  376 |   const CheckBalanceView = () => (
+  377 |     <div className="flex-1 p-6 flex flex-col items-center justify-center animate-in fade-in slide-in-from-bottom-8">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              react-hooks/static-components
+  644:43   error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+  642 |       {currentFlow === 'enterPin' && <EnterPinView />}
+  643 |       {currentFlow === 'success' && <SuccessView />}
+> 644 |       {currentFlow === 'checkBalance' && <CheckBalanceView />}
+      |                                           ^^^^^^^^^^^^^^^^ This component is created during render
+  645 |
+  646 |     </div>
+  647 |   );
+
+  374 |   );
+  375 |
+> 376 |   const CheckBalanceView = () => (
+      |                            ^^^^^^^
+> 377 |     <div className="flex-1 p-6 flex flex-col items-center justify-center animate-in fade-in slide-in-from-bottom-8">
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 378 |       <div className="w-24 h-24 rounded-full bg-[#4285F4]/20 flex items-center justify-center mb-8 shadow-[0_0_40px_rgba(66,133,244,0.3)]">
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 387 |     </div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 388 |   );
+      | ^^^^ The component is created during render here
+  389 |
+  390 |   
+  391 |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         react-hooks/static-components
+
+C:\Users\LC\Desktop\indisearch\frontend\src\components\BharatPayLogo.jsx
+  1:8  error  'React' is defined but never used  no-unused-vars
+
+C:\Users\LC\Desktop\indisearch\frontend\src\components\Pixora.jsx
+  1:8    error  'React' is defined but never used        no-unused-vars
+  2:129  error  'CheckCircle' is defined but never used  no-unused-vars
+  2:142  error  'Loader2' is defined but never used      no-unused-vars
+
+C:\Users\LC\Desktop\indisearch\frontend\src\components\PixoraLogo.jsx
+  1:8  error  'React' is defined but never used  no-unused-vars
+
+C:\Users\LC\Desktop\indisearch\frontend\src\components\PlayTube.jsx
+  1:8  error  'React' is defined but never used  no-unused-vars
+
+C:\Users\LC\Desktop\indisearch\frontend\src\components\PlayTubeLogo.jsx
+  1:8  error  'React' is defined but never used  no-unused-vars
+
+C:\Users\LC\Desktop\indisearch\frontend\src\components\FoodWidget.jsx
+   1:8  error    'React' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  no-unused-vars
+  25:5  error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  23 |
+  24 |   useEffect(() => {
+> 25 |     fetchFood();
+     |     ^^^^^^^^^ Avoid calling setState() directly within an effect
+  26 |   }, [district]);
+  27 |
+  28 |   const handleClaim = async (id) => {  react-hooks/set-state-in-effect
+  26:6  warning  React Hook useEffect has a missing dependency: 'fetchFood'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       react-hooks/exhaustive-deps
+
+C:\Users\LC\Desktop\indisearch\frontend\src\components\INDISearchDrive.jsx
+  3:3  error  'Search' is defined but never used  no-unused-vars
+
+C:\Users\LC\Desktop\indisearch\frontend\src\components\KnowledgePanel.jsx
+  1:8   error  'React' is defined but never used   no-unused-vars
+  2:10  error  'Share2' is defined but never used  no-unused-vars
+
+C:\Users\LC\Desktop\indisearch\frontend\src\components\LanguageModal.jsx
+  1:8  error  'React' is defined but never used  no-unused-vars
+
+C:\Users\LC\Desktop\indisearch\frontend\src\components\LoginModal.jsx
+  1:8  error  'React' is defined but never used  no-unused-vars
+
+C:\Users\LC\Desktop\indisearch\frontend\src\components\MailInbox.jsx
+  1:8  error  'React' is defined but never used  no-unused-vars
+
+C:\Users\LC\Desktop\indisearch\frontend\src\components\Navbar.jsx
+  1:8   error  'React' is defined but never used        no-unused-vars
+  7:19  error  'language' is defined but never used     no-unused-vars
+  7:29  error  'setLanguage' is defined but never used  no-unused-vars
+
+C:\Users\LC\Desktop\indisearch\frontend\src\components\SearchBar.jsx
+   1:8   error  'React' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                no-unused-vars
+   2:60  error  'Globe' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                no-unused-vars
+   2:88  error  'ShieldCheck' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          no-unused-vars
+  37:5   error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  35 |
+  36 |   useEffect(() => {
+> 37 |     setQuery(initialQuery || '');
+     |     ^^^^^^^^ Avoid calling setState() directly within an effect
+  38 |   }, [initialQuery]);
+  39 |
+  40 |   const handleSubmit = (e) => {  react-hooks/set-state-in-effect
+
+C:\Users\LC\Desktop\indisearch\frontend\src\components\SearchLabsModal.jsx
+  1:8   error  'React' is defined but never used        no-unused-vars
+  2:21  error  'Sparkles' is defined but never used     no-unused-vars
+  2:40  error  'ImageIcon' is defined but never used    no-unused-vars
+  2:51  error  'Mic' is defined but never used          no-unused-vars
+  2:56  error  'Code' is defined but never used         no-unused-vars
+  2:69  error  'Video' is defined but never used        no-unused-vars
+  2:76  error  'ShieldAlert' is defined but never used  no-unused-vars
+  2:89  error  'Bot' is defined but never used          no-unused-vars
+
+C:\Users\LC\Desktop\indisearch\frontend\src\components\SearchResults.jsx
+    1:8   error  'React' is defined but never used  no-unused-vars
+  160:18  error  'e' is defined but never used      no-unused-vars
+  160:21  error  Empty block statement              no-empty
+
+C:\Users\LC\Desktop\indisearch\frontend\src\components\Social\ChatBubble.jsx
+   1:8  error    'React' is defined but never used                                                                                                                                                                  no-unused-vars
+  10:9  warning  The 'messages' logical expression could make the dependencies of useEffect Hook (at line 18) change on every render. To fix this, wrap the initialization of 'messages' in its own useMemo() Hook  react-hooks/exhaustive-deps
+
+C:\Users\LC\Desktop\indisearch\frontend\src\components\Social\EditProfileModal.jsx
+  1:8   error  'React' is defined but never used   no-unused-vars
+  3:13  error  'Upload' is defined but never used  no-unused-vars
+
+C:\Users\LC\Desktop\indisearch\frontend\src\components\Social\NewsFeed.jsx
+   1:8   error    'React' is defined but never used                                                                             no-unused-vars
+   9:42  error    'User' is defined but never used                                                                              no-unused-vars
+   9:81  error    'Menu' is defined but never used                                                                              no-unused-vars
+  14:10  error    'activeTab' is assigned a value but never used                                                                no-unused-vars
+  14:21  error    'setActiveTab' is assigned a value but never used                                                             no-unused-vars
+  21:6   warning  React Hook useEffect has a missing dependency: 'fetchFeed'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\LC\Desktop\indisearch\frontend\src\components\Social\NotificationDropdown.jsx
+  1:8  error  'React' is defined but never used  no-unused-vars
+
+C:\Users\LC\Desktop\indisearch\frontend\src\components\Social\PostCard.jsx
+  1:8  error  'React' is defined but never used  no-unused-vars
+
+C:\Users\LC\Desktop\indisearch\frontend\src\components\Social\PostCreator.jsx
+  1:8   error  'React' is defined but never used  no-unused-vars
+  3:24  error  'Send' is defined but never used   no-unused-vars
+
+C:\Users\LC\Desktop\indisearch\frontend\src\components\Social\StoryViewer.jsx
+   1:8  error  'React' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            no-unused-vars
+  27:5  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  25 |   
+  26 |   useEffect(() => {
+> 27 |     setProgress(0);
+     |     ^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  28 |   }, [story]);
+  29 |
+  30 |   if (!story) return null;  react-hooks/set-state-in-effect
+
+C:\Users\LC\Desktop\indisearch\frontend\src\components\Social\UserProfile.jsx
+  1:8  error  'React' is defined but never used  no-unused-vars
+
+C:\Users\LC\Desktop\indisearch\frontend\src\components\VillageInternet.jsx
+  1:8  error  'React' is defined but never used  no-unused-vars
+
+C:\Users\LC\Desktop\indisearch\frontend\src\components\VillageInternetLogo.jsx
+  1:8  error  'React' is defined but never used  no-unused-vars
+
+C:\Users\LC\Desktop\indisearch\frontend\src\context\SearchLabsContext.jsx
+  1:8   error  'React' is defined but never used                                                                                               no-unused-vars
+  6:14  error  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+C:\Users\LC\Desktop\indisearch\frontend\src\context\SocialContext.jsx
+   1:8   error  'React' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         no-unused-vars
+   7:14  error  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            react-refresh/only-export-components
+  30:5   error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  28 |     
+  29 |     const newSocket = io(import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000');
+> 30 |     setSocket(newSocket);
+     |     ^^^^^^^^^ Avoid calling setState() directly within an effect
+  31 |
+  32 |     return () => newSocket.close();
+  33 |   }, []);  react-hooks/set-state-in-effect
+
+✖ 156 problems (153 errors, 3 warnings)
+

@@ -1,0 +1,103 @@
+
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+}
+
+@layer base {
+  :root {
+    --background: #fdfdfd;
+    --foreground: #0f172a;
+    --primary: #FF9933;     --primary-foreground: #ffffff;
+    --card: rgba(255, 255, 255, 0.7);
+    --card-foreground: #0f172a;
+    --border: rgba(226, 232, 240, 0.8);
+    --accent: rgba(241, 245, 249, 0.7);
+    --link-visited: #7c3aed;
+    --url-green: #138808;   }
+
+  .dark {
+    --background: #050505;
+    --foreground: #f8fafc;
+    --primary: #FF9933;
+    --primary-foreground: #ffffff;
+    --card: rgba(15, 23, 42, 0.6);
+    --card-foreground: #f8fafc;
+    --border: rgba(51, 65, 85, 0.5);
+    --accent: rgba(30, 41, 59, 0.6);
+    --link-visited: #a78bfa;
+    --url-green: #4ade80;
+  }
+}
+
+@layer base {
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    -webkit-font-smoothing: antialiased;
+    font-family: 'Outfit', sans-serif;
+  }
+}
+
+@layer utilities {
+  .glass-panel {
+    background: var(--card);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--border);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05);
+  }
+  
+  .dark .glass-panel {
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .bharat-glow {
+    box-shadow: 0 0 15px rgba(255, 153, 51, 0.3), 0 0 30px rgba(19, 136, 8, 0.2);
+    transition: all 0.3s ease;
+  }
+  
+  .bharat-glow:hover {
+    box-shadow: 0 0 25px rgba(255, 153, 51, 0.5), 0 0 40px rgba(19, 136, 8, 0.3);
+  }
+
+  .hide-scrollbar::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  .hide-scrollbar::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+  }
+  .hide-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+  }
+  .hide-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 153, 51, 0.6);
+  }
+  .hide-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+  }
+
+  @keyframes scan {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(100%);
+    }
+  }
+}
