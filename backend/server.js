@@ -77,7 +77,10 @@ app.get(/(.*)/, (req, res) => {
 
 
 
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/globalsearch';
+let MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/globalsearch';
+if (typeof MONGODB_URI === 'string') {
+  MONGODB_URI = MONGODB_URI.trim().replace(/^['"]|['"]$/g, '');
+}
 const seedDatabase = require('./seedData');
 
 mongoose.connect(MONGODB_URI)
