@@ -102,11 +102,33 @@ function App() {
       url = 'https://' + url;
     }
     
+    let domain = '';
+    try {
+      domain = new URL(url).hostname;
+    } catch(err) {
+      domain = url;
+    }
+
+    const faviconUrl = `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
+
     const newShortcut = {
       id: Date.now().toString(),
       name: newShortcutForm.name,
-      iconLetter: newShortcutForm.name.charAt(0).toUpperCase(),
-      bg: '#1a1a1c',
+      customIcon: (
+        <div className="w-full h-full relative flex items-center justify-center">
+          <img 
+            src={faviconUrl} 
+            alt={newShortcutForm.name} 
+            className="w-full h-full object-cover rounded-[10px] sm:rounded-[12px] z-10" 
+            onError={(e) => {
+              e.target.style.display = 'none';
+              if (e.target.nextSibling) e.target.nextSibling.style.display = 'flex';
+            }} 
+          />
+          <span className="absolute inset-0 hidden items-center justify-center text-white font-bold text-lg z-0">{newShortcutForm.name.charAt(0).toUpperCase()}</span>
+        </div>
+      ),
+      bg: 'white/20',
       url: url,
       action: () => window.open(url, '_blank')
     };
@@ -406,86 +428,103 @@ function App() {
         
         <>
           {showBackground && (
-            <div 
-              className="fixed inset-0 z-[-1] bg-cover bg-center transition-all duration-500"
-              style={{ backgroundImage: `url('${customBackgroundImage || 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop'}')` }}
-            >
-              <div className="absolute inset-0 bg-black/40"></div>
+            <div className="fixed inset-0 z-[-1] overflow-hidden bg-[#050505] transition-all duration-500">
+              {customBackgroundImage ? (
+                <div 
+                  className="absolute inset-0 bg-cover bg-center"
+                  style={{ backgroundImage: `url('${customBackgroundImage}')` }}
+                >
+                  <div className="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
+                </div>
+              ) : (
+                <div className="absolute inset-0 w-full h-full opacity-80">
+                  <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-600/40 rounded-full blur-[120px] mix-blend-screen animate-blob"></div>
+                  <div className="absolute top-[20%] right-[-10%] w-[50%] h-[50%] bg-emerald-600/30 rounded-full blur-[100px] mix-blend-screen animate-blob animation-delay-2000"></div>
+                  <div className="absolute bottom-[-20%] left-[20%] w-[60%] h-[60%] bg-purple-600/30 rounded-full blur-[120px] mix-blend-screen animate-blob animation-delay-4000"></div>
+                </div>
+              )}
             </div>
           )}
-          <main className="flex-1 flex flex-col items-center justify-center px-4 -mt-16 w-full relative">
+          <main className="flex-1 flex flex-col items-center justify-center px-4 w-full relative pt-12 sm:pt-16">
             
-            {}
-            <div className={`relative mb-8 mt-12 flex flex-col items-center justify-center cursor-default select-none ${showBackground ? 'drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]' : 'drop-shadow-sm'}`}>
-              <h1 className="flex items-center text-4xl sm:text-7xl md:text-8xl font-extrabold tracking-tighter">
-                <span className="text-[#0B2447] dark:text-blue-100">Global</span>
-                <span className="text-[#007BFF] dark:text-blue-400">Search</span>
+            {/* Logo */}
+            <div className={`relative mb-8 flex flex-col items-center justify-center cursor-default select-none ${showBackground ? 'drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]' : 'drop-shadow-sm'}`}>
+              <h1 className="flex items-center text-5xl sm:text-7xl md:text-8xl font-extrabold tracking-tighter drop-shadow-2xl">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400">Global</span>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-200">Search</span>
               </h1>
             </div>
 
-            <div className="w-full z-10">
+            <div className="w-full z-10 pb-8 sm:pb-0">
               <SearchBar onSearch={handleSearch} isLoading={isSearching} initialQuery={query} language={language} />
             </div>
+          </main>
 
-            {/* Shortcuts */}
-            <div className="flex flex-wrap justify-center gap-6 mt-8 z-10 max-w-3xl">
+          {/* Floating Dock (Menu Bar) */}
+          <nav className="fixed bottom-16 sm:bottom-12 left-1/2 -translate-x-1/2 z-50 glass-premium px-4 sm:px-6 py-2.5 sm:py-3 rounded-[2rem] flex items-center space-x-3 sm:space-x-6 shadow-[0_10px_40px_rgba(0,0,0,0.5)] border border-white/10 w-max max-w-[95vw] overflow-x-auto hide-scrollbar">
+            
+            {/* Language Selector */}
+            <button 
+              onClick={() => setIsLanguageModalOpen(true)}
+              className="flex flex-col items-center justify-center group w-12 sm:w-14"
+              title="Change Language"
+            >
+              <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-[12px] sm:rounded-[14px] flex items-center justify-center transition-all ${showBackground ? 'bg-white/10 hover:bg-white/20 text-white shadow-md border border-white/10' : 'bg-gray-100 hover:bg-gray-200 text-gray-800'}`}>
+                <Globe size={20} className="sm:w-6 sm:h-6" />
+              </div>
+              <span className={`text-[10px] mt-1 font-medium hidden sm:block ${showBackground ? 'text-white/70 group-hover:text-white' : 'text-foreground/70'}`}>{language.substring(0, 3).toUpperCase()}</span>
+            </button>
+
+            <div className="w-px h-8 bg-white/20 mx-1 sm:mx-2"></div>
+
+            {/* App Shortcuts */}
+            <div className="flex items-center space-x-3 sm:space-x-4">
               {userShortcuts.map((shortcut, idx) => (
-                <div key={idx} className="flex flex-col items-center cursor-pointer group" onClick={shortcut.action ? shortcut.action : undefined}>
+                <button key={idx} className="flex flex-col items-center justify-center group w-12 sm:w-14" onClick={shortcut.action ? shortcut.action : undefined} title={shortcut.name}>
                   <div 
-                    className={`w-12 h-12 ${shortcut.bg === 'transparent' ? 'rounded-md' : 'rounded-full shadow-md'} flex items-center justify-center hover:opacity-80 transition-all backdrop-blur-md ${shortcut.bg === 'white/20' ? 'bg-white/20' : ''}`}
+                    className={`w-10 h-10 sm:w-12 sm:h-12 rounded-[12px] sm:rounded-[14px] flex items-center justify-center hover:scale-110 transition-transform shadow-md overflow-hidden ${shortcut.bg === 'transparent' ? 'border border-white/10' : (shortcut.bg === 'white/20' ? 'bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-md' : 'border border-white/10')}`}
                     style={{ background: shortcut.bg !== 'white/20' && shortcut.bg !== 'transparent' ? shortcut.bg : undefined }}
                   >
                     {shortcut.customIcon ? shortcut.customIcon : shortcut.iconLetter ? (
                       <span className="text-white font-bold text-lg">{shortcut.iconLetter}</span>
                     ) : shortcut.icon ? (
-                      <svg viewBox="0 0 24 24" className="w-6 h-6" fill={shortcut.color}>
+                      <svg viewBox="0 0 24 24" className="w-5 h-5 sm:w-6 sm:h-6" fill={shortcut.color}>
                         <path d={shortcut.icon} />
                       </svg>
                     ) : null}
                   </div>
-                  <span className={`text-xs mt-2 font-medium group-hover:underline ${showBackground ? 'text-white drop-shadow-md' : 'text-foreground/80'}`}>{shortcut.name}</span>
-                </div>
+                  <span className={`text-[10px] mt-1 font-medium hidden sm:block truncate w-full text-center ${showBackground ? 'text-white/70 group-hover:text-white' : 'text-foreground/70'}`}>{shortcut.name.split(' ')[0]}</span>
+                </button>
               ))}
               
-              <div className="flex flex-col items-center cursor-pointer group" onClick={() => setIsAddShortcutOpen(true)}>
-                <div className="w-12 h-12 rounded-full shadow-md flex items-center justify-center bg-white/10 hover:bg-white/20 border border-white/20 transition-all backdrop-blur-md">
-                  <Plus className="w-6 h-6 text-white" />
+              <button className="flex flex-col items-center justify-center group w-12 sm:w-14" onClick={() => setIsAddShortcutOpen(true)} title="Add shortcut">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-[12px] sm:rounded-[14px] flex items-center justify-center bg-white/5 hover:bg-white/20 transition-all border border-dashed border-white/30 hover:border-white/60 text-white shadow-md">
+                  <Plus size={20} className="sm:w-6 sm:h-6" />
                 </div>
-                <span className={`text-xs mt-2 font-medium group-hover:underline ${showBackground ? 'text-white drop-shadow-md' : 'text-foreground/80'}`}>{getTranslation(language, 'addShortcut') || 'Add shortcut'}</span>
-              </div>
-            </div>
-            {}
-            <div className={`mt-12 flex items-center justify-center space-x-3`}>
-              <span className={`text-sm ${showBackground ? 'text-white/90 drop-shadow-md' : 'text-foreground/70'}`}>
-                {getTranslation(language, 'offeredIn')}
-              </span>
-              <button 
-                onClick={() => setIsLanguageModalOpen(true)}
-                className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-full text-sm font-medium backdrop-blur-md transition-all border ${showBackground ? 'bg-white/10 hover:bg-white/20 border-white/20 text-white shadow-md' : 'bg-gray-100 hover:bg-gray-200 border-gray-200 text-gray-800'}`}
-              >
-                <Globe size={16} />
-                <span>{language}</span>
+                <span className={`text-[10px] mt-1 font-medium hidden sm:block ${showBackground ? 'text-white/70 group-hover:text-white' : 'text-foreground/70'}`}>Add</span>
               </button>
             </div>
-            
-            {}
-            <div className="fixed bottom-12 left-1/2 transform -translate-x-1/2 flex flex-col items-center z-40">
-              <div 
-                className={`w-16 h-16 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500 ${isListening ? 'bg-gradient-to-r from-[#FF9933] via-white to-[#138808] animate-pulse scale-110 shadow-[0_0_30px_rgba(255,153,51,0.6)]' : 'glass-panel text-white hover:scale-105 shadow-lg'}`}
-                onClick={handleOrbVoiceSearch}
-              >
+
+            <div className="w-px h-8 bg-white/20 mx-1 sm:mx-2"></div>
+
+            {/* AI Voice Orb */}
+            <button 
+              className="flex flex-col items-center justify-center group w-12 sm:w-14"
+              onClick={handleOrbVoiceSearch}
+              title="Voice Search"
+            >
+              <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-[12px] sm:rounded-[14px] flex items-center justify-center transition-all duration-500 shadow-md ${isListening ? 'bg-gradient-to-r from-emerald-400 to-blue-500 animate-pulse scale-110 shadow-[0_0_20px_rgba(52,211,153,0.6)]' : 'bg-white/10 hover:bg-white/20 hover:scale-110 text-white border border-white/10'}`}>
                 {isListening ? (
-                  <Mic size={28} className="text-[#050505] animate-bounce" />
+                  <Mic size={20} className="text-white sm:w-6 sm:h-6 animate-bounce" />
                 ) : (
-                  <Cpu size={28} className={showBackground ? 'text-white' : 'text-primary'} />
+                  <Cpu size={20} className="sm:w-6 sm:h-6 text-white" />
                 )}
               </div>
-              <span className={`mt-3 text-xs font-medium tracking-wide ${showBackground ? 'text-white/80 drop-shadow-md' : 'text-foreground/60'} ${isListening ? 'animate-pulse' : ''}`}>
-                {isListening ? getTranslation(language, 'voice.listening') : getTranslation(language, 'voice.tapToSpeak')}
+              <span className={`text-[10px] mt-1 font-medium hidden sm:block ${isListening ? 'text-emerald-400 animate-pulse' : (showBackground ? 'text-white/70 group-hover:text-white' : 'text-foreground/70')}`}>
+                {isListening ? '...' : 'AI'}
               </span>
-            </div>
-          </main>
-          {}
+            </button>
+          </nav>
           <button 
             onClick={() => setIsCustomizeOpen(true)}
             className="fixed bottom-4 right-4 p-2.5 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-md text-white transition-all shadow-md z-40"
@@ -583,7 +622,7 @@ function App() {
         
         <div className="flex flex-col min-h-screen w-full">
           {}
-          <header className="sticky top-0 bg-background border-b border-border z-40 pt-6 pb-4 px-4 sm:px-8 flex items-center">
+          <header className="sticky top-0 bg-background border-b border-border z-40 pt-4 sm:pt-6 pb-4 px-4 sm:px-8 flex flex-wrap lg:flex-nowrap items-center">
             
             {}
             <div className="flex items-center space-x-1 mr-4 text-foreground/70">
@@ -617,13 +656,13 @@ function App() {
                 <span className="text-[#007BFF] dark:text-blue-400">Search</span>
               </span>
             </div>
-            <div className="flex-1 max-w-[692px]">
+            <div className="flex-1 w-full min-w-[280px] lg:w-auto max-w-full lg:max-w-[692px] mt-4 lg:mt-0">
               <SearchBar onSearch={handleSearch} isLoading={isSearching} initialQuery={query} language={language} />
             </div>
           </header>
 
           {}
-          <div className="border-b border-border pl-4 sm:pl-[148px] py-3 flex space-x-6 text-sm text-foreground/70 overflow-x-auto whitespace-nowrap hide-scrollbar">
+          <div className="border-b border-border pl-4 lg:pl-[148px] py-3 flex space-x-6 text-sm text-foreground/70 overflow-x-auto whitespace-nowrap hide-scrollbar">
             <div 
               className={`cursor-pointer flex items-center ${activeTab === 'ai' ? 'text-primary border-b-2 border-primary pb-3 -mb-3 font-medium' : 'hover:text-foreground text-[#4285F4]'}`}
               onClick={() => setActiveTab('ai')}
@@ -674,9 +713,9 @@ function App() {
           </div>
 
           {}
-          <main className="flex-1 flex px-4 sm:px-[148px] py-6 w-full max-w-7xl">
+          <main className="flex-1 flex flex-col lg:flex-row px-4 lg:px-[148px] py-6 w-full max-w-7xl">
             {}
-            <div className="w-full max-w-[652px] mr-12">
+            <div className="w-full lg:max-w-[652px] lg:mr-12 mb-8 lg:mb-0">
               <p className="text-sm text-foreground/50 mb-4">
                 {getTranslation(language, 'aboutResults').replace('{count}', results.length)}
               </p>
@@ -697,8 +736,8 @@ function App() {
       
       {}
       {!hasSearched && (
-        <footer className="bg-accent text-sm text-foreground/60">
-          <div className="border-b border-border px-8 py-3 flex items-center">
+        <footer className={`text-sm w-full z-10 relative ${showBackground ? 'bg-black/20 backdrop-blur-lg border-t border-white/10 text-white/70' : 'bg-accent text-foreground/60'}`}>
+          <div className={`border-b px-8 py-3 flex items-center ${showBackground ? 'border-white/10' : 'border-border'}`}>
             <span className="mr-2">{getTranslation(language, 'footer.india')}</span>
             <span className="w-2 h-2 rounded-full bg-green-500 mr-2"></span>
             <span>{getTranslation(language, 'footer.zeroLogs')}</span>

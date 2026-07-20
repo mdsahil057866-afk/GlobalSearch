@@ -255,7 +255,21 @@ const SearchResults = ({ results, isLoading, query, onLaunchApp }) => {
               </div>
             </div>
             
-            <a href={result.url} target="_blank" rel="noopener noreferrer" className="block w-fit group/link">
+            <a 
+              href={result.url} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="block w-fit group/link"
+              onClick={(e) => {
+                if (result.url.toLowerCase().includes('playtube.com') || result.url.toLowerCase().includes('playtube.in')) {
+                  e.preventDefault();
+                  onLaunchApp('playtube');
+                } else if (result.url.toLowerCase().includes('quickchat.com') || result.url.toLowerCase().includes('quickchat.in') || result.url.toLowerCase().includes('quickchat.globalsearch.com')) {
+                  e.preventDefault();
+                  onLaunchApp('quickchat');
+                }
+              }}
+            >
               <h3 className="text-[22px] leading-tight font-semibold text-primary group-hover/link:underline mb-2 flex items-center transition-colors">
                 {result.title}
                 {}

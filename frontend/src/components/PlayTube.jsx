@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import { ArrowLeft, Search, Bell, Video, Menu, X, Home, Flame, PlaySquare, Gamepad2, GraduationCap, LayoutDashboard, CheckCircle2, ThumbsUp, ThumbsDown, MessageSquare, Mic, MoreVertical, Share2, Download, Scissors, Eye, TrendingUp, Sparkles, Languages, Users, ShoppingBag, Maximize, BrainCircuit, Box, ShieldCheck, User, Settings, LogOut, Clock, ListPlus, AudioWaveform, Globe, Play, Pause, SkipForward, Volume2, VolumeX, Subtitles, MonitorPlay, RectangleHorizontal, Minimize, ToggleRight, ToggleLeft, ChevronRight, ChevronUp, ChevronDown } from 'lucide-react';
+import { ArrowLeft, Search, Bell, Video, Menu, X, Home, Flame, PlaySquare, Gamepad2, GraduationCap, LayoutDashboard, CheckCircle2, ThumbsUp, ThumbsDown, MessageSquare, Mic, MoreVertical, Share2, Download, Scissors, Eye, TrendingUp, Sparkles, Languages, Users, ShoppingBag, Maximize, BrainCircuit, Box, ShieldCheck, User, Settings, LogOut, Clock, ListPlus, AudioWaveform, Globe, Play, Pause, SkipForward, Volume2, VolumeX, Subtitles, MonitorPlay, RectangleHorizontal, Minimize, ToggleRight, ToggleLeft, ChevronRight, ChevronUp, ChevronDown, Lock, RotateCw } from 'lucide-react';
 import PlayTubeLogo from './PlayTubeLogo';
 
 const mockVideos = [
@@ -894,7 +894,22 @@ export default function PlayTube({ onBack }) {
 
   return (
     <div className="flex flex-col h-screen w-full bg-[#050505] text-white overflow-hidden font-sans selection:bg-[#FF9933]/30">
-      
+      {/* Mock Browser Header */}
+      <div className="flex items-center space-x-4 p-2 bg-[#f1f3f4] border-b border-gray-300 shrink-0 z-[100] text-black w-full">
+        <div className="flex space-x-2 text-gray-600">
+          <button onClick={onBack} className="p-1 hover:bg-gray-200 rounded-full"><ArrowLeft size={20}/></button>
+          <button className="p-1 hover:bg-gray-200 rounded-full opacity-50"><ArrowLeft size={20} className="transform rotate-180"/></button>
+          <button className="p-1 hover:bg-gray-200 rounded-full"><RotateCw size={18}/></button>
+        </div>
+        <div className="flex-1">
+          <div className="flex items-center bg-white border border-gray-300 rounded-full px-4 py-1.5 shadow-inner max-w-2xl mx-auto cursor-text">
+            <Lock size={14} className="text-gray-500 mr-2"/>
+            <span className="text-sm">www.playtube.com</span>
+          </div>
+        </div>
+        <div className="w-8 h-8 rounded-full bg-[#FF9933] text-white flex items-center justify-center text-sm font-bold shadow-sm border border-[#FF0000]">U</div>
+      </div>
+
       {}
       <header className="flex items-center justify-between px-4 h-16 bg-[#0a0a0a]/80 backdrop-blur-xl border-b border-white/5 sticky top-0 z-50">
         <div className="flex items-center">
