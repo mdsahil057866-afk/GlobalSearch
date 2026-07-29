@@ -11,10 +11,34 @@ import VillageInternetLogo from './VillageInternetLogo';
 import CoreNetLogo from './CoreNetLogo';
 
 import AIOverview from './AIOverview';
+import RichCard from './RichCard';
+import { getTranslation } from '../utils/translations';
 
-const SearchResults = ({ results, isLoading, query, onLaunchApp }) => {
+const SearchResults = ({ results, isLoading, query, onLaunchApp, isFastMode }) => {
   const { isFeatureEnabled } = useSearchLabs();
   const [expandedSummary, setExpandedSummary] = useState(null);
+  const [savedItems, setSavedItems] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('gs_saved_items')) || []; } catch(e) { return []; }
+  });
+  const [translatedResults, setTranslatedResults] = useState({});
+
+  const toggleSave = (result) => {
+    let newSaved = [...savedItems];
+    if (newSaved.some(item => item.url === result.url)) {
+      newSaved = newSaved.filter(item => item.url !== result.url);
+    } else {
+      newSaved.push(result);
+    }
+    setSavedItems(newSaved);
+    localStorage.setItem('gs_saved_items', JSON.stringify(newSaved));
+  };
+
+  const simulateTranslate = (index) => {
+    setTranslatedResults(prev => ({
+      ...prev,
+      [index]: !prev[index]
+    }));
+  };
   
   const hasEcosystemApp = results && results.some(r => r?.isEcosystemApp);
   if (isLoading) {
@@ -51,11 +75,27 @@ const SearchResults = ({ results, isLoading, query, onLaunchApp }) => {
 
   return (
     <div className="w-full">
-      {}
-      {!hasEcosystemApp && isFeatureEnabled('sge') && <AIOverview query={query} />}
+      {/* Light Mode / Fast Mode Message */}
+      {isFastMode && (
+        <div className="mb-4 text-xs bg-amber-100/50 dark:bg-amber-900/20 text-amber-800 dark:text-amber-400 p-2 rounded-lg border border-amber-200 dark:border-amber-800/50 flex items-center">
+          <Zap size={14} className="mr-2" />
+          Fast Search Mode is ON. Heavy cards, 3D elements, and AI widgets are hidden for faster loading on slow networks.
+        </div>
+      )}
 
       {}
-      {isFeatureEnabled('code-tips') && (query?.toLowerCase()?.includes('code') || query?.toLowerCase()?.includes('react') || query?.toLowerCase()?.includes('python') || query?.toLowerCase()?.includes('js')) && (
+      {!hasEcosystemApp && isFeatureEnabled('sge') && !isFastMode && <AIOverview query={query} />}
+
+      {}
+      {!isFastMode && query && (query.toLowerCase().includes('yojana') || query.toLowerCase().includes('scheme') || query.toLowerCase().includes('scholarship')) && (
+        <RichCard type="scheme" data={{}} />
+      )}
+      {!isFastMode && query && (query.toLowerCase().includes('college') || query.toLowerCase().includes('university') || query.toLowerCase().includes('institute')) && (
+        <RichCard type="college" data={{}} />
+      )}
+
+      {}
+      {!isFastMode && isFeatureEnabled('code-tips') && (query?.toLowerCase()?.includes('code') || query?.toLowerCase()?.includes('react') || query?.toLowerCase()?.includes('python') || query?.toLowerCase()?.includes('js')) && (
         <div className="mt-6 border border-orange-500/30 bg-orange-500/5 rounded-2xl overflow-hidden shadow-sm">
           <div className="flex items-center px-4 py-2 bg-orange-500/10 border-b border-orange-500/20">
             <Code size={16} className="text-orange-500 mr-2" />
@@ -71,7 +111,7 @@ const SearchResults = ({ results, isLoading, query, onLaunchApp }) => {
       )}
 
       {}
-      {(query?.toLowerCase().includes('pay') || query?.toLowerCase().includes('send money') || query?.toLowerCase().includes('bill')) && (
+      {!isFastMode && (query?.toLowerCase().includes('pay') || query?.toLowerCase().includes('send money') || query?.toLowerCase().includes('bill')) && (
         <div className="mt-6 border border-[#138808]/30 bg-[#138808]/5 rounded-2xl p-6 shadow-[0_0_20px_rgba(19,136,8,0.1)] mb-8 relative overflow-hidden group transition-all hover:border-[#138808]/50">
           <div className="absolute top-0 right-0 w-48 h-48 bg-[#138808]/10 rounded-full blur-3xl group-hover:bg-[#138808]/20 transition-colors pointer-events-none"></div>
           <div className="flex items-center justify-between relative z-10">
@@ -96,7 +136,7 @@ const SearchResults = ({ results, isLoading, query, onLaunchApp }) => {
       )}
 
       {}
-      {(query?.toLowerCase().includes('taj mahal') || query?.toLowerCase().includes('heart') || query?.toLowerCase().includes('3d')) && (
+      {!isFastMode && (query?.toLowerCase().includes('taj mahal') || query?.toLowerCase().includes('heart') || query?.toLowerCase().includes('3d')) && (
         <div className="mt-6 border border-[#FF9933]/30 bg-[#FF9933]/5 rounded-2xl p-1 shadow-[0_0_20px_rgba(255,153,51,0.1)] mb-8 overflow-hidden group">
            <div className="px-5 pt-4 pb-2 flex items-center text-[#FF9933]">
               <Sparkles size={14} className="mr-1" />
@@ -121,7 +161,7 @@ const SearchResults = ({ results, isLoading, query, onLaunchApp }) => {
       )}
 
       {}
-      {query?.toLowerCase().includes('logo') && (
+      {!isFastMode && query?.toLowerCase().includes('logo') && (
         <div className="mt-6 border border-blue-500/30 bg-blue-500/5 rounded-2xl p-6 shadow-[0_0_20px_rgba(59,130,246,0.1)] mb-8 overflow-hidden flex flex-col items-center justify-center relative">
            <div className="w-full flex items-start justify-between mb-6">
               <div className="flex items-center text-blue-600 dark:text-blue-400">
@@ -240,7 +280,7 @@ const SearchResults = ({ results, isLoading, query, onLaunchApp }) => {
         } catch (e) {}
 
         return (
-          <div key={result._id || index} className="group glass-panel p-5 rounded-2xl mb-4 transition-all duration-300 hover:scale-[1.01] hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] dark:hover:shadow-[0_8px_30px_rgba(255,255,255,0.05)] border-l-4 border-l-transparent hover:border-l-[#FF9933]">
+          <div key={result._id || index} className={`group glass-panel p-5 rounded-2xl mb-4 transition-all duration-300 ${!isFastMode ? 'hover:scale-[1.01] hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] dark:hover:shadow-[0_8px_30px_rgba(255,255,255,0.05)] border-l-4 border-l-transparent hover:border-l-[#FF9933]' : ''}`}>
             <div className="flex items-center text-sm text-[var(--url-green)] mb-2">
               {}
               <div className="w-7 h-7 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 flex items-center justify-center mr-3 border border-border shadow-sm">
@@ -250,8 +290,25 @@ const SearchResults = ({ results, isLoading, query, onLaunchApp }) => {
                 <span className="text-foreground font-medium text-sm">{domain}</span>
                 <span className="text-xs opacity-70">{result.url}</span>
               </div>
-              <div className="ml-auto p-2 rounded-full hover:bg-accent cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity">
-                <MoreVertical size={16} className="text-foreground/60" />
+              <div className="ml-auto flex items-center space-x-1">
+                <button 
+                  onClick={() => simulateTranslate(index)}
+                  className="p-1.5 rounded-full hover:bg-accent text-xs font-medium flex items-center text-blue-500 hover:text-blue-600 transition-colors"
+                  title="Auto-Translate Result"
+                >
+                  <Sparkles size={14} className="mr-1" />
+                  {translatedResults[index] ? 'Original' : 'Translate'}
+                </button>
+                <button 
+                  onClick={() => toggleSave(result)}
+                  className={`p-1.5 rounded-full hover:bg-accent transition-colors ${savedItems.some(i => i.url === result.url) ? 'text-yellow-500' : 'text-foreground/60'}`}
+                  title="Save Bookmark"
+                >
+                  <svg className="w-5 h-5" fill={savedItems.some(i => i.url === result.url) ? "currentColor" : "none"} stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" /></svg>
+                </button>
+                <div className="p-1.5 rounded-full hover:bg-accent cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity">
+                  <MoreVertical size={16} className="text-foreground/60" />
+                </div>
               </div>
             </div>
             
@@ -282,7 +339,12 @@ const SearchResults = ({ results, isLoading, query, onLaunchApp }) => {
             </a>
             
             <p className="text-sm text-foreground/80 leading-relaxed mt-2 max-w-[650px]">
-              {result.snippet}
+              {translatedResults[index] ? (
+                <span className="italic text-gray-500 dark:text-gray-400">
+                  (अनुवादित/Translated) {result.snippet} 
+                  <br/><span className="text-xs text-blue-400 mt-1 block">✨ Translated by GlobalSearch AI</span>
+                </span>
+              ) : result.snippet}
             </p>
             
             <div className="flex flex-wrap gap-2 mt-4">
@@ -292,7 +354,7 @@ const SearchResults = ({ results, isLoading, query, onLaunchApp }) => {
             </div>
             
             {}
-            {isFeatureEnabled('video-summary') && index === 2 && (
+            {!isFastMode && isFeatureEnabled('video-summary') && index === 2 && (
               <div className="mt-3">
                 <button 
                   onClick={() => setExpandedSummary(expandedSummary === index ? null : index)}

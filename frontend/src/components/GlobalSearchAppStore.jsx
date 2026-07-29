@@ -224,6 +224,7 @@ export default function GlobalSearchAppStore({ onBack, onLaunchApp }) {
   const [isDevConsoleOpen, setIsDevConsoleOpen] = useState(false);
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [newAppForm, setNewAppForm] = useState({ name: '', category: 'Productivity', description: '', developer: 'Independent Developer', size: '15 MB' });
   const [selectedFile, setSelectedFile] = useState(null);
 
@@ -379,9 +380,18 @@ export default function GlobalSearchAppStore({ onBack, onLaunchApp }) {
               Developer Console
             </button>
           </div>
-          <div onClick={() => setIsProfileOpen(true)} className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-white/20 overflow-hidden cursor-pointer hover:border-white/50 hover:shadow-[0_0_15px_-3px_rgba(255,255,255,0.5)] transition-all">
-            <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=100&h=100&fit=crop" alt="Profile" className="w-full h-full object-cover" />
-          </div>
+          {isLoggedIn ? (
+            <div onClick={() => setIsProfileOpen(true)} className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-white/20 overflow-hidden cursor-pointer hover:border-white/50 hover:shadow-[0_0_15px_-3px_rgba(255,255,255,0.5)] transition-all">
+              <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=100&h=100&fit=crop" alt="Profile" className="w-full h-full object-cover" />
+            </div>
+          ) : (
+            <button 
+              onClick={() => setIsProfileOpen(true)}
+              className="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-full font-bold transition-all shadow-[0_0_15px_-3px_rgba(59,130,246,0.5)] text-sm"
+            >
+              Sign In
+            </button>
+          )}
         </div>
       </header>
 
@@ -823,32 +833,50 @@ export default function GlobalSearchAppStore({ onBack, onLaunchApp }) {
                 <X className="w-6 h-6" />
               </button>
             </div>
-            <div className="flex flex-col items-center mb-10">
-              <div className="relative">
-                <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=150&h=150&fit=crop" className="w-28 h-28 rounded-full border-4 border-blue-500/30 mb-4 object-cover" />
-                <div className="absolute bottom-4 right-0 w-6 h-6 bg-green-500 border-4 border-[#1a1a1c] rounded-full"></div>
+            {!isLoggedIn ? (
+              <div className="flex flex-col flex-1">
+                <div className="flex flex-col items-center mb-10 mt-4">
+                  <div className="w-24 h-24 bg-white/5 rounded-full flex items-center justify-center mb-6 border border-white/10">
+                     <svg className="w-10 h-10 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-2">Sign in to App Store</h3>
+                  <p className="text-sm text-gray-400 text-center mb-8 px-4">Get personalized recommendations, sync your downloaded apps, and access premium content.</p>
+                  
+                  <button onClick={() => setIsLoggedIn(true)} className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3.5 rounded-xl transition-all shadow-[0_0_20px_-5px_rgba(59,130,246,0.5)] mb-4">
+                    Sign In / Create Account
+                  </button>
+                </div>
               </div>
-              <h3 className="text-xl font-bold text-white mb-1">Developer Mode Active</h3>
-              <p className="text-sm text-gray-400">admin@globalsearch.local</p>
-            </div>
-            <div className="space-y-4">
-              <div className="bg-white/5 p-4 rounded-xl flex items-center justify-between hover:bg-white/10 cursor-pointer transition-colors border border-white/5 hover:border-white/20">
-                <span className="font-medium text-white">Installed Apps</span>
-                <span className="bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded-full shadow-lg">{appsList.length}</span>
-              </div>
-              <div className="bg-white/5 p-4 rounded-xl flex items-center justify-between hover:bg-white/10 cursor-pointer transition-colors border border-white/5 hover:border-white/20">
-                <span className="font-medium text-white">Payment Methods</span>
-                <span className="text-gray-400 text-sm">UPI Connected</span>
-              </div>
-              <div className="bg-white/5 p-4 rounded-xl flex items-center justify-between hover:bg-white/10 cursor-pointer transition-colors border border-white/5 hover:border-white/20">
-                <span className="font-medium text-white">Settings & Preferences</span>
-              </div>
-            </div>
-            <div className="mt-auto pt-8">
-              <button onClick={() => setIsProfileOpen(false)} className="w-full bg-red-500/10 p-4 rounded-xl flex items-center justify-center hover:bg-red-500/20 cursor-pointer transition-colors text-red-500 font-bold border border-red-500/20">
-                Sign Out
-              </button>
-            </div>
+            ) : (
+              <>
+                <div className="flex flex-col items-center mb-10">
+                  <div className="relative">
+                    <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=150&h=150&fit=crop" className="w-28 h-28 rounded-full border-4 border-blue-500/30 mb-4 object-cover" />
+                    <div className="absolute bottom-4 right-0 w-6 h-6 bg-green-500 border-4 border-[#1a1a1c] rounded-full"></div>
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-1">Developer Mode Active</h3>
+                  <p className="text-sm text-gray-400">admin@globalsearch.local</p>
+                </div>
+                <div className="space-y-4">
+                  <div className="bg-white/5 p-4 rounded-xl flex items-center justify-between hover:bg-white/10 cursor-pointer transition-colors border border-white/5 hover:border-white/20">
+                    <span className="font-medium text-white">Installed Apps</span>
+                    <span className="bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded-full shadow-lg">{appsList.length}</span>
+                  </div>
+                  <div className="bg-white/5 p-4 rounded-xl flex items-center justify-between hover:bg-white/10 cursor-pointer transition-colors border border-white/5 hover:border-white/20">
+                    <span className="font-medium text-white">Payment Methods</span>
+                    <span className="text-gray-400 text-sm">UPI Connected</span>
+                  </div>
+                  <div className="bg-white/5 p-4 rounded-xl flex items-center justify-between hover:bg-white/10 cursor-pointer transition-colors border border-white/5 hover:border-white/20">
+                    <span className="font-medium text-white">Settings & Preferences</span>
+                  </div>
+                </div>
+                <div className="mt-auto pt-8">
+                  <button onClick={() => setIsLoggedIn(false)} className="w-full bg-red-500/10 p-4 rounded-xl flex items-center justify-center hover:bg-red-500/20 cursor-pointer transition-colors text-red-500 font-bold border border-red-500/20">
+                    Sign Out
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         </div>
       )}

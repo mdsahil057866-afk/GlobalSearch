@@ -83,14 +83,21 @@ if (typeof MONGODB_URI === 'string') {
 }
 const seedDatabase = require('./seedData');
 
-mongoose.connect(MONGODB_URI)
-  .then(async () => {
-    console.log('Connected to MongoDB safely');
-    await seedDatabase();
-    server.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
+try {
+  console.log('Attempting to connect to MongoDB...');
+  console.log('URI starts with:', MONGODB_URI.substring(0, 14) + '...');
+  
+  mongoose.connect(MONGODB_URI)
+    .then(async () => {
+      console.log('Connected to MongoDB safely');
+      await seedDatabase();
+      server.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+      });
+    })
+    .catch((err) => {
+      console.error('MongoDB connection promise error:', err.message);
     });
-  })
-  .catch((err) => {
-    console.error('MongoDB connection error:', err);
-  });
+} catch (err) {
+  console.error('MongoDB synchronous connection error:', err.message);
+}

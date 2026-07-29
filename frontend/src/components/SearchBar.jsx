@@ -158,7 +158,9 @@ const SearchBar = ({ onSearch, isLoading, initialQuery, language = 'English' }) 
     }
   };
 
-  const handleImageUpload = (e) => {
+  const [isScanning, setIsScanning] = useState(false);
+
+  const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     if (file) {
       if (isFeatureEnabled('lens-ai')) {
@@ -170,9 +172,28 @@ const SearchBar = ({ onSearch, isLoading, initialQuery, language = 'English' }) 
           onSearch(mockQuery);
         }, 3000);
       } else {
-        const mockQuery = `Image Search: ${file.name}`;
-        setQuery(mockQuery);
-        onSearch(mockQuery);
+        try {
+          setIsScanning(true);
+          const Tesseract = await import('tesseract.js');
+          const result = await Tesseract.recognize(file, 'eng+hin');
+          const extractedText = result.data.text.trim().substring(0, 50); // limit for search query
+          
+          if (extractedText) {
+            setQuery(extractedText);
+            onSearch(extractedText);
+          } else {
+            const fallbackQuery = `Image Search: ${file.name}`;
+            setQuery(fallbackQuery);
+            onSearch(fallbackQuery);
+          }
+        } catch (error) {
+          console.error("OCR Failed:", error);
+          const fallbackQuery = `Image Search: ${file.name}`;
+          setQuery(fallbackQuery);
+          onSearch(fallbackQuery);
+        } finally {
+          setIsScanning(false);
+        }
       }
     }
   };
@@ -225,19 +246,24 @@ const SearchBar = ({ onSearch, isLoading, initialQuery, language = 'English' }) 
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
                   className="p-1.5 rounded-full hover:bg-accent transition-colors"
-                  title="Search by image"
+                  title="Search by document/image (OCR)"
+                  disabled={isScanning}
                 >
-                  <svg className="w-5 h-5 text-gray-600" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.5 14H8c-1.66 0-3-1.34-3-3s1.34-3 3-3h.5a5.5 5.5 0 0 1 10.89-1.22c1.37.15 2.44 1.34 2.44 2.72 0 1.51-1.22 2.73-2.73 2.73L16.5 16z"/>
-                    <circle cx="12" cy="11.5" r="2.5" />
-                  </svg>
+                  {isScanning ? (
+                    <Loader2 size={20} className="text-blue-500 animate-spin" />
+                  ) : (
+                    <svg className="w-5 h-5 text-gray-600" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.5 14H8c-1.66 0-3-1.34-3-3s1.34-3 3-3h.5a5.5 5.5 0 0 1 10.89-1.22c1.37.15 2.44 1.34 2.44 2.72 0 1.51-1.22 2.73-2.73 2.73L16.5 16z"/>
+                      <circle cx="12" cy="11.5" r="2.5" />
+                    </svg>
+                  )}
                 </button>
               )}
               <input 
                 type="file" 
                 ref={fileInputRef} 
                 onChange={handleImageUpload} 
-                accept="image/*" 
+                accept="image/*,.pdf" 
                 className="hidden" 
               />
 
@@ -258,11 +284,10 @@ const SearchBar = ({ onSearch, isLoading, initialQuery, language = 'English' }) 
               {isFeatureEnabled('sge') && (
                 <button
                   type="button"
-                  className="flex items-center px-4 py-1.5 ml-2 rounded-full border border-[#FF9933]/30 bg-gradient-to-r from-[#FF9933]/10 to-[#138808]/10 hover:from-[#FF9933]/20 hover:to-[#138808]/20 transition-all text-sm font-semibold backdrop-blur-md shadow-[0_0_10px_rgba(255,153,51,0.2)] hover:shadow-[0_0_15px_rgba(255,153,51,0.4)]"
-                  title="AI Overviews Enabled"
+                  className="p-1.5 ml-1 rounded-full border border-[#FF9933]/30 bg-gradient-to-r from-[#FF9933]/10 to-[#138808]/10 hover:from-[#FF9933]/20 hover:to-[#138808]/20 transition-all shadow-[0_0_10px_rgba(255,153,51,0.2)] hover:shadow-[0_0_15px_rgba(255,153,51,0.4)]"
+                  title="AI Overviews Enabled (NovaAI)"
                 >
-                  <Sparkles className="w-4 h-4 mr-1 text-[#FF9933]" />
-                  <span className="bg-gradient-to-r from-[#FF9933] to-[#138808] text-transparent bg-clip-text">NovaAI</span>
+                  <Sparkles className="w-5 h-5 text-[#FF9933]" />
                 </button>
               )}
             </div>

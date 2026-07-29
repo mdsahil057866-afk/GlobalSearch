@@ -1,5 +1,4 @@
 const rateLimit = require('express-rate-limit');
-const mongoSanitize = require('express-mongo-sanitize');
 const hpp = require('hpp');
 
 // 1. Rate Limiting: Prevent DDoS and Brute-Force Attacks
@@ -23,14 +22,6 @@ const apiLimiter = rateLimit({
 const antiHackMiddleware = [
   // Apply rate limiter
   apiLimiter,
-  
-  // Data Sanitization: Prevent NoSQL Injection
-  // This removes any keys containing prohibited characters ($ or .)
-  mongoSanitize({
-    onSanitize: ({ req, key }) => {
-      console.warn(`[SECURITY ALERT] NoSQL Injection attempt blocked from IP: ${req.ip}. Malicious key: ${key}`);
-    },
-  }),
 
   // HTTP Parameter Pollution (HPP) Prevention
   // Prevents attackers from sending duplicate parameters (e.g. ?sort=asc&sort=desc)

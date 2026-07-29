@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { Moon, Sun, Grid, Beaker } from 'lucide-react';
+import { Moon, Sun, Grid, Beaker, Plus, Zap } from 'lucide-react';
 import LoginModal from './LoginModal';
 import SearchLabsModal from './SearchLabsModal';
 import AppsMenu from './AppsMenu';
 
-const Navbar = ({ language, setLanguage, district, setDistrict, isDarkMode, setIsDarkMode, isHomepage, showBackground, isLoggedIn, setIsLoggedIn, loggedInEmail, setLoggedInEmail, setCurrentView }) => {
+const Navbar = ({ language, setLanguage, district, setDistrict, isDarkMode, setIsDarkMode, isFastMode, setIsFastMode, isHomepage, showBackground, isLoggedIn, setIsLoggedIn, loggedInEmail, setLoggedInEmail, setCurrentView }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [isLabsOpen, setIsLabsOpen] = useState(false);
@@ -29,7 +29,7 @@ const Navbar = ({ language, setLanguage, district, setDistrict, isDarkMode, setI
   return (
     <nav className={`w-full px-4 py-3 flex justify-end items-center z-50 transition-colors absolute top-0 ${isTransparent ? 'bg-transparent text-white' : 'bg-background'}`}>
       
-      {}
+      {/* Right side icons */}
       <div className={`flex items-center space-x-2 sm:space-x-4 text-sm ${isTransparent ? 'text-white/90' : 'text-foreground/80'}`}>
         
         {/* District Selector */}
@@ -52,6 +52,15 @@ const Navbar = ({ language, setLanguage, district, setDistrict, isDarkMode, setI
           </>
         )}
         
+        {/* New Tab Icon */}
+        <button 
+          onClick={() => window.open(window.location.origin, '_blank')}
+          className="p-1.5 sm:p-2 rounded-full hover:bg-accent hover:text-foreground transition-colors focus:outline-none"
+          title="New Tab"
+        >
+          <Plus size={20} />
+        </button>
+
         {/* Search Labs Icon */}
         <button 
           onClick={() => setIsLabsOpen(true)}
@@ -68,6 +77,15 @@ const Navbar = ({ language, setLanguage, district, setDistrict, isDarkMode, setI
           aria-label="Toggle Dark Mode"
         >
           {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
+        </button>
+
+        {/* Fast Mode Toggle */}
+        <button 
+          onClick={() => setIsFastMode(!isFastMode)}
+          className={`p-1.5 sm:p-2 rounded-full transition-colors focus:outline-none flex items-center justify-center ${isFastMode ? 'bg-amber-100 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400' : 'hover:bg-accent hover:text-foreground'}`}
+          title={isFastMode ? "Fast Mode (Lite) is ON" : "Turn on Fast Mode for slow networks"}
+        >
+          <Zap size={20} className={isFastMode ? 'fill-current' : ''} />
         </button>
 
         {/* Apps Menu Toggle */}

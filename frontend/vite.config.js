@@ -20,6 +20,26 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       injectRegister: 'auto',
+      manifest: {
+        name: 'GlobalSearch',
+        short_name: 'GlobalSearch',
+        description: 'Super App Platform',
+        theme_color: '#ffffff',
+        background_color: '#ffffff',
+        display: 'standalone',
+        icons: [
+          {
+            src: '/favicon.ico',
+            sizes: '192x192',
+            type: 'image/png'
+          },
+          {
+            src: '/favicon.ico',
+            sizes: '512x512',
+            type: 'image/png'
+          }
+        ]
+      },
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,json,woff,woff2,ttf}'],
         cleanupOutdatedCaches: true,
@@ -31,7 +51,7 @@ export default defineConfig({
               cacheName: 'google-fonts-cache',
               expiration: {
                 maxEntries: 10,
-                maxAgeSeconds: 60 * 60 * 24 * 365 // <== 365 days
+                maxAgeSeconds: 60 * 60 * 24 * 365
               },
               cacheableResponse: {
                 statuses: [0, 200]
@@ -45,22 +65,28 @@ export default defineConfig({
               cacheName: 'gstatic-fonts-cache',
               expiration: {
                 maxEntries: 10,
-                maxAgeSeconds: 60 * 60 * 24 * 365 // <== 365 days
+                maxAgeSeconds: 60 * 60 * 24 * 365
               },
               cacheableResponse: {
                 statuses: [0, 200]
               },
             }
+          },
+          {
+            urlPattern: /\/api\/search.*/i,
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'globalsearch-api-cache',
+              expiration: {
+                maxEntries: 50,
+                maxAgeSeconds: 60 * 60 * 24 // 1 day cache
+              },
+              cacheableResponse: {
+                statuses: [0, 200]
+              }
+            }
           }
         ]
-      },
-      manifest: {
-        name: 'GlobalSearch',
-        short_name: 'GlobalSearch',
-        description: 'Super App Platform',
-        theme_color: '#ffffff',
-        background_color: '#ffffff',
-        display: 'standalone'
       }
     })
   ],

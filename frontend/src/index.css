@@ -18,13 +18,16 @@
   :root {
     --background: #fdfdfd;
     --foreground: #0f172a;
-    --primary: #FF9933;     --primary-foreground: #ffffff;
+    --primary: #FF9933;     
+    --primary-foreground: #ffffff;
     --card: rgba(255, 255, 255, 0.7);
     --card-foreground: #0f172a;
     --border: rgba(226, 232, 240, 0.8);
     --accent: rgba(241, 245, 249, 0.7);
     --link-visited: #7c3aed;
-    --url-green: #138808;   }
+    --url-green: #138808;
+    --font-scale: 1;
+  }
 
   .dark {
     --background: #050505;
@@ -46,6 +49,7 @@
     color: var(--foreground);
     -webkit-font-smoothing: antialiased;
     font-family: 'Outfit', sans-serif;
+    font-size: calc(1rem * var(--font-scale));
   }
 }
 

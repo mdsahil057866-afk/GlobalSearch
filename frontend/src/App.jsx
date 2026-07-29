@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { ArrowLeft, ArrowRight, RotateCw, Sparkles, Globe, Mic, Cpu, Plus, X, Link2 } from 'lucide-react';
+import { ArrowLeft, ArrowRight, RotateCw, Sparkles, Globe, Mic, Cpu, Plus, X, Link2, Bookmark } from 'lucide-react';
 import Navbar from './components/Navbar';
 import SearchResults from './components/SearchResults';
 import FoodWidget from './components/FoodWidget';
 import KnowledgePanel from './components/KnowledgePanel';
 import SearchBar from './components/SearchBar';
 import LanguageModal from './components/LanguageModal';
+import BookmarksModal from './components/BookmarksModal';
+import LoginModal from './components/LoginModal';
 import { getTranslation } from './utils/translations';
 import MailInbox from './components/MailInbox';
 import CoreNetShowcase from './components/CoreNetShowcase';
@@ -49,6 +51,7 @@ function App() {
   const [language, setLanguage] = useState('English');
   const [district, setDistrict] = useState('All');
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isFastMode, setIsFastMode] = useState(false);
   const [results, setResults] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
   const [hasSearched, setHasSearched] = useState(false);
@@ -64,6 +67,12 @@ function App() {
   const [isShowcaseOpen, setIsShowcaseOpen] = useState(false);
   const [isListening, setIsListening] = useState(false);
   const [securityAlert, setSecurityAlert] = useState(null);
+  const [isBookmarksOpen, setIsBookmarksOpen] = useState(false);
+  const [showLoginModalApp, setShowLoginModalApp] = useState(false);
+  const [showDropdownApp, setShowDropdownApp] = useState(false);
+  const [fontScale, setFontScale] = useState(() => {
+    return parseFloat(localStorage.getItem('gs_font_scale')) || 1;
+  });
 
   const KNOWN_VIEWS = [
     'search', 'mail', 'playtube', 'quickchat', 'pixora', 'bharatdrive', 'novaai', 
@@ -92,6 +101,11 @@ function App() {
       document.documentElement.classList.remove('dark');
     }
   }, [isDarkMode]);
+
+  useEffect(() => {
+    document.documentElement.style.setProperty('--font-scale', fontScale);
+    localStorage.setItem('gs_font_scale', fontScale);
+  }, [fontScale]);
 
   const handleAddShortcut = (e) => {
     e.preventDefault();
@@ -415,6 +429,8 @@ function App() {
             setDistrict={setDistrict}
             isDarkMode={isDarkMode} 
             setIsDarkMode={setIsDarkMode} 
+            isFastMode={isFastMode}
+            setIsFastMode={setIsFastMode}
             isHomepage={!hasSearched}
             showBackground={showBackground}
             isLoggedIn={isLoggedIn}
@@ -497,11 +513,11 @@ function App() {
                 </button>
               ))}
               
-              <button className="flex flex-col items-center justify-center group w-12 sm:w-14" onClick={() => setIsAddShortcutOpen(true)} title="Add shortcut">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-[12px] sm:rounded-[14px] flex items-center justify-center bg-white/5 hover:bg-white/20 transition-all border border-dashed border-white/30 hover:border-white/60 text-white shadow-md">
+              <button className="flex flex-col items-center justify-center group w-[60px] sm:w-[72px]" onClick={() => setIsAddShortcutOpen(true)} title="Add shortcut">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center bg-white/5 hover:bg-white/20 transition-all border border-dashed border-white/30 hover:border-white/60 text-white shadow-md">
                   <Plus size={20} className="sm:w-6 sm:h-6" />
                 </div>
-                <span className={`text-[10px] mt-1 font-medium hidden sm:block ${showBackground ? 'text-white/70 group-hover:text-white' : 'text-foreground/70'}`}>Add</span>
+                <span className={`text-[10px] mt-1 font-medium hidden sm:block whitespace-nowrap ${showBackground ? 'text-white/70 group-hover:text-white' : 'text-foreground/70'}`}>Add shortcut</span>
               </button>
             </div>
 
@@ -601,7 +617,7 @@ function App() {
                 </div>
 
                 {}
-                <div className="grid grid-cols-4 gap-3">
+                <div className="grid grid-cols-4 gap-3 mb-6">
                   {['bg-blue-600', 'bg-blue-400', 'bg-blue-200', 'bg-blue-100', 'bg-teal-600', 'bg-teal-400', 'bg-green-600', 'bg-green-400', 'bg-yellow-600', 'bg-yellow-400', 'bg-orange-600', 'bg-orange-400', 'bg-red-400', 'bg-pink-400', 'bg-purple-500', 'bg-indigo-500'].map((color, i) => (
                     <div key={i} className="flex justify-center">
                       <button 
@@ -613,6 +629,30 @@ function App() {
                       />
                     </div>
                   ))}
+                </div>
+
+                <div className="mb-4">
+                  <h3 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">Font Size</h3>
+                  <div className="flex bg-gray-100 dark:bg-gray-800 p-1 rounded-lg">
+                    <button 
+                      onClick={() => setFontScale(0.9)} 
+                      className={`flex-1 py-1.5 text-sm font-medium rounded-md flex items-center justify-center transition-colors ${fontScale === 0.9 ? 'bg-white dark:bg-gray-700 shadow-sm text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'}`}
+                    >
+                      <span className="text-xs">A</span> Small
+                    </button>
+                    <button 
+                      onClick={() => setFontScale(1)} 
+                      className={`flex-1 py-1.5 text-sm font-medium rounded-md flex items-center justify-center transition-colors ${fontScale === 1 ? 'bg-white dark:bg-gray-700 shadow-sm text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'}`}
+                    >
+                      <span className="text-sm">A</span> Default
+                    </button>
+                    <button 
+                      onClick={() => setFontScale(1.1)} 
+                      className={`flex-1 py-1.5 text-sm font-medium rounded-md flex items-center justify-center transition-colors ${fontScale === 1.1 ? 'bg-white dark:bg-gray-700 shadow-sm text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'}`}
+                    >
+                      <span className="text-base font-bold">A</span> Large
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -658,6 +698,51 @@ function App() {
             </div>
             <div className="flex-1 w-full min-w-[280px] lg:w-auto max-w-full lg:max-w-[692px] mt-4 lg:mt-0">
               <SearchBar onSearch={handleSearch} isLoading={isSearching} initialQuery={query} language={language} />
+            </div>
+            
+            <div className="ml-auto flex items-center mt-4 lg:mt-0 pl-4 space-x-3">
+              <button 
+                onClick={() => setIsBookmarksOpen(true)}
+                className="p-2.5 rounded-full bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 hover:bg-gray-50 dark:hover:bg-white/10 text-gray-700 dark:text-gray-300 transition-colors shadow-sm"
+                title="Saved Items"
+              >
+                <Bookmark size={20} />
+              </button>
+
+              {/* User Account / Sign In */}
+              {isLoggedIn ? (
+                <div className="relative">
+                  <div 
+                    className="w-9 h-9 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-sm cursor-pointer shadow-sm ring-2 ring-transparent hover:ring-blue-400 transition-all uppercase"
+                    onClick={() => setShowDropdownApp(!showDropdownApp)}
+                  >
+                    {loggedInEmail ? loggedInEmail.charAt(0) : 'U'}
+                  </div>
+                  {showDropdownApp && (
+                    <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-[#1f1f1f] rounded-xl shadow-lg border border-gray-100 dark:border-gray-700 overflow-hidden z-50">
+                      <div className="p-4 border-b border-gray-100 dark:border-gray-700">
+                        <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">User Account</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{loggedInEmail || 'user@globalsearch.in'}</p>
+                      </div>
+                      <div className="p-2">
+                        <button 
+                          onClick={() => { setIsLoggedIn(false); setShowDropdownApp(false); }}
+                          className="w-full text-left px-3 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
+                        >
+                          Sign Out
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <button 
+                  onClick={() => setShowLoginModalApp(true)}
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-full font-medium transition-colors shadow-sm text-sm"
+                >
+                  Sign In
+                </button>
+              )}
             </div>
           </header>
 
@@ -719,7 +804,7 @@ function App() {
               <p className="text-sm text-foreground/50 mb-4">
                 {getTranslation(language, 'aboutResults').replace('{count}', results.length)}
               </p>
-              <SearchResults results={results} isLoading={isSearching} query={query} onLaunchApp={setCurrentView} activeTab={activeTab} />
+              <SearchResults results={results} isLoading={isSearching} query={query} onLaunchApp={setCurrentView} activeTab={activeTab} isFastMode={isFastMode} />
             </div>
             
             {}
@@ -771,7 +856,6 @@ function App() {
           <CoreNetShowcase onClose={() => setIsShowcaseOpen(false)} />
         )}
         
-        {/* Add Shortcut Modal */}
         {isAddShortcutOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm animate-in fade-in duration-200 p-4">
             <div className="w-full max-w-sm bg-white dark:bg-[#1a1a1c] border border-gray-200 dark:border-white/10 rounded-2xl shadow-2xl flex flex-col transform transition-transform animate-in zoom-in-95 duration-300 overflow-hidden">
@@ -798,27 +882,37 @@ function App() {
                     <div className="relative">
                       <Link2 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                       <input 
-                        type="text" 
+                        type="url" 
                         required
                         value={newShortcutForm.url}
                         onChange={(e) => setNewShortcutForm({...newShortcutForm, url: e.target.value})}
-                        className="w-full bg-gray-50 dark:bg-black/40 border border-gray-300 dark:border-white/10 rounded-lg pl-9 pr-3 py-2 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all"
+                        className="w-full bg-gray-50 dark:bg-black/40 border border-gray-300 dark:border-white/10 rounded-lg py-2 pl-10 pr-3 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all"
                       />
                     </div>
                   </div>
                 </div>
-                <div className="mt-6 flex justify-end space-x-3">
-                  <button type="button" onClick={() => setIsAddShortcutOpen(false)} className="px-4 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors">
-                    Cancel
-                  </button>
-                  <button type="submit" className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors shadow-sm">
-                    Done
-                  </button>
-                </div>
+                <button type="submit" className="w-full mt-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors">
+                  Add Shortcut
+                </button>
               </form>
             </div>
           </div>
         )}
+
+        <BookmarksModal 
+          isOpen={isBookmarksOpen} 
+          onClose={() => setIsBookmarksOpen(false)} 
+        />
+        
+        <LoginModal 
+          isOpen={showLoginModalApp} 
+          onClose={() => setShowLoginModalApp(false)} 
+          onLogin={(email) => { 
+            setIsLoggedIn(true); 
+            setLoggedInEmail(email);
+            setShowLoginModalApp(false); 
+          }} 
+        />
         </>
       )}
 
@@ -845,4 +939,3 @@ function App() {
 }
 
 export default App;
-
