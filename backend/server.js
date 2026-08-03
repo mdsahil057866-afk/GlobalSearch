@@ -11,6 +11,7 @@ const antiHackMiddleware = require('./middleware/antiHackMiddleware');
 const apiRoutes = require('./routes/api');
 const socialRoutes = require('./routes/socialRoutes');
 const videoRoutes = require('./routes/videoRoutes');
+const authRoutes = require('./routes/authRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -34,9 +35,9 @@ io.on('connection', (socket) => {
   console.log('A user connected:', socket.id);
   
   
-  socket.on('join_room', (userId) => {
-    socket.join(userId);
-    console.log(`User ${userId} joined their notification room`);
+  socket.on('join_room', (roomId) => {
+    socket.join(roomId);
+    console.log(`User/Socket joined room: ${roomId}`);
   });
 
   socket.on('disconnect', () => {
@@ -61,6 +62,7 @@ app.use(privacyMiddleware);
 
 
 app.use('/api', apiRoutes);
+app.use('/api/auth', authRoutes);
 app.use('/api/social', socialRoutes);
 app.use('/api/videos', videoRoutes);
 

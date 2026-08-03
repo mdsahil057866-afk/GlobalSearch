@@ -100,6 +100,7 @@ export default function QuickChat({ onBack }) {
   const [loginStep, setLoginStep] = useState('qr_interface');
   const [browserUrlInput, setBrowserUrlInput] = useState('');
   const [loginOtp, setLoginOtp] = useState('');
+  const [qrSessionId, setQrSessionId] = useState(null);
   const [isDownloading, setIsDownloading] = useState(false);
   const [downloadProgress, setDownloadProgress] = useState(0);
   
@@ -136,6 +137,22 @@ export default function QuickChat({ onBack }) {
     
     newSocket.emit('join_room', currentUserId);
 
+    // If not logged in, setup QR session
+    if (!isLoggedIn) {
+      const initQR = async () => {
+        try {
+          const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL || ''}/api/auth/qr/generate`);
+          if (res.data && res.data.sessionId) {
+            setQrSessionId(res.data.sessionId);
+            newSocket.emit('join_room', `qr_${res.data.sessionId}`);
+          }
+        } catch (err) {
+          console.error('Error generating QR session:', err);
+        }
+      };
+      initQR();
+    }
+
     const initChat = async () => {
       try {
         const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL || ''}/api/social/contacts`, { withCredentials: true });
@@ -147,6 +164,14 @@ export default function QuickChat({ onBack }) {
       }
     };
     initChat();
+
+    newSocket.on('qr_authenticated', (data) => {
+      if (data.success) {
+        setIsLoggedIn(true);
+        setCurrentUserId(data.userId);
+        setLoginStep('qr_interface');
+      }
+    });
 
     return () => newSocket.close();
   }, [currentUserId]);
@@ -668,21 +693,35 @@ export default function QuickChat({ onBack }) {
     }
   };
 
-  const handlePhoneSubmit = (e) => {
+  const handlePhoneSubmit = async (e) => {
     e.preventDefault();
     if (loginPhone.trim()) {
-      setLoginStep('otp');
+      try {
+        await axios.post(`${import.meta.env.VITE_BACKEND_URL || ''}/api/auth/send-otp`, { phone: loginPhone });
+        setLoginStep('otp');
+      } catch (err) {
+        console.error('Failed to send OTP:', err);
+        alert(err.response?.data?.error || 'Failed to send OTP');
+      }
     }
   };
 
-  const handleOtpSubmit = (e) => {
+  const handleOtpSubmit = async (e) => {
     e.preventDefault();
     if (loginOtp.trim()) {
-      setLoginStep('verifying');
-      setTimeout(() => {
-        setIsLoggedIn(true);
-        setLoginStep('phone');
-      }, 2000);
+      try {
+        setLoginStep('verifying');
+        const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL || ''}/api/auth/verify-otp`, { phone: loginPhone, otp: loginOtp });
+        if (res.data && res.data.success) {
+          setIsLoggedIn(true);
+          setCurrentUserId(res.data.userId);
+          setLoginStep('qr_interface');
+        }
+      } catch (err) {
+        console.error('Failed to verify OTP:', err);
+        alert(err.response?.data?.error || 'Invalid OTP');
+        setLoginStep('otp');
+      }
     }
   };
 
@@ -774,20 +813,35 @@ export default function QuickChat({ onBack }) {
                   </div>
 
                   <div className="mt-10 lg:mt-0 flex flex-col items-center justify-center">
-                    <div className="relative p-2 cursor-pointer group" onClick={() => {
-                        setLoginStep('qr_verifying');
-                        setTimeout(() => {
-                          setIsLoggedIn(true);
-                          setLoginStep('qr_interface');
-                        }, 2000);
-                      }}>
-                      <img src="https://api.qrserver.com/v1/create-qr-code/?size=264x264&data=QuickChat_Secure_Login_Demo" alt="QR Code" className="w-[264px] h-[264px] object-contain opacity-90 group-hover:opacity-100 transition-opacity" />
-                      <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="relative p-2 group">
+                      {qrSessionId ? (
+                        <img src={`https://api.qrserver.com/v1/create-qr-code/?size=264x264&data=${qrSessionId}`} alt="QR Code" className="w-[264px] h-[264px] object-contain opacity-90 group-hover:opacity-100 transition-opacity" />
+                      ) : (
+                        <div className="w-[264px] h-[264px] bg-gray-200 animate-pulse flex items-center justify-center text-gray-500">Generating QR...</div>
+                      )}
+                      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                         <div className="bg-white p-1 rounded-full shadow-md">
                           <img src={chatLogoImg} className="w-12 h-12 rounded-full" alt="logo" />
                         </div>
                       </div>
                     </div>
+                    {qrSessionId && (
+                      <button 
+                        className="mt-6 px-4 py-2 bg-blue-100 text-blue-700 font-medium rounded hover:bg-blue-200 transition-colors text-sm"
+                        onClick={async () => {
+                          try {
+                            setLoginStep('qr_verifying');
+                            await axios.post(`${import.meta.env.VITE_BACKEND_URL || ''}/api/auth/qr/scan`, { sessionId: qrSessionId });
+                            // The socket listener for 'qr_authenticated' will handle the rest
+                          } catch (err) {
+                            console.error('Simulated scan failed:', err);
+                            setLoginStep('qr_interface');
+                          }
+                        }}
+                      >
+                        Simulate Mobile Scan
+                      </button>
+                    )}
                   </div>
                 </div>
 

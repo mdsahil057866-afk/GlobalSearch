@@ -60,8 +60,21 @@ function App() {
   const [customColor, setCustomColor] = useState('');
   const [customBackgroundImage, setCustomBackgroundImage] = useState('');
   const [isLanguageModalOpen, setIsLanguageModalOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [loggedInEmail, setLoggedInEmail] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(() => {
+    return localStorage.getItem('gs_is_logged_in') === 'true';
+  });
+  const [loggedInEmail, setLoggedInEmail] = useState(() => {
+    return localStorage.getItem('gs_logged_in_email') || '';
+  });
+
+  useEffect(() => {
+    localStorage.setItem('gs_is_logged_in', isLoggedIn);
+    if (loggedInEmail) {
+      localStorage.setItem('gs_logged_in_email', loggedInEmail);
+    } else {
+      localStorage.removeItem('gs_logged_in_email');
+    }
+  }, [isLoggedIn, loggedInEmail]);
   const [currentView, setCurrentView] = useState('search');
   const [activeTab, setActiveTab] = useState('all');
   const [isShowcaseOpen, setIsShowcaseOpen] = useState(false);
@@ -374,7 +387,7 @@ function App() {
   };
 
   return (
-    <div className={`min-h-screen flex flex-col relative ${(!hasSearched && showBackground && currentView === 'search') ? 'bg-transparent' : (!hasSearched && !showBackground && customColor && currentView === 'search') ? customColor : 'bg-background'} transition-colors duration-300`}>
+    <div className={`min-h-[100dvh] flex flex-col relative overflow-x-hidden ${(!hasSearched && showBackground && currentView === 'search') ? 'bg-transparent' : (!hasSearched && !showBackground && customColor && currentView === 'search') ? customColor : 'bg-background'} transition-colors duration-300`}>
       {currentView === 'mail' ? (
         <MailInbox 
           userEmail={loggedInEmail} 
@@ -461,28 +474,28 @@ function App() {
               )}
             </div>
           )}
-          <main className="flex-1 flex flex-col items-center justify-center px-4 w-full relative pt-12 sm:pt-16">
+          <main className="flex-1 flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 w-full max-w-full relative pt-12 sm:pt-16 mt-[-5vh]">
             
             {/* Logo */}
             <div className={`relative mb-8 flex flex-col items-center justify-center cursor-default select-none ${showBackground ? 'drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]' : 'drop-shadow-sm'}`}>
-              <h1 className="flex items-center text-5xl sm:text-7xl md:text-8xl font-extrabold tracking-tighter drop-shadow-2xl">
+              <h1 className="flex items-center justify-center flex-wrap text-5xl sm:text-7xl md:text-8xl lg:text-[6rem] font-extrabold tracking-tighter drop-shadow-2xl text-center">
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400">Global</span>
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-200">Search</span>
               </h1>
             </div>
 
-            <div className="w-full z-10 pb-8 sm:pb-0">
+            <div className="w-full max-w-[95vw] sm:max-w-[600px] md:max-w-[700px] mx-auto z-10 pb-8 sm:pb-0 transition-all duration-300">
               <SearchBar onSearch={handleSearch} isLoading={isSearching} initialQuery={query} language={language} />
             </div>
           </main>
 
           {/* Floating Dock (Menu Bar) */}
-          <nav className="fixed bottom-16 sm:bottom-12 left-1/2 -translate-x-1/2 z-50 glass-premium px-4 sm:px-6 py-2.5 sm:py-3 rounded-[2rem] flex items-center space-x-3 sm:space-x-6 shadow-[0_10px_40px_rgba(0,0,0,0.5)] border border-white/10 w-max max-w-[95vw] overflow-x-auto hide-scrollbar">
+          <nav className="fixed bottom-6 sm:bottom-12 left-1/2 -translate-x-1/2 z-50 glass-premium px-3 sm:px-6 py-2.5 sm:py-3 rounded-3xl sm:rounded-full flex items-center justify-start sm:justify-center space-x-4 sm:space-x-6 shadow-[0_10px_40px_rgba(0,0,0,0.5)] border border-white/10 w-[95vw] sm:w-max max-w-4xl overflow-x-auto overflow-y-hidden hide-scrollbar scroll-smooth">
             
             {/* Language Selector */}
             <button 
               onClick={() => setIsLanguageModalOpen(true)}
-              className="flex flex-col items-center justify-center group w-12 sm:w-14"
+              className="flex flex-col items-center justify-center group flex-shrink-0 w-12 sm:w-14"
               title="Change Language"
             >
               <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-[12px] sm:rounded-[14px] flex items-center justify-center transition-all ${showBackground ? 'bg-white/10 hover:bg-white/20 text-white shadow-md border border-white/10' : 'bg-gray-100 hover:bg-gray-200 text-gray-800'}`}>
@@ -491,12 +504,12 @@ function App() {
               <span className={`text-[10px] mt-1 font-medium hidden sm:block ${showBackground ? 'text-white/70 group-hover:text-white' : 'text-foreground/70'}`}>{language.substring(0, 3).toUpperCase()}</span>
             </button>
 
-            <div className="w-px h-8 bg-white/20 mx-1 sm:mx-2"></div>
+            <div className="w-[1px] h-8 bg-white/20 flex-shrink-0"></div>
 
             {/* App Shortcuts */}
             <div className="flex items-center space-x-3 sm:space-x-4">
               {userShortcuts.map((shortcut, idx) => (
-                <button key={idx} className="flex flex-col items-center justify-center group w-12 sm:w-14" onClick={shortcut.action ? shortcut.action : undefined} title={shortcut.name}>
+                <button key={idx} className="flex flex-col items-center justify-center group flex-shrink-0 w-12 sm:w-14" onClick={shortcut.action ? shortcut.action : undefined} title={shortcut.name}>
                   <div 
                     className={`w-10 h-10 sm:w-12 sm:h-12 rounded-[12px] sm:rounded-[14px] flex items-center justify-center hover:scale-110 transition-transform shadow-md overflow-hidden ${shortcut.bg === 'transparent' ? 'border border-white/10' : (shortcut.bg === 'white/20' ? 'bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-md' : 'border border-white/10')}`}
                     style={{ background: shortcut.bg !== 'white/20' && shortcut.bg !== 'transparent' ? shortcut.bg : undefined }}
@@ -513,7 +526,7 @@ function App() {
                 </button>
               ))}
               
-              <button className="flex flex-col items-center justify-center group w-[60px] sm:w-[72px]" onClick={() => setIsAddShortcutOpen(true)} title="Add shortcut">
+              <button className="flex flex-col items-center justify-center group flex-shrink-0 w-[60px] sm:w-[72px]" onClick={() => setIsAddShortcutOpen(true)} title="Add shortcut">
                 <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center bg-white/5 hover:bg-white/20 transition-all border border-dashed border-white/30 hover:border-white/60 text-white shadow-md">
                   <Plus size={20} className="sm:w-6 sm:h-6" />
                 </div>
@@ -521,11 +534,11 @@ function App() {
               </button>
             </div>
 
-            <div className="w-px h-8 bg-white/20 mx-1 sm:mx-2"></div>
+            <div className="w-[1px] h-8 bg-white/20 flex-shrink-0"></div>
 
             {/* AI Voice Orb */}
             <button 
-              className="flex flex-col items-center justify-center group w-12 sm:w-14"
+              className="flex flex-col items-center justify-center group flex-shrink-0 w-12 sm:w-14"
               onClick={handleOrbVoiceSearch}
               title="Voice Search"
             >

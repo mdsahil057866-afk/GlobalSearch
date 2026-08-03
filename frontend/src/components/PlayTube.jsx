@@ -49,6 +49,10 @@ export default function PlayTube({ onBack }) {
   const [showControls, setShowControls] = useState(false);
   const [autoPlay, setAutoPlay] = useState(true);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [uploadFile, setUploadFile] = useState(null);
+  const [uploadTitle, setUploadTitle] = useState('');
+  const [uploadDescription, setUploadDescription] = useState('');
+  const [isUploading, setIsUploading] = useState(false);
 
   useEffect(() => {
     const fetchVideos = async () => {
@@ -130,6 +134,46 @@ export default function PlayTube({ onBack }) {
     return videos;
   };
 
+  const handleUpload = async () => {
+    if (!uploadFile) {
+      alert("Please select a video file first");
+      return;
+    }
+    setIsUploading(true);
+    const formData = new FormData();
+    formData.append('video', uploadFile);
+    formData.append('title', uploadTitle || 'Untitled Video');
+    formData.append('description', uploadDescription);
+    formData.append('category', activeCategory !== 'All' ? activeCategory : 'General');
+    formData.append('isShort', creationMode === 'short');
+    formData.append('channelName', 'My Channel');
+
+    try {
+      await axios.post(`${import.meta.env.VITE_BACKEND_URL || ''}/api/videos/upload`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'x-user-id': 'current_user'
+        }
+      });
+      alert('Video uploaded successfully!');
+      
+      const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL || ''}/api/videos`);
+      if (res.data && res.data.length > 0) {
+        setDbVideos(res.data);
+      }
+      
+      setCreationMode(null);
+      setUploadFile(null);
+      setUploadTitle('');
+      setUploadDescription('');
+    } catch (err) {
+      console.error('Upload failed', err);
+      alert('Failed to upload video');
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
   const renderCreationStudio = () => {
     return (
       <div className="flex flex-col w-full h-[calc(100vh-4rem)] p-4 md:p-6 animate-in fade-in zoom-in duration-500">
@@ -147,13 +191,14 @@ export default function PlayTube({ onBack }) {
             </h2>
           </div>
           <button 
-            className="px-6 py-2 bg-gradient-to-r from-[#FF0000] to-[#FF9933] rounded-full font-bold text-white shadow-[0_0_15px_rgba(255,153,51,0.4)] hover:opacity-90 transition-opacity"
-            onClick={() => {
+            className="px-6 py-2 bg-gradient-to-r from-[#FF0000] to-[#FF9933] rounded-full font-bold text-white shadow-[0_0_15px_rgba(255,153,51,0.4)] hover:opacity-90 transition-opacity disabled:opacity-50"
+            onClick={creationMode === 'ai' ? () => {
               alert('Video rendering and publishing to GlobalNet ecosystem...');
               setCreationMode(null);
-            }}
+            } : handleUpload}
+            disabled={isUploading}
           >
-            Publish
+            {isUploading ? 'Uploading...' : 'Publish'}
           </button>
         </div>
 
@@ -176,53 +221,53 @@ export default function PlayTube({ onBack }) {
                </button>
              </div>
           ) : (
-             <>
-               <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/90 z-10 pointer-events-none"></div>
-               {}
-               <div 
-                 className="absolute inset-0 w-full h-full opacity-30 bg-cover bg-center" 
-                 style={{ 
-                   backgroundImage: `url("https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=2000&auto=format&fit=crop"), repeating-linear-gradient(45deg, #050505 0px, #050505 10px, #1a1a1a 10px, #1a1a1a 20px)` 
-                 }}
-               />
+             <div className="w-full max-w-3xl p-6 md:p-10 bg-white/5 border border-white/10 rounded-2xl backdrop-blur-md relative overflow-hidden flex flex-col items-center">
+               <h3 className="text-xl font-bold text-white mb-6">Upload Video File</h3>
                
-               {}
-               <div className="absolute inset-0 z-10 pointer-events-none flex items-center justify-center opacity-30">
-                  <div className="w-[85%] h-[80%] border border-white/50 relative">
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-[1px] bg-white/50"></div>
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-8 w-[1px] bg-white/50"></div>
-                    
-                    {}
-                    <div className="absolute -top-[1px] -left-[1px] w-6 h-6 border-t-4 border-l-4 border-white"></div>
-                    <div className="absolute -top-[1px] -right-[1px] w-6 h-6 border-t-4 border-r-4 border-white"></div>
-                    <div className="absolute -bottom-[1px] -left-[1px] w-6 h-6 border-b-4 border-l-4 border-white"></div>
-                    <div className="absolute -bottom-[1px] -right-[1px] w-6 h-6 border-b-4 border-r-4 border-white"></div>
-                  </div>
+               <div className="w-full mb-4">
+                 <label className="block text-gray-300 text-sm font-medium mb-2">Video Title</label>
+                 <input 
+                   type="text" 
+                   value={uploadTitle}
+                   onChange={(e) => setUploadTitle(e.target.value)}
+                   placeholder="Enter video title" 
+                   className="w-full bg-black/50 border border-white/10 rounded-lg p-3 text-white focus:outline-none focus:border-blue-500/50"
+                 />
                </div>
-               
-               <div className="z-20 text-center flex flex-col items-center absolute bottom-10 w-full">
-                 <div 
-                   onClick={() => setIsRecording(!isRecording)}
-                   className={`w-20 h-20 bg-black/50 border-2 ${isRecording ? 'border-[#FF0000]' : 'border-white/40'} rounded-full flex items-center justify-center mb-6 cursor-pointer hover:border-[#FF0000] hover:bg-[#FF0000]/20 transition-all group shadow-[0_0_30px_rgba(0,0,0,0.5)]`}
-                 >
-                    <div className={`w-14 h-14 bg-[#FF0000] ${isRecording ? 'rounded-lg scale-75' : 'rounded-full group-hover:scale-90'} transition-all duration-300 shadow-[0_0_20px_#FF0000]`}></div>
+
+               <div className="w-full mb-6">
+                 <label className="block text-gray-300 text-sm font-medium mb-2">Description</label>
+                 <textarea 
+                   value={uploadDescription}
+                   onChange={(e) => setUploadDescription(e.target.value)}
+                   placeholder="Describe your video" 
+                   className="w-full h-24 bg-black/50 border border-white/10 rounded-lg p-3 text-white focus:outline-none focus:border-blue-500/50 resize-none"
+                 />
+               </div>
+
+               <div className="w-full flex items-center justify-center bg-black/40 border-2 border-dashed border-white/20 rounded-xl p-8 hover:border-[#FF9933]/50 transition-colors cursor-pointer relative">
+                 <input 
+                   type="file" 
+                   accept="video/*" 
+                   className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                   onChange={(e) => {
+                     if (e.target.files && e.target.files[0]) {
+                       setUploadFile(e.target.files[0]);
+                       if (!uploadTitle) {
+                         setUploadTitle(e.target.files[0].name.split('.')[0]);
+                       }
+                     }
+                   }}
+                 />
+                 <div className="flex flex-col items-center pointer-events-none">
+                   <Video size={48} className="text-gray-400 mb-4" />
+                   <p className="text-white font-medium text-lg">
+                     {uploadFile ? uploadFile.name : 'Select a video file to upload'}
+                   </p>
+                   <p className="text-gray-500 text-sm mt-2">MP4, WebM, or OGG up to 2GB</p>
                  </div>
-                 <h3 className="text-white font-bold text-lg mb-1">{isRecording ? '00:00:12' : 'Ready to Record'}</h3>
-                 <p className="text-gray-400 text-sm max-w-sm px-4">
-                   {creationMode === 'short' ? 'Recording up to 60s. Auto-framing and AR filters are active.' : 'Recording in 8K cinematic mode. Neural-audio sync active.'}
-                 </p>
                </div>
-               
-               {}
-               <div className="absolute right-4 md:right-6 top-1/2 -translate-y-1/2 flex flex-col space-y-4 z-20">
-                 {['Filters', 'Retouch', 'Audio', 'Speed', 'Timer'].map((tool, i) => (
-                   <button key={i} className="w-12 h-12 bg-black/50 border border-white/10 rounded-full flex flex-col items-center justify-center hover:bg-white/20 transition-colors text-white text-[9px] font-medium backdrop-blur-md">
-                     <Sparkles size={16} className="mb-1" />
-                     {tool}
-                   </button>
-                 ))}
-               </div>
-             </>
+             </div>
           )}
         </div>
       </div>
