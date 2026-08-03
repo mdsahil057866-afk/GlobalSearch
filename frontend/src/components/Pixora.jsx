@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { ArrowLeft, Home, Search, PlusSquare, PlayCircle, User, Heart, MessageCircle, Share2, MoreHorizontal, X, AlertTriangle, CheckCircle, Loader2, Image as ImageIcon, WifiOff, ShieldCheck, Phone, Video, Send } from 'lucide-react';
+import { ArrowLeft, Home, Search, PlusSquare, PlayCircle, User, Heart, MessageCircle, Share2, MoreHorizontal, X, AlertTriangle, CheckCircle, Loader2, Image as ImageIcon, WifiOff, ShieldCheck, Phone, Video, Send, Music } from 'lucide-react';
 import socialLogoImg from '../assets/pixora_logo.png';
 
 export default function Pixora({ onBack }) {
@@ -38,6 +38,15 @@ export default function Pixora({ onBack }) {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [newPostCaption, setNewPostCaption] = useState('');
   const [selectedMedia, setSelectedMedia] = useState(null);
+  const [selectedMusic, setSelectedMusic] = useState(null);
+  const [isMusicModalOpen, setIsMusicModalOpen] = useState(false);
+  
+  const musicOptions = [
+    { id: 1, title: 'Cyberpunk Neon Drift', artist: 'HoloBeats', duration: '2:15' },
+    { id: 2, title: 'Delhi 2050 Theme', artist: 'SitaVR', duration: '3:05' },
+    { id: 3, title: 'Trending Bass Drops', artist: 'DJ AI', duration: '1:45' },
+    { id: 4, title: 'Lo-Fi Chill (Desi Edit)', artist: 'Varanasi Loops', duration: '2:30' }
+  ];
   
   const [isMeshActive, setIsMeshActive] = useState(false);
   const [isGuardianActive, setIsGuardianActive] = useState(true);
@@ -107,6 +116,7 @@ export default function Pixora({ onBack }) {
       setIsCreateModalOpen(false);
       setNewPostCaption('');
       setSelectedMedia(null);
+      setSelectedMusic(null);
       setCurrentTab('Home'); 
     } catch (error) {
       console.error('Failed to create post:', error);
@@ -472,7 +482,40 @@ export default function Pixora({ onBack }) {
       {/* Create Post Modal */}
       {isCreateModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="bg-[#1a1a1a] border border-white/20 rounded-2xl w-full max-w-lg overflow-hidden shadow-2xl flex flex-col">
+          <div className="bg-[#1a1a1a] border border-white/20 rounded-2xl w-full max-w-lg overflow-hidden shadow-2xl flex flex-col relative">
+            
+            {/* Music Selection Sub-Modal */}
+            {isMusicModalOpen && (
+               <div className="absolute inset-0 bg-[#1a1a1a] z-20 flex flex-col animate-in slide-in-from-bottom-4 duration-200">
+                 <div className="flex items-center p-4 border-b border-white/10">
+                   <button onClick={() => setIsMusicModalOpen(false)} className="text-gray-400 hover:text-white mr-4"><ArrowLeft size={24} /></button>
+                   <h3 className="font-semibold text-lg flex-1 text-center">Add Music</h3>
+                   <div className="w-6"></div>
+                 </div>
+                 <div className="p-4">
+                   <div className="relative mb-4">
+                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
+                     <input type="text" placeholder="Search music..." className="w-full bg-white/5 border border-white/10 rounded-lg py-2.5 pl-10 pr-4 text-sm text-white focus:outline-none focus:border-[#FF00FF]" />
+                   </div>
+                   <div className="space-y-2 overflow-y-auto max-h-[300px] hide-scrollbar">
+                     {musicOptions.map(track => (
+                       <div key={track.id} onClick={() => { setSelectedMusic(track); setIsMusicModalOpen(false); }} className="flex items-center justify-between p-3 bg-white/5 hover:bg-white/10 rounded-xl cursor-pointer transition-colors border border-transparent hover:border-[#FF00FF]/30">
+                         <div className="flex items-center">
+                           <div className="w-10 h-10 rounded-lg bg-gradient-to-tr from-[#138808] via-[#FF9933] to-[#FF00FF] p-[1px] mr-3">
+                             <div className="w-full h-full bg-black rounded-lg flex items-center justify-center"><Music size={16} className="text-white" /></div>
+                           </div>
+                           <div>
+                             <p className="text-sm font-medium text-white">{track.title}</p>
+                             <p className="text-xs text-gray-400">{track.artist}</p>
+                           </div>
+                         </div>
+                         <span className="text-xs text-gray-500">{track.duration}</span>
+                       </div>
+                     ))}
+                   </div>
+                 </div>
+               </div>
+            )}
             {/* Modal Header */}
             <div className="flex items-center justify-between p-4 border-b border-white/10">
               <h3 className="font-semibold text-lg">Create New Post</h3>
@@ -481,6 +524,7 @@ export default function Pixora({ onBack }) {
                   setIsCreateModalOpen(false);
                   setNewPostCaption('');
                   setSelectedMedia(null);
+                  setSelectedMusic(null);
                 }}
                 className="text-gray-400 hover:text-white transition-colors p-1 rounded-full hover:bg-white/10"
               >
@@ -516,21 +560,44 @@ export default function Pixora({ onBack }) {
               </label>
               
               <textarea 
-                className="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-white placeholder-gray-500 focus:outline-none focus:border-[#FF00FF] transition-colors resize-none mb-6"
+                className="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-white placeholder-gray-500 focus:outline-none focus:border-[#FF00FF] transition-colors resize-none mb-4"
                 rows="3"
                 placeholder="Write a caption for your post..."
                 value={newPostCaption}
                 onChange={(e) => setNewPostCaption(e.target.value)}
               ></textarea>
 
-
+              {/* Music Selection */}
+              <div className="mb-6">
+                {!selectedMusic ? (
+                  <button 
+                    onClick={() => setIsMusicModalOpen(true)}
+                    className="w-full bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl p-3 text-gray-300 flex items-center justify-center transition-colors"
+                  >
+                    <Music size={18} className="mr-2 text-[#FF00FF]" /> Add Music
+                  </button>
+                ) : (
+                  <div className="w-full bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-[#FF00FF]/30 rounded-xl p-3 flex items-center justify-between">
+                    <div className="flex items-center">
+                      <Music size={18} className="mr-3 text-[#FF00FF] animate-pulse" />
+                      <div>
+                        <p className="text-sm text-white font-medium">{selectedMusic.title}</p>
+                        <p className="text-xs text-gray-400">{selectedMusic.artist}</p>
+                      </div>
+                    </div>
+                    <button onClick={() => setSelectedMusic(null)} className="text-gray-400 hover:text-white p-1 bg-black/20 rounded-full hover:bg-black/40 transition-colors">
+                      <X size={16} />
+                    </button>
+                  </div>
+                )}
+              </div>
 
               <button 
                 onClick={handlePostSubmit}
-                disabled={!newPostCaption.trim()}
-                className={`w-full py-3 rounded-xl font-bold transition-all ${!newPostCaption.trim() ? 'bg-white/10 text-gray-500 cursor-not-allowed' : 'bg-gradient-to-r from-[#FF9933] to-[#FF00FF] hover:opacity-90 text-white shadow-lg shadow-purple-500/20'}`}
+                disabled={!newPostCaption.trim() && !selectedMedia}
+                className={`w-full py-3 rounded-xl font-bold transition-all ${!newPostCaption.trim() && !selectedMedia ? 'bg-white/10 text-gray-500 cursor-not-allowed' : 'bg-gradient-to-r from-[#FF9933] to-[#FF00FF] hover:opacity-90 text-white shadow-lg shadow-purple-500/20'}`}
               >
-                Post Video
+                Post Video / Image
               </button>
             </div>
           </div>

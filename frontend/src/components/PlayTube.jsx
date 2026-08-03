@@ -53,6 +53,16 @@ export default function PlayTube({ onBack }) {
   const [uploadTitle, setUploadTitle] = useState('');
   const [uploadDescription, setUploadDescription] = useState('');
   const [isUploading, setIsUploading] = useState(false);
+  const [selectedMusic, setSelectedMusic] = useState('');
+  const [selectedFilter, setSelectedFilter] = useState('Normal');
+  const [videoSpeed, setVideoSpeed] = useState('1x');
+  const [videoQuality, setVideoQuality] = useState('1080p');
+  const [isSubscribed, setIsSubscribed] = useState(false);
+  const [bellActive, setBellActive] = useState(false);
+  const [uploadVisibility, setUploadVisibility] = useState('Public');
+  const [studioTab, setStudioTab] = useState('Dashboard');
+  const [isPremium, setIsPremium] = useState(false);
+  const [showPremiumToast, setShowPremiumToast] = useState(false);
 
   useEffect(() => {
     const fetchVideos = async () => {
@@ -87,8 +97,11 @@ export default function PlayTube({ onBack }) {
       const dict = {
         'Home': 'मुख्य पृष्ठ',
         'Subscriptions': 'सदस्यताएं',
+        'Music': 'संगीत',
         'Gaming': 'गेमिंग',
         'Education': 'शिक्षा',
+        'Shopping': 'खरीदारी',
+        'Trending': 'ट्रेंडिंग',
         'Dashboard': 'डैशबोर्ड',
         'Play Shorts': 'प्ले शॉर्ट्स',
         'All': 'सभी',
@@ -111,8 +124,11 @@ export default function PlayTube({ onBack }) {
     { name: 'Home', icon: Home },
     { name: 'Play Shorts', icon: AudioWaveform },
     { name: 'Subscriptions', icon: PlaySquare },
+    { name: 'Music', icon: Volume2 },
     { name: 'Gaming', icon: Gamepad2 },
     { name: 'Education', icon: GraduationCap },
+    { name: 'Shopping', icon: ShoppingBag },
+    { name: 'Trending', icon: TrendingUp },
     { name: 'Dashboard', icon: LayoutDashboard },
   ];
 
@@ -147,6 +163,11 @@ export default function PlayTube({ onBack }) {
     formData.append('category', activeCategory !== 'All' ? activeCategory : 'General');
     formData.append('isShort', creationMode === 'short');
     formData.append('channelName', 'My Channel');
+    formData.append('music', selectedMusic);
+    formData.append('filter', selectedFilter);
+    formData.append('speed', videoSpeed);
+    formData.append('quality', videoQuality);
+    formData.append('visibility', uploadVisibility);
 
     try {
       await axios.post(`${import.meta.env.VITE_BACKEND_URL || ''}/api/videos/upload`, formData, {
@@ -166,6 +187,11 @@ export default function PlayTube({ onBack }) {
       setUploadFile(null);
       setUploadTitle('');
       setUploadDescription('');
+      setSelectedMusic('');
+      setSelectedFilter('Normal');
+      setVideoSpeed('1x');
+      setVideoQuality('1080p');
+      setUploadVisibility('Public');
     } catch (err) {
       console.error('Upload failed', err);
       alert('Failed to upload video');
@@ -203,7 +229,46 @@ export default function PlayTube({ onBack }) {
         </div>
 
         <div className="flex-1 bg-black/60 border border-white/10 rounded-2xl relative overflow-hidden flex flex-col items-center justify-center">
-          {creationMode === 'ai' ? (
+          {creationMode === 'live' ? (
+             <div className="w-full max-w-4xl p-6 md:p-8 bg-white/5 border border-white/10 rounded-2xl backdrop-blur-md relative overflow-y-auto max-h-[70vh] hide-scrollbar">
+               <div className="flex items-center justify-between mb-6 border-b border-white/10 pb-4">
+                 <h3 className="text-2xl font-bold text-white flex items-center"><span className="w-3 h-3 bg-red-500 rounded-full mr-3 animate-pulse"></span> Live Control Room</h3>
+               </div>
+               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                 <div className="md:col-span-2 space-y-6">
+                   <div className="bg-black/50 border border-white/10 rounded-xl p-4">
+                     <h4 className="text-white font-medium mb-3">Stream Setup</h4>
+                     <label className="block text-gray-400 text-xs mb-1">Stream Key (Keep this secret)</label>
+                     <div className="flex">
+                       <input type="password" value="live_123456789_abcdefghijklmnop" readOnly className="flex-1 bg-black/80 border border-white/10 rounded-l-lg p-2 text-white font-mono text-sm outline-none" />
+                       <button className="bg-white/10 border border-l-0 border-white/10 rounded-r-lg px-4 text-sm font-medium hover:bg-white/20 transition-colors">Copy</button>
+                     </div>
+                     <label className="block text-gray-400 text-xs mb-1 mt-4">Stream URL</label>
+                     <div className="flex">
+                       <input type="text" value="rtmp://a.rtmp.playtube.com/live2" readOnly className="flex-1 bg-black/80 border border-white/10 rounded-l-lg p-2 text-white font-mono text-sm outline-none" />
+                       <button className="bg-white/10 border border-l-0 border-white/10 rounded-r-lg px-4 text-sm font-medium hover:bg-white/20 transition-colors">Copy</button>
+                     </div>
+                   </div>
+                   <div className="bg-black/50 border border-white/10 rounded-xl p-4">
+                     <h4 className="text-white font-medium mb-3">Stream Details</h4>
+                     <input type="text" placeholder="Live Stream Title" className="w-full bg-white/5 border border-white/10 rounded-lg p-2 mb-3 text-white text-sm outline-none focus:border-red-500/50" />
+                     <textarea placeholder="Tell viewers about your stream..." className="w-full h-20 bg-white/5 border border-white/10 rounded-lg p-2 text-white text-sm outline-none focus:border-red-500/50 resize-none"></textarea>
+                   </div>
+                 </div>
+                 <div className="space-y-6">
+                   <div className="bg-black/50 border border-white/10 rounded-xl p-4 h-full flex flex-col">
+                     <h4 className="text-white font-medium mb-3 flex items-center justify-between">Live Chat <span className="text-xs bg-white/10 px-2 py-0.5 rounded text-gray-400">Enabled</span></h4>
+                     <div className="flex-1 bg-white/5 border border-white/10 rounded-lg p-3 min-h-[200px] flex items-center justify-center text-gray-500 text-sm text-center">
+                       Waiting for stream to begin...<br/>Chat will appear here.
+                     </div>
+                   </div>
+                 </div>
+               </div>
+               <div className="mt-6 flex justify-end">
+                 <button onClick={() => alert('Starting live stream...')} className="px-8 py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl shadow-[0_0_20px_rgba(220,38,38,0.4)] transition-all">Go Live Now</button>
+               </div>
+             </div>
+          ) : creationMode === 'ai' ? (
              <div className="w-full max-w-3xl p-6 md:p-10 bg-white/5 border border-white/10 rounded-2xl backdrop-blur-md relative overflow-hidden group">
                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                <h3 className="text-xl font-bold text-white mb-2 relative z-10">Prompt your imagination</h3>
@@ -221,50 +286,143 @@ export default function PlayTube({ onBack }) {
                </button>
              </div>
           ) : (
-             <div className="w-full max-w-3xl p-6 md:p-10 bg-white/5 border border-white/10 rounded-2xl backdrop-blur-md relative overflow-hidden flex flex-col items-center">
-               <h3 className="text-xl font-bold text-white mb-6">Upload Video File</h3>
+             <div className="w-full max-w-4xl p-6 md:p-8 bg-white/5 border border-white/10 rounded-2xl backdrop-blur-md relative overflow-y-auto max-h-[70vh] hide-scrollbar">
+               <h3 className="text-xl font-bold text-white mb-6 text-center">Upload Video File</h3>
                
-               <div className="w-full mb-4">
-                 <label className="block text-gray-300 text-sm font-medium mb-2">Video Title</label>
-                 <input 
-                   type="text" 
-                   value={uploadTitle}
-                   onChange={(e) => setUploadTitle(e.target.value)}
-                   placeholder="Enter video title" 
-                   className="w-full bg-black/50 border border-white/10 rounded-lg p-3 text-white focus:outline-none focus:border-blue-500/50"
-                 />
+               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                 <div className="space-y-4">
+                   <div>
+                     <label className="block text-gray-300 text-sm font-medium mb-2">Video Title</label>
+                     <input 
+                       type="text" 
+                       value={uploadTitle}
+                       onChange={(e) => setUploadTitle(e.target.value)}
+                       placeholder="Enter video title" 
+                       className="w-full bg-black/50 border border-white/10 rounded-lg p-3 text-white focus:outline-none focus:border-[#FF9933]/50 transition-colors"
+                     />
+                   </div>
+                   <div>
+                     <label className="block text-gray-300 text-sm font-medium mb-2">Description</label>
+                     <textarea 
+                       value={uploadDescription}
+                       onChange={(e) => setUploadDescription(e.target.value)}
+                       placeholder="Describe your video" 
+                       className="w-full h-24 bg-black/50 border border-white/10 rounded-lg p-3 text-white focus:outline-none focus:border-[#FF9933]/50 resize-none transition-colors"
+                     />
+                   </div>
+                 </div>
+
+                 <div className="flex flex-col">
+                   <label className="block text-gray-300 text-sm font-medium mb-2">Media File</label>
+                   <div className="flex-1 w-full flex items-center justify-center bg-black/40 border-2 border-dashed border-white/20 rounded-xl p-6 hover:border-[#FF9933]/50 transition-colors cursor-pointer relative min-h-[160px]">
+                     <input 
+                       type="file" 
+                       accept="video/*" 
+                       className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                       onChange={(e) => {
+                         if (e.target.files && e.target.files[0]) {
+                           setUploadFile(e.target.files[0]);
+                           if (!uploadTitle) {
+                             setUploadTitle(e.target.files[0].name.split('.')[0]);
+                           }
+                         }
+                       }}
+                     />
+                     <div className="flex flex-col items-center pointer-events-none text-center">
+                       <Video size={36} className="text-[#FF9933] mb-3" />
+                       <p className="text-white font-medium text-sm">
+                         {uploadFile ? uploadFile.name : 'Select a video file to upload'}
+                       </p>
+                       <p className="text-gray-500 text-xs mt-1">MP4, WebM, or OGG up to 2GB</p>
+                     </div>
+                   </div>
+                 </div>
                </div>
 
-               <div className="w-full mb-6">
-                 <label className="block text-gray-300 text-sm font-medium mb-2">Description</label>
-                 <textarea 
-                   value={uploadDescription}
-                   onChange={(e) => setUploadDescription(e.target.value)}
-                   placeholder="Describe your video" 
-                   className="w-full h-24 bg-black/50 border border-white/10 rounded-lg p-3 text-white focus:outline-none focus:border-blue-500/50 resize-none"
-                 />
-               </div>
+               {/* Advanced Upload Settings */}
+               <h4 className="text-lg font-bold text-white mb-4 border-b border-white/10 pb-2">Advanced Features</h4>
+               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                 {/* Music Selection */}
+                 <div className="bg-black/30 border border-white/5 rounded-xl p-3">
+                   <label className="flex items-center text-gray-300 text-xs font-medium mb-2"><AudioWaveform size={14} className="mr-1.5 text-blue-400" /> Background Music</label>
+                   <select 
+                     value={selectedMusic} 
+                     onChange={(e) => setSelectedMusic(e.target.value)}
+                     className="w-full bg-black/60 border border-white/10 rounded text-sm text-white p-2 focus:outline-none focus:border-blue-400"
+                   >
+                     <option value="">None (Original Audio)</option>
+                     <option value="cyberpunk">Cyberpunk Neon Drift</option>
+                     <option value="lofi">Lo-Fi Chill (Desi Edit)</option>
+                     <option value="bass">Trending Bass Drops</option>
+                     <option value="delhi">Delhi 2050 Theme</option>
+                   </select>
+                 </div>
 
-               <div className="w-full flex items-center justify-center bg-black/40 border-2 border-dashed border-white/20 rounded-xl p-8 hover:border-[#FF9933]/50 transition-colors cursor-pointer relative">
-                 <input 
-                   type="file" 
-                   accept="video/*" 
-                   className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                   onChange={(e) => {
-                     if (e.target.files && e.target.files[0]) {
-                       setUploadFile(e.target.files[0]);
-                       if (!uploadTitle) {
-                         setUploadTitle(e.target.files[0].name.split('.')[0]);
-                       }
-                     }
-                   }}
-                 />
-                 <div className="flex flex-col items-center pointer-events-none">
-                   <Video size={48} className="text-gray-400 mb-4" />
-                   <p className="text-white font-medium text-lg">
-                     {uploadFile ? uploadFile.name : 'Select a video file to upload'}
-                   </p>
-                   <p className="text-gray-500 text-sm mt-2">MP4, WebM, or OGG up to 2GB</p>
+                 {/* Filters */}
+                 <div className="bg-black/30 border border-white/5 rounded-xl p-3">
+                   <label className="flex items-center text-gray-300 text-xs font-medium mb-2"><Sparkles size={14} className="mr-1.5 text-purple-400" /> Video Filter</label>
+                   <select 
+                     value={selectedFilter} 
+                     onChange={(e) => setSelectedFilter(e.target.value)}
+                     className="w-full bg-black/60 border border-white/10 rounded text-sm text-white p-2 focus:outline-none focus:border-purple-400"
+                   >
+                     <option value="Normal">Normal</option>
+                     <option value="Cyberpunk">Cyberpunk (Neon)</option>
+                     <option value="Cinematic">Cinematic 2050</option>
+                     <option value="BW">Noir (B&W)</option>
+                     <option value="Vintage">Vintage Bharat</option>
+                   </select>
+                 </div>
+
+                 {/* Video Speed */}
+                 <div className="bg-black/30 border border-white/5 rounded-xl p-3">
+                   <label className="flex items-center text-gray-300 text-xs font-medium mb-2"><Clock size={14} className="mr-1.5 text-emerald-400" /> Playback Speed</label>
+                   <select 
+                     value={videoSpeed} 
+                     onChange={(e) => setVideoSpeed(e.target.value)}
+                     className="w-full bg-black/60 border border-white/10 rounded text-sm text-white p-2 focus:outline-none focus:border-emerald-400"
+                   >
+                     <option value="0.5x">0.5x (Slow-Mo)</option>
+                     <option value="1x">1x (Normal)</option>
+                     <option value="1.5x">1.5x (Fast)</option>
+                     <option value="2x">2x (Time-Lapse)</option>
+                   </select>
+                 </div>
+
+                 {/* Video Quality */}
+                 <div className="bg-black/30 border border-white/5 rounded-xl p-3">
+                   <label className="flex items-center text-gray-300 text-xs font-medium mb-2"><MonitorPlay size={14} className="mr-1.5 text-red-400" /> Video Quality</label>
+                   <select 
+                     value={videoQuality} 
+                     onChange={(e) => setVideoQuality(e.target.value)}
+                     className="w-full bg-black/60 border border-white/10 rounded text-sm text-white p-2 focus:outline-none focus:border-red-400"
+                   >
+                     <option value="720p">720p (HD)</option>
+                     <option value="1080p">1080p (FHD)</option>
+                     <option value="1440p">1440p (2K)</option>
+                     <option value="2160p">2160p (4K Ultra)</option>
+                     <option value="4320p">4320p (8K Cinematic)</option>
+                   </select>
+                 </div>
+
+                 {/* Visibility / Scheduling */}
+                 <div className="bg-black/30 border border-white/5 rounded-xl p-3 md:col-span-4">
+                   <label className="flex items-center text-gray-300 text-xs font-medium mb-2"><Globe size={14} className="mr-1.5 text-blue-300" /> Visibility & Scheduling</label>
+                   <div className="flex space-x-4">
+                     <select 
+                       value={uploadVisibility} 
+                       onChange={(e) => setUploadVisibility(e.target.value)}
+                       className="flex-1 bg-black/60 border border-white/10 rounded text-sm text-white p-2 focus:outline-none focus:border-blue-300"
+                     >
+                       <option value="Public">Public (Everyone can see)</option>
+                       <option value="Unlisted">Unlisted (Only people with link)</option>
+                       <option value="Private">Private (Only you can see)</option>
+                       <option value="Scheduled">Scheduled (Publish later)</option>
+                     </select>
+                     {uploadVisibility === 'Scheduled' && (
+                       <input type="datetime-local" className="flex-1 bg-black/60 border border-white/10 rounded text-sm text-white p-2 focus:outline-none focus:border-blue-300" />
+                     )}
+                   </div>
                  </div>
                </div>
              </div>
@@ -396,21 +554,18 @@ export default function PlayTube({ onBack }) {
                               <div className="flex items-center text-white font-medium"><MessageSquare size={18} className="mr-4 text-gray-300" /> Annotations</div>
                               <div className="w-10 h-5 bg-[#FF0000] rounded-full relative"><div className="w-5 h-5 bg-white rounded-full absolute right-0 shadow-sm border border-gray-400"></div></div>
                             </button>
-                            <button className="flex items-center justify-between px-4 py-3 hover:bg-white/10 transition-colors w-full text-sm">
+                            <div className="w-full border-t border-white/10 my-1"></div>
+                            <button className="flex items-center justify-between px-4 py-3 hover:bg-white/10 transition-colors w-full text-sm group/setting">
                               <div className="flex items-center text-white font-medium"><Subtitles size={18} className="mr-4 text-gray-300" /> Subtitles/CC</div>
-                              <div className="flex items-center text-gray-300">Off <ChevronRight size={16} className="ml-1 opacity-70" /></div>
+                              <div className="flex items-center text-gray-300">Off <ChevronRight size={16} className="ml-1 opacity-70 group-hover/setting:text-white" /></div>
                             </button>
-                            <button className="flex items-center justify-between px-4 py-3 hover:bg-white/10 transition-colors w-full text-sm">
-                              <div className="flex items-center text-white font-medium"><Clock size={18} className="mr-4 text-gray-300" /> Sleep timer</div>
-                              <div className="flex items-center text-gray-300">Off <ChevronRight size={16} className="ml-1 opacity-70" /></div>
-                            </button>
-                            <button className="flex items-center justify-between px-4 py-3 hover:bg-white/10 transition-colors w-full text-sm">
+                            <button className="flex items-center justify-between px-4 py-3 hover:bg-white/10 transition-colors w-full text-sm group/setting" onClick={() => alert('Speed settings: 0.25x, 0.5x, Normal, 1.25x, 1.5x, 2x')}>
                               <div className="flex items-center text-white font-medium"><PlaySquare size={18} className="mr-4 text-gray-300" /> Playback speed</div>
-                              <div className="flex items-center text-gray-300">Normal <ChevronRight size={16} className="ml-1 opacity-70" /></div>
+                              <div className="flex items-center text-gray-300">Normal <ChevronRight size={16} className="ml-1 opacity-70 group-hover/setting:text-white" /></div>
                             </button>
-                            <button className="flex items-center justify-between px-4 py-3 hover:bg-white/10 transition-colors w-full text-sm">
+                            <button className="flex items-center justify-between px-4 py-3 hover:bg-white/10 transition-colors w-full text-sm group/setting" onClick={() => alert('Quality settings: 144p, 360p, 480p, 720p, 1080p, 4K')}>
                               <div className="flex items-center text-white font-medium"><Settings size={18} className="mr-4 text-gray-300" /> Quality</div>
-                              <div className="flex items-center text-gray-300">Auto (480p) <ChevronRight size={16} className="ml-1 opacity-70" /></div>
+                              <div className="flex items-center text-gray-300">Auto (1080p) <ChevronRight size={16} className="ml-1 opacity-70 group-hover/setting:text-white" /></div>
                             </button>
                           </div>
                         </div>
@@ -448,8 +603,11 @@ export default function PlayTube({ onBack }) {
                 <button className="flex items-center px-4 py-2 bg-white/10 hover:bg-white/20 rounded-full transition-colors text-sm font-medium">
                   <Share2 size={18} className="mr-2" /> Share
                 </button>
+                <button className="flex items-center px-4 py-2 bg-white/10 hover:bg-white/20 rounded-full transition-colors text-sm font-medium text-[#FF9933]">
+                  <span className="font-bold mr-1">$</span> Thanks
+                </button>
                 <button className="flex items-center px-4 py-2 bg-white/10 hover:bg-white/20 rounded-full transition-colors text-sm font-medium hidden sm:flex">
-                  <Download size={18} className="mr-2" /> Download
+                  <ListPlus size={18} className="mr-2" /> Save
                 </button>
                 <button className="flex items-center px-4 py-2 bg-white/10 hover:bg-white/20 rounded-full transition-colors text-sm font-medium hidden md:flex">
                   <Scissors size={18} className="mr-2" /> Clip
@@ -468,9 +626,31 @@ export default function PlayTube({ onBack }) {
                   <p className="text-sm text-gray-400">4.5M Subscribers</p>
                 </div>
               </div>
-              <button className="px-6 py-2 bg-gradient-to-r from-[#FF0000] to-[#FF9933] hover:opacity-90 text-white font-bold rounded-full shadow-[0_0_15px_rgba(255,153,51,0.4)] transition-all">
-                Subscribe
-              </button>
+              <div className="flex items-center space-x-3">
+                {isSubscribed ? (
+                  <>
+                    <button 
+                      onClick={() => setIsSubscribed(false)}
+                      className="px-6 py-2 bg-white/10 hover:bg-white/20 text-white font-bold rounded-full transition-all"
+                    >
+                      Subscribed
+                    </button>
+                    <button 
+                      onClick={() => setBellActive(!bellActive)}
+                      className="p-2 bg-white/10 hover:bg-white/20 text-white rounded-full transition-all"
+                    >
+                      <Bell size={20} className={bellActive ? 'text-[#FF9933] animate-pulse' : ''} />
+                    </button>
+                  </>
+                ) : (
+                  <button 
+                    onClick={() => setIsSubscribed(true)}
+                    className="px-6 py-2 bg-gradient-to-r from-[#FF0000] to-[#FF9933] hover:opacity-90 text-white font-bold rounded-full shadow-[0_0_15px_rgba(255,153,51,0.4)] transition-all"
+                  >
+                    Subscribe
+                  </button>
+                )}
+              </div>
             </div>
 
             {/* YouTube-like Description Box */}
@@ -772,68 +952,167 @@ export default function PlayTube({ onBack }) {
 
     if (activeTab === 'Dashboard') {
       return (
-        <div className="p-6 md:p-10 w-full animate-in fade-in zoom-in duration-500">
-          <h2 className="text-3xl font-bold text-white mb-8 flex items-center">
-            <span className="bg-gradient-to-r from-[#FF0000] to-[#FF9933] text-transparent bg-clip-text">Creator</span>
-            <span className="ml-2">Dashboard</span>
-          </h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-            {[
-              { label: 'Subscribers', value: '1.2M', increase: '+15K', icon: User, color: 'from-blue-500 to-cyan-400' },
-              { label: 'Views (28 days)', value: '14.5M', increase: '+2.1M', icon: Eye, color: 'from-[#FF0000] to-pink-500' },
-              { label: 'Revenue', value: '₹4.2L', increase: '+12%', icon: TrendingUp, color: 'from-[#138808] to-emerald-400' }
-            ].map((stat, idx) => (
-              <div key={idx} className="relative overflow-hidden rounded-2xl bg-white/5 border border-white/10 p-6 backdrop-blur-xl group">
-                <div className={`absolute -right-10 -top-10 w-32 h-32 bg-gradient-to-br ${stat.color} rounded-full opacity-20 blur-2xl group-hover:opacity-40 transition-opacity`}></div>
-                <div className="flex justify-between items-start relative z-10">
-                  <div>
-                    <p className="text-gray-400 text-sm font-medium mb-1">{stat.label}</p>
-                    <h3 className="text-3xl font-bold text-white">{stat.value}</h3>
-                  </div>
-                  <div className={`p-3 rounded-xl bg-white/5 text-white shadow-lg`}>
-                    <stat.icon size={24} />
-                  </div>
-                </div>
-                <div className="mt-4 flex items-center text-sm text-[#138808] font-medium relative z-10">
-                  <TrendingUp size={16} className="mr-1" />
-                  {stat.increase} vs last month
-                </div>
-              </div>
-            ))}
+        <div className="p-6 md:p-10 w-full animate-in fade-in zoom-in duration-500 flex flex-col min-h-full">
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-3xl font-bold text-white flex items-center">
+              <span className="bg-gradient-to-r from-[#FF0000] to-[#FF9933] text-transparent bg-clip-text">Creator</span>
+              <span className="ml-2">Studio</span>
+            </h2>
           </div>
 
-          <h3 className="text-xl font-bold text-white mb-6">Recent Videos</h3>
-          <div className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden backdrop-blur-xl">
-            <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse">
-                <thead>
-                  <tr className="border-b border-white/10 text-gray-400 text-sm">
-                    <th className="p-4 font-medium">Video</th>
-                    <th className="p-4 font-medium">Date</th>
-                    <th className="p-4 font-medium">Views</th>
-                    <th className="p-4 font-medium">Likes</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {mockVideos.slice(0, 3).map((video) => (
-                    <tr key={video.id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
-                      <td className="p-4 flex items-center space-x-4">
-                        <img src={video.thumbnail} alt={video.title} className="w-24 h-14 object-cover rounded-md shadow-md" />
-                        <div>
-                          <p className="text-white font-medium line-clamp-1">{video.title}</p>
-                          <span className="text-xs text-gray-500">Public</span>
-                        </div>
-                      </td>
-                      <td className="p-4 text-sm text-gray-300">{video.time}</td>
-                      <td className="p-4 text-sm text-gray-300">{video.views}</td>
-                      <td className="p-4 text-sm text-gray-300">98%</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+          <div className="flex space-x-6 border-b border-white/10 mb-8 overflow-x-auto hide-scrollbar shrink-0">
+            {['Dashboard', 'Content', 'Analytics', 'Earn'].map(tab => (
+              <button 
+                key={tab}
+                onClick={() => setStudioTab(tab)}
+                className={`pb-3 text-sm font-bold transition-all ${studioTab === tab ? 'text-[#FF9933] border-b-2 border-[#FF9933]' : 'text-gray-400 hover:text-white'}`}
+              >
+                {tab}
+              </button>
+            ))}
           </div>
+          
+          {studioTab === 'Dashboard' && (
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+                {[
+                  { label: 'Subscribers', value: '1.2M', increase: '+15K', icon: User, color: 'from-blue-500 to-cyan-400' },
+                  { label: 'Views (28 days)', value: '14.5M', increase: '+2.1M', icon: Eye, color: 'from-[#FF0000] to-pink-500' },
+                  { label: 'Revenue', value: '₹4.2L', increase: '+12%', icon: TrendingUp, color: 'from-[#138808] to-emerald-400' }
+                ].map((stat, idx) => (
+                  <div key={idx} className="relative overflow-hidden rounded-2xl bg-white/5 border border-white/10 p-6 backdrop-blur-xl group">
+                    <div className={`absolute -right-10 -top-10 w-32 h-32 bg-gradient-to-br ${stat.color} rounded-full opacity-20 blur-2xl group-hover:opacity-40 transition-opacity`}></div>
+                    <div className="flex justify-between items-start relative z-10">
+                      <div>
+                        <p className="text-gray-400 text-sm font-medium mb-1">{stat.label}</p>
+                        <h3 className="text-3xl font-bold text-white">{stat.value}</h3>
+                      </div>
+                      <div className={`p-3 rounded-xl bg-white/5 text-white shadow-lg`}>
+                        <stat.icon size={24} />
+                      </div>
+                    </div>
+                    <div className="mt-4 flex items-center text-sm text-[#138808] font-medium relative z-10">
+                      <TrendingUp size={16} className="mr-1" />
+                      {stat.increase} vs last month
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <h3 className="text-xl font-bold text-white mb-6">Recent Videos</h3>
+              <div className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden backdrop-blur-xl">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse">
+                    <thead>
+                      <tr className="border-b border-white/10 text-gray-400 text-sm">
+                        <th className="p-4 font-medium">Video</th>
+                        <th className="p-4 font-medium">Date</th>
+                        <th className="p-4 font-medium">Views</th>
+                        <th className="p-4 font-medium">Likes</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {mockVideos.slice(0, 3).map((video) => (
+                        <tr key={video.id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
+                          <td className="p-4 flex items-center space-x-4">
+                            <img src={video.thumbnail} alt={video.title} className="w-24 h-14 object-cover rounded-md shadow-md" />
+                            <div>
+                              <p className="text-white font-medium line-clamp-1">{video.title}</p>
+                              <span className="text-xs text-gray-500">Public</span>
+                            </div>
+                          </td>
+                          <td className="p-4 text-sm text-gray-300">{video.time}</td>
+                          <td className="p-4 text-sm text-gray-300">{video.views}</td>
+                          <td className="p-4 text-sm text-gray-300">98%</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </>
+          )}
+
+          {studioTab === 'Content' && (
+            <div className="flex-1 flex items-center justify-center text-gray-400">
+              <div className="text-center">
+                <Video size={48} className="mx-auto mb-4 text-gray-600" />
+                <h3 className="text-xl font-bold text-white mb-2">Channel Content</h3>
+                <p>Manage all your videos, shorts, and live streams here.</p>
+              </div>
+            </div>
+          )}
+
+          {studioTab === 'Analytics' && (
+            <div className="flex-1 flex items-center justify-center text-gray-400">
+              <div className="text-center">
+                <TrendingUp size={48} className="mx-auto mb-4 text-gray-600" />
+                <h3 className="text-xl font-bold text-white mb-2">Channel Analytics</h3>
+                <p>Dive deep into your audience retention and real-time views.</p>
+              </div>
+            </div>
+          )}
+
+          {studioTab === 'Earn' && (
+            <div className="max-w-3xl mx-auto w-full">
+              <div className="text-center mb-8">
+                <h3 className="text-2xl font-bold text-white mb-2">PlayTube Partner Program</h3>
+                <p className="text-gray-400 text-sm">Join the program to earn money, get creator support, and more.</p>
+              </div>
+
+              <div className="bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-md mb-6">
+                <h4 className="text-white font-bold mb-4">How do I join?</h4>
+                <p className="text-gray-400 text-sm mb-6">Meet the requirements to apply</p>
+                
+                <div className="space-y-8">
+                  <div>
+                    <div className="flex justify-between items-end mb-2">
+                      <div>
+                        <h5 className="text-white font-medium">Subscribers</h5>
+                        <p className="text-gray-400 text-xs">850 / 1,000</p>
+                      </div>
+                      <span className="text-xs text-gray-500">150 to go</span>
+                    </div>
+                    <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
+                      <div className="w-[85%] h-full bg-gradient-to-r from-[#FF0000] to-[#FF9933] rounded-full"></div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <div className="flex justify-between items-end mb-2">
+                      <div>
+                        <h5 className="text-white font-medium">Public Watch Hours</h5>
+                        <p className="text-gray-400 text-xs">3,400 / 4,000</p>
+                      </div>
+                      <span className="text-xs text-gray-500">600 to go</span>
+                    </div>
+                    <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
+                      <div className="w-[85%] h-full bg-gradient-to-r from-blue-500 to-cyan-400 rounded-full"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-8 text-center border-t border-white/10 pt-6">
+                  <button className="px-6 py-3 bg-white/10 text-white/50 font-bold rounded-full cursor-not-allowed">Apply Now</button>
+                  <p className="text-xs text-gray-500 mt-3">We'll send you an email when you're eligible.</p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="bg-white/5 border border-white/10 rounded-2xl p-5 hover:bg-white/10 transition-colors">
+                  <ShoppingBag size={24} className="text-[#FF9933] mb-3" />
+                  <h5 className="text-white font-bold mb-1">Shopping</h5>
+                  <p className="text-xs text-gray-400">Share products across your channel.</p>
+                </div>
+                <div className="bg-white/5 border border-white/10 rounded-2xl p-5 hover:bg-white/10 transition-colors">
+                  <Users size={24} className="text-blue-400 mb-3" />
+                  <h5 className="text-white font-bold mb-1">Memberships</h5>
+                  <p className="text-xs text-gray-400">Create a fan club with exclusive perks.</p>
+                </div>
+              </div>
+            </div>
+          )}
+
         </div>
       );
     }
@@ -977,13 +1256,18 @@ export default function PlayTube({ onBack }) {
             </button>
             <div onClick={() => { setActiveTab('Home'); setSelectedVideo(null); }} className="flex items-center cursor-pointer">
               <PlayTubeLogo className="h-14 md:h-16 drop-shadow-[0_0_10px_rgba(255,153,51,0.4)] group-hover:drop-shadow-[0_0_15px_rgba(255,153,51,0.8)] transition-all" />
+              {isPremium && (
+                <span className="ml-1 px-1.5 py-0.5 bg-gradient-to-r from-yellow-400 to-yellow-600 text-black text-[10px] font-bold tracking-wider rounded-sm shadow-[0_0_10px_rgba(250,204,21,0.5)]">
+                  PREMIUM
+                </span>
+              )}
             </div>
           </div>
         </div>
 
         {}
         <div className="hidden md:flex flex-1 max-w-2xl px-8 relative">
-          <div className="flex w-full">
+          <div className="flex w-full relative group/search">
             <div className="flex-1 flex items-center bg-[#121212] border border-white/10 rounded-l-full px-4 py-2 focus-within:border-[#FF9933]/50 focus-within:shadow-[0_0_10px_rgba(255,153,51,0.1)] transition-all">
               <Search size={18} className="text-gray-500 mr-3" />
               <input 
@@ -992,6 +1276,9 @@ export default function PlayTube({ onBack }) {
                 className="w-full bg-transparent border-none outline-none text-white placeholder-gray-500"
               />
             </div>
+            <button className="bg-[#121212] border-y border-l border-white/10 px-4 py-2 hover:bg-white/10 transition-colors shadow-inner flex items-center justify-center text-gray-400 hover:text-white" title="Search Filters" onClick={(e) => { e.stopPropagation(); alert('Search Filters: Type, Date, Duration'); }}>
+              <ListPlus size={18} />
+            </button>
             <button className="bg-white/5 border border-l-0 border-white/10 rounded-r-full px-5 py-2 hover:bg-white/10 transition-colors shadow-inner flex items-center justify-center group">
               <Search size={20} className="text-gray-300 group-hover:text-white transition-colors" />
             </button>
@@ -1125,6 +1412,23 @@ export default function PlayTube({ onBack }) {
                     className="w-full flex items-center px-3 py-2.5 text-sm text-gray-300 hover:bg-white/10 hover:text-white rounded-xl transition-colors"
                   >
                     <Settings size={18} className="mr-3" /> Studio Settings
+                  </button>
+                  
+                  <div className="border-t border-white/10 my-1"></div>
+                  
+                  <button 
+                    onClick={() => { 
+                      setIsPremium(!isPremium); 
+                      setIsProfileMenuOpen(false); 
+                      if (!isPremium) {
+                        setShowPremiumToast(true);
+                        setTimeout(() => setShowPremiumToast(false), 3000);
+                      }
+                    }}
+                    className="w-full flex items-center px-3 py-2.5 text-sm text-yellow-500 hover:bg-white/10 hover:text-yellow-400 rounded-xl transition-colors font-bold group/premium"
+                  >
+                    <Sparkles size={18} className="mr-3 group-hover/premium:animate-pulse" /> 
+                    {isPremium ? 'Manage Premium' : 'Get PlayTube Premium'}
                   </button>
                 </div>
                 
@@ -1287,7 +1591,7 @@ export default function PlayTube({ onBack }) {
             </h2>
             <p className="text-sm text-gray-400 mb-8">Choose a format to begin creating in Play Studio.</p>
 
-            <div className="space-y-4">
+            <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-2 hide-scrollbar">
               {}
               <div 
                 onClick={() => { setIsCreateModalOpen(false); setCreationMode('short'); }}
@@ -1299,6 +1603,23 @@ export default function PlayTube({ onBack }) {
                 <div>
                   <h3 className="text-white font-bold text-lg mb-1 group-hover:text-[#FF0000] transition-colors">Play Short</h3>
                   <p className="text-xs text-gray-400 leading-relaxed">Vertical format (up to 60s). Access AI auto-edit, smart lip-sync generation, and trending AR holographic filters.</p>
+                </div>
+              </div>
+
+              {}
+              <div 
+                onClick={() => { setIsCreateModalOpen(false); setCreationMode('live'); }}
+                className="group cursor-pointer p-4 rounded-2xl border border-white/10 bg-white/5 hover:bg-black/60 hover:border-red-500/50 transition-all flex items-start space-x-4"
+              >
+                <div className="p-3 bg-red-500/10 rounded-xl text-red-500 group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(239,68,68,0.1)] group-hover:shadow-[0_0_20px_rgba(239,68,68,0.3)]">
+                  <span className="relative flex h-6 w-6 items-center justify-center">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                    <Video size={24} className="relative z-10" />
+                  </span>
+                </div>
+                <div>
+                  <h3 className="text-white font-bold text-lg mb-1 group-hover:text-red-500 transition-colors">Go Live</h3>
+                  <p className="text-xs text-gray-400 leading-relaxed">Broadcast live to your audience. Setup stream keys, manage live chat, and monetize with Super Thanks in real-time.</p>
                 </div>
               </div>
 
@@ -1366,6 +1687,14 @@ export default function PlayTube({ onBack }) {
               </button>
             </div>
           </div>
+        </div>
+      )}
+
+      {/* Premium Toast */}
+      {showPremiumToast && (
+        <div className="fixed bottom-24 left-1/2 -translate-x-1/2 bg-black/90 backdrop-blur-md border border-yellow-500/50 rounded-full px-6 py-3 shadow-[0_0_20px_rgba(250,204,21,0.2)] z-[200] animate-in slide-in-from-bottom-10 fade-in duration-300 flex items-center space-x-3">
+          <Sparkles size={20} className="text-yellow-500 animate-pulse" />
+          <span className="text-white text-sm font-medium">Premium active: Ad-free & Background Play enabled</span>
         </div>
       )}
     </div>
