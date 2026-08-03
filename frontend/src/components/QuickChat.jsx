@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { io } from 'socket.io-client';
-import { ArrowLeft, Search, MoreVertical, Phone, Video, Paperclip, Smile, Mic, Send, ShieldCheck, Check, CheckCheck, Plus, X, UserPlus, IndianRupee, Languages, Calendar, AudioWaveform, Ghost, WifiOff, FileText, Zap, MapPin, Navigation2, CircleDashed, Users, MessageSquare, Camera, Image as ImageIcon, Type, Eye, ChevronUp, Brain, Radio, Edit, Info, Reply, SmilePlus, ChevronDown, Home, Compass, Clapperboard, Heart, SquarePlus, Menu, Settings, Moon, Sun, Trash2, Star, Lock, Key, Bell, Keyboard, HelpCircle, LogOut, Monitor, Smartphone, QrCode, RotateCw } from 'lucide-react';
+import { ArrowLeft, Search, MoreVertical, Phone, Video, Paperclip, Smile, Mic, Send, ShieldCheck, Check, CheckCheck, Plus, X, UserPlus, IndianRupee, Languages, Calendar, AudioWaveform, Ghost, WifiOff, FileText, Zap, MapPin, Navigation2, CircleDashed, Users, MessageSquare, Camera, Image as ImageIcon, Type, Eye, ChevronUp, Brain, Radio, Edit, Info, Reply, SmilePlus, ChevronDown, Home, Compass, Clapperboard, Heart, SquarePlus, Menu, Settings, Moon, Sun, Trash2, Star, Lock, Key, Bell, Keyboard, HelpCircle, LogOut, Monitor, Smartphone, QrCode, RotateCw, Clock, MonitorPlay, Briefcase, Megaphone, Pin, ScreenShare, Store, Fingerprint, History, MessageCircle } from 'lucide-react';
 import chatLogoImg from '../assets/quickchat_logo.png';
 
 // --- QuickChat Security & Anti-Hack Engine ---
@@ -130,6 +130,27 @@ export default function QuickChat({ onBack }) {
   const fileInputRef = useRef(null);
   const statusFileInputRef = useRef(null);
   const groupIconInputRef = useRef(null);
+
+  // --- New WhatsApp Feature States ---
+  const [editingMessageId, setEditingMessageId] = useState(null);
+  const [pinnedMessageId, setPinnedMessageId] = useState(null);
+  const [disappearingTimer, setDisappearingTimer] = useState('off'); // 'off', '24h', '7d', '90d'
+  
+  const [isScreenSharing, setIsScreenSharing] = useState(false);
+  const [isBroadcastModalOpen, setIsBroadcastModalOpen] = useState(false);
+  
+  const [channels, setChannels] = useState([
+    { id: 1, name: 'QuickChat News', followers: '2.1M', avatar: 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=100&h=100&fit=crop', verified: true, unread: 2 },
+    { id: 2, name: 'Tech Updates', followers: '845K', avatar: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=100&h=100&fit=crop', verified: true, unread: 0 }
+  ]);
+  const [catalogItems, setCatalogItems] = useState([
+    { id: 1, name: 'Premium Subscription', price: '₹999', image: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=100&h=100&fit=crop' },
+    { id: 2, name: 'Cloud Storage 100GB', price: '₹199/mo', image: 'https://images.unsplash.com/photo-1544396821-4dd40b938ad3?w=100&h=100&fit=crop' }
+  ]);
+  const [autoReplyEnabled, setAutoReplyEnabled] = useState(false);
+  const [twoStepVerification, setTwoStepVerification] = useState(false);
+  const [isBiometricEnabled, setIsBiometricEnabled] = useState(false);
+  // ------------------------------------
 
   useEffect(() => {
     const newSocket = io((import.meta.env.VITE_BACKEND_URL || ''));
@@ -575,18 +596,29 @@ export default function QuickChat({ onBack }) {
     
     const scanResult = scanForMaliciousContent(textToSend);
     
-    const newMsg = {
-      id: currentMessages.length + 1,
-      text: scanResult.cleanText,
-      isMalicious: scanResult.isMalicious,
-      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      sender: 'me'
-    };
+    if (editingMessageId) {
+      setMessageThreads(prev => ({
+        ...prev,
+        [activeChat]: prev[activeChat].map(msg => 
+          msg.id === editingMessageId ? { ...msg, text: scanResult.cleanText, isMalicious: scanResult.isMalicious } : msg
+        )
+      }));
+      setEditingMessageId(null);
+    } else {
+      const newMsg = {
+        id: currentMessages.length + 1,
+        text: scanResult.cleanText,
+        isMalicious: scanResult.isMalicious,
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        sender: 'me'
+      };
+      
+      setMessageThreads(prev => ({
+        ...prev,
+        [activeChat]: [...(prev[activeChat] || []), newMsg]
+      }));
+    }
     
-    setMessageThreads(prev => ({
-      ...prev,
-      [activeChat]: [...(prev[activeChat] || []), newMsg]
-    }));
     setMessage('');
     setShowEmojis(false);
     
@@ -1178,19 +1210,22 @@ export default function QuickChat({ onBack }) {
       {}
       <div className={`hidden md:flex flex-col w-[60px] border-r shrink-0 py-3 items-center justify-between z-50 ${isDarkMode ? 'bg-[#202c33] border-[#222d34]' : 'bg-[#f0f2f5] border-gray-300'}`}>
         <div className="flex flex-col space-y-4 w-full items-center">
-          <button className={`p-2.5 rounded-full transition-colors relative ${isDarkMode ? 'bg-[#374045] text-[#e9edef]' : 'bg-gray-200 text-gray-600 hover:bg-gray-300'}`} title="Chats">
-            <MessageSquare size={22} className="fill-current" />
+          <button onClick={() => setSidebarTab('chats')} className={`p-2.5 rounded-full transition-colors relative ${sidebarTab === 'chats' ? (isDarkMode ? 'bg-[#374045] text-[#e9edef]' : 'bg-gray-200 text-gray-800') : (isDarkMode ? 'text-gray-400 hover:bg-[#374045]' : 'text-gray-500 hover:bg-gray-200')}`} title="Chats">
+            <MessageSquare size={22} className={sidebarTab === 'chats' ? 'fill-current' : ''} />
             <div className="absolute top-1 right-1 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-[#f0f2f5]"></div>
           </button>
-          <button className={`p-2.5 rounded-full transition-colors ${isDarkMode ? 'text-gray-400 hover:bg-[#374045]' : 'text-gray-500 hover:bg-gray-200'}`} title="Calls">
-            <Phone size={22} />
+          <button onClick={() => setSidebarTab('calls')} className={`p-2.5 rounded-full transition-colors ${sidebarTab === 'calls' ? (isDarkMode ? 'bg-[#374045] text-[#e9edef]' : 'bg-gray-200 text-gray-800') : (isDarkMode ? 'text-gray-400 hover:bg-[#374045]' : 'text-gray-500 hover:bg-gray-200')}`} title="Calls">
+            <Phone size={22} className={sidebarTab === 'calls' ? 'fill-current' : ''} />
           </button>
-          <button onClick={() => setIsAddingStatus(true)} className={`p-2.5 rounded-full transition-colors relative ${isDarkMode ? 'text-gray-400 hover:bg-[#374045]' : 'text-gray-500 hover:bg-gray-200'}`} title="Status">
-            <CircleDashed size={22} />
+          <button onClick={() => { setIsAddingStatus(true); setSidebarTab('status'); }} className={`p-2.5 rounded-full transition-colors relative ${sidebarTab === 'status' ? (isDarkMode ? 'bg-[#374045] text-[#e9edef]' : 'bg-gray-200 text-gray-800') : (isDarkMode ? 'text-gray-400 hover:bg-[#374045]' : 'text-gray-500 hover:bg-gray-200')}`} title="Status">
+            <CircleDashed size={22} className={sidebarTab === 'status' ? 'fill-current' : ''} />
             <div className="absolute top-1 right-1 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-[#f0f2f5]"></div>
           </button>
-          <button className={`p-2.5 rounded-full transition-colors ${isDarkMode ? 'text-gray-400 hover:bg-[#374045]' : 'text-gray-500 hover:bg-gray-200'}`} title="Channels">
-            <Radio size={22} />
+          <button onClick={() => setSidebarTab('channels')} className={`p-2.5 rounded-full transition-colors ${sidebarTab === 'channels' ? (isDarkMode ? 'bg-[#374045] text-[#e9edef]' : 'bg-gray-200 text-gray-800') : (isDarkMode ? 'text-gray-400 hover:bg-[#374045]' : 'text-gray-500 hover:bg-gray-200')}`} title="Channels">
+            <Megaphone size={22} className={sidebarTab === 'channels' ? 'fill-current' : ''} />
+          </button>
+          <button onClick={() => setSidebarTab('business')} className={`p-2.5 rounded-full transition-colors ${sidebarTab === 'business' ? (isDarkMode ? 'bg-[#374045] text-[#e9edef]' : 'bg-gray-200 text-gray-800') : (isDarkMode ? 'text-gray-400 hover:bg-[#374045]' : 'text-gray-500 hover:bg-gray-200')}`} title="Business Tools">
+            <Store size={22} className={sidebarTab === 'business' ? 'fill-current' : ''} />
           </button>
           <button onClick={() => setIsCreatingGroup(true)} className={`p-2.5 rounded-full transition-colors ${isDarkMode ? 'text-gray-400 hover:bg-[#374045]' : 'text-gray-500 hover:bg-gray-200'}`} title="Communities">
             <Users size={22} />
@@ -1300,69 +1335,137 @@ export default function QuickChat({ onBack }) {
             <button className={`px-3 py-1 rounded-full text-sm font-medium whitespace-nowrap ${isDarkMode ? 'bg-[#202c33] text-[#8696a0] hover:bg-[#374045]' : 'bg-[#f0f2f5] text-gray-600 hover:bg-gray-200'}`}>Groups 3</button>
           </div>
 
-          {}
-          <div className={`flex-1 overflow-y-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-transparent pr-0.5 ${isDarkMode ? 'bg-[#111b21] [&::-webkit-scrollbar-thumb]:bg-[#374045] hover:[&::-webkit-scrollbar-thumb]:bg-[#8696a0]' : 'bg-white [&::-webkit-scrollbar-thumb]:bg-gray-300 hover:[&::-webkit-scrollbar-thumb]:bg-gray-400'}`}>
-            {chats.map((chat, index) => (
-              <div 
-                key={chat.id} 
-                draggable={!isSelectingChats}
-                onDragStart={(e) => handleDragStart(e, index)}
-                onDragOver={handleDragOver}
-                onDrop={(e) => handleDrop(e, index)}
-                onDragEnd={handleDragEnd}
-                onClick={() => {
-                  if (isSelectingChats) {
-                    setSelectedChats(prev => prev.includes(chat.id) ? prev.filter(id => id !== chat.id) : [...prev, chat.id]);
-                  } else {
-                    setActiveChat(chat.id);
-                  }
-                }}
-                className={`group relative flex items-center p-3 cursor-pointer transition-all duration-200 hover:-translate-y-[1px] hover:shadow-sm ${activeChat === chat.id ? (isDarkMode ? 'bg-[#2a3942]' : 'bg-[#f0f2f5]') : (isDarkMode ? 'hover:bg-[#202c33]' : 'hover:bg-[#f5f6f6]')}`}
-              >
-                {isSelectingChats && (
-                  <div className="mr-3 ml-2 flex items-center h-full">
-                    <div className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-colors ${selectedChats.includes(chat.id) ? 'bg-[#00a884] border-[#00a884]' : (isDarkMode ? 'border-[#8696a0]' : 'border-gray-300')}`}>
-                      {selectedChats.includes(chat.id) && <Check size={14} className="text-white font-bold" />}
+          {sidebarTab === 'chats' && (
+            <div className={`flex-1 overflow-y-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-transparent pr-0.5 ${isDarkMode ? 'bg-[#111b21] [&::-webkit-scrollbar-thumb]:bg-[#374045] hover:[&::-webkit-scrollbar-thumb]:bg-[#8696a0]' : 'bg-white [&::-webkit-scrollbar-thumb]:bg-gray-300 hover:[&::-webkit-scrollbar-thumb]:bg-gray-400'}`}>
+              {chats.map((chat, index) => (
+                <div 
+                  key={chat.id} 
+                  draggable={!isSelectingChats}
+                  onDragStart={(e) => handleDragStart(e, index)}
+                  onDragOver={handleDragOver}
+                  onDrop={(e) => handleDrop(e, index)}
+                  onDragEnd={handleDragEnd}
+                  onClick={() => {
+                    if (isSelectingChats) {
+                      setSelectedChats(prev => prev.includes(chat.id) ? prev.filter(id => id !== chat.id) : [...prev, chat.id]);
+                    } else {
+                      setActiveChat(chat.id);
+                    }
+                  }}
+                  className={`group relative flex items-center p-3 cursor-pointer transition-all duration-200 hover:-translate-y-[1px] hover:shadow-sm ${activeChat === chat.id ? (isDarkMode ? 'bg-[#2a3942]' : 'bg-[#f0f2f5]') : (isDarkMode ? 'hover:bg-[#202c33]' : 'hover:bg-[#f5f6f6]')}`}
+                >
+                  {isSelectingChats && (
+                    <div className="mr-3 ml-2 flex items-center h-full">
+                      <div className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-colors ${selectedChats.includes(chat.id) ? 'bg-[#00a884] border-[#00a884]' : (isDarkMode ? 'border-[#8696a0]' : 'border-gray-300')}`}>
+                        {selectedChats.includes(chat.id) && <Check size={14} className="text-white font-bold" />}
+                      </div>
                     </div>
+                  )}
+                  <div className="relative mr-3 shrink-0 ml-1">
+                    <img src={chat.avatar} alt={chat.name} className={`w-[48px] h-[48px] rounded-full object-cover`} draggable="false" />
                   </div>
-                )}
-                <div className="relative mr-3 shrink-0 ml-1">
-                  <img src={chat.avatar} alt={chat.name} className={`w-[48px] h-[48px] rounded-full object-cover`} draggable="false" />
-                </div>
-                
-                <div className={`flex-1 min-w-0 border-b pb-3 pt-1 ${isDarkMode ? 'border-[#222d34]' : 'border-gray-100'}`}>
-                  <div className="flex justify-between items-center mb-1">
-                    <h3 className={`text-[16px] truncate ${chat.unread ? 'font-semibold' : ''} ${isDarkMode ? 'text-[#e9edef]' : 'text-[#111b21]'}`}>{chat.name}</h3>
-                    <span className={`text-xs shrink-0 ${chat.unread ? 'text-[#00a884] font-medium' : (isDarkMode ? 'text-[#8696a0]' : 'text-gray-500')}`}>{chat.time}</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center min-w-0 pr-2">
-                      {chat.id !== 1 && !chat.unread && (
-                        <CheckCheck size={16} className={`mr-1 shrink-0 ${isDarkMode ? 'text-[#53bdeb]' : 'text-[#53bdeb]'}`} />
+                  
+                  <div className={`flex-1 min-w-0 border-b pb-3 pt-1 ${isDarkMode ? 'border-[#222d34]' : 'border-gray-100'}`}>
+                    <div className="flex justify-between items-center mb-1">
+                      <h3 className={`text-[16px] truncate ${chat.unread ? 'font-semibold' : ''} ${isDarkMode ? 'text-[#e9edef]' : 'text-[#111b21]'}`}>{chat.name}</h3>
+                      <span className={`text-xs shrink-0 ${chat.unread ? 'text-[#00a884] font-medium' : (isDarkMode ? 'text-[#8696a0]' : 'text-gray-500')}`}>{chat.time}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center min-w-0 pr-2">
+                        {chat.id !== 1 && !chat.unread && (
+                          <CheckCheck size={16} className={`mr-1 shrink-0 ${isDarkMode ? 'text-[#53bdeb]' : 'text-[#53bdeb]'}`} />
+                        )}
+                        <p className={`text-[14px] truncate ${chat.unread ? (isDarkMode ? 'font-semibold text-[#e9edef]' : 'font-semibold text-[#111b21]') : (isDarkMode ? 'text-[#8696a0]' : 'text-gray-500')}`}>
+                          {chat.lastMsg}
+                        </p>
+                      </div>
+                      {chat.unread > 0 && (
+                        <div className="shrink-0 ml-2 flex items-center">
+                          <span className="bg-[#00a884] text-[#111b21] text-[11px] font-bold px-1.5 py-0.5 rounded-full flex items-center justify-center min-w-[20px] h-[20px]">
+                            {chat.unread}
+                          </span>
+                        </div>
                       )}
-                      <p className={`text-[14px] truncate ${chat.unread ? (isDarkMode ? 'font-semibold text-[#e9edef]' : 'font-semibold text-[#111b21]') : (isDarkMode ? 'text-[#8696a0]' : 'text-gray-500')}`}>
-                        {chat.lastMsg}
-                      </p>
                     </div>
-                    {chat.unread > 0 && (
-                      <div className="shrink-0 ml-2 flex items-center">
-                        <span className="bg-[#00a884] text-[#111b21] text-[11px] font-bold px-1.5 py-0.5 rounded-full flex items-center justify-center min-w-[20px] h-[20px]">
-                          {chat.unread}
-                        </span>
+                  </div>
+                  <button 
+                    onClick={(e) => handleDeleteContact(e, chat.id)}
+                    className={`absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity ${isDarkMode ? 'text-red-400 hover:bg-[#374045]' : 'text-red-500 hover:bg-gray-200'}`}
+                    title="Delete Contact"
+                  >
+                    <Trash2 size={18} />
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+          
+          {sidebarTab === 'channels' && (
+            <div className={`flex-1 overflow-y-auto px-4 py-2 ${isDarkMode ? 'bg-[#111b21]' : 'bg-white'}`}>
+              <h2 className={`font-bold mb-4 ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>Channels</h2>
+              {channels.map(channel => (
+                <div key={channel.id} className={`flex items-center p-3 mb-2 rounded-xl cursor-pointer ${isDarkMode ? 'hover:bg-[#202c33]' : 'hover:bg-gray-50'}`}>
+                  <div className="relative mr-4 shrink-0">
+                    <img src={channel.avatar} alt={channel.name} className="w-12 h-12 rounded-full object-cover border-2 border-[#00a884]" />
+                    {channel.verified && (
+                      <div className="absolute bottom-0 right-0 bg-[#00a884] rounded-full p-0.5">
+                        <Check size={10} className="text-white" />
                       </div>
                     )}
                   </div>
+                  <div className="flex-1 min-w-0">
+                    <h3 className={`font-semibold truncate ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>{channel.name}</h3>
+                    <p className={`text-sm truncate ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>{channel.followers} followers</p>
+                  </div>
+                  <button className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-semibold">Follow</button>
                 </div>
-                <button 
-                  onClick={(e) => handleDeleteContact(e, chat.id)}
-                  className={`absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity ${isDarkMode ? 'text-red-400 hover:bg-[#374045]' : 'text-red-500 hover:bg-gray-200'}`}
-                  title="Delete Contact"
-                >
-                  <Trash2 size={18} />
-                </button>
+              ))}
+            </div>
+          )}
+
+          {sidebarTab === 'business' && (
+            <div className={`flex-1 overflow-y-auto px-4 py-2 ${isDarkMode ? 'bg-[#111b21]' : 'bg-white'}`}>
+              <h2 className={`font-bold mb-4 ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>Business Tools</h2>
+              <div className="space-y-4">
+                <div className={`p-4 rounded-xl border ${isDarkMode ? 'border-[#222d34] bg-[#202c33]' : 'border-gray-200 bg-gray-50'}`}>
+                  <div className="flex justify-between items-center mb-2">
+                    <div className="flex items-center space-x-2">
+                      <Briefcase size={20} className="text-[#00a884]" />
+                      <h3 className={`font-medium ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>Auto-Reply</h3>
+                    </div>
+                    <button 
+                      onClick={() => setAutoReplyEnabled(!autoReplyEnabled)} 
+                      className={`w-10 h-5 rounded-full relative transition-colors ${autoReplyEnabled ? 'bg-[#00a884]' : 'bg-gray-400'}`}
+                    >
+                      <div className={`absolute top-0.5 left-0.5 bg-white w-4 h-4 rounded-full transition-transform ${autoReplyEnabled ? 'translate-x-5' : ''}`}></div>
+                    </button>
+                  </div>
+                  <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Automatically reply with an Away Message when you're busy.</p>
+                </div>
+                
+                <div className={`p-4 rounded-xl border ${isDarkMode ? 'border-[#222d34] bg-[#202c33]' : 'border-gray-200 bg-gray-50'}`}>
+                  <div className="flex items-center space-x-2 mb-3">
+                    <Store size={20} className="text-[#00a884]" />
+                    <h3 className={`font-medium ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>Product Catalog</h3>
+                  </div>
+                  <div className="space-y-2">
+                    {catalogItems.map(item => (
+                      <div key={item.id} className="flex items-center space-x-3">
+                        <img src={item.image} alt={item.name} className="w-10 h-10 rounded object-cover" />
+                        <div className="flex-1">
+                          <p className={`text-sm font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>{item.name}</p>
+                          <p className="text-xs text-[#00a884]">{item.price}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <button className="w-full mt-3 py-2 border-2 border-dashed border-[#00a884] text-[#00a884] rounded-lg text-sm font-medium hover:bg-[#00a884]/10 transition-colors">
+                    + Add New Item
+                  </button>
+                </div>
               </div>
-            ))}
-          </div>
+            </div>
+          )}
         </div>
       </div>
 
@@ -1532,6 +1635,18 @@ export default function QuickChat({ onBack }) {
             <span className="px-3 py-1 bg-white/5 rounded-full text-xs text-gray-500 font-medium">Today</span>
           </div>
 
+          {pinnedMessageId && (
+            <div className={`sticky top-0 z-20 flex flex-col p-2 rounded-lg mb-4 shadow-md ${isDarkMode ? 'bg-[#202c33] border-l-4 border-[#00a884]' : 'bg-white border-l-4 border-[#00a884]'}`}>
+              <div className="flex items-center justify-between mb-1">
+                <span className={`text-xs font-bold ${isDarkMode ? 'text-[#00a884]' : 'text-emerald-700'}`}>Pinned Message</span>
+                <button onClick={() => setPinnedMessageId(null)} className="text-gray-400 hover:text-gray-600"><X size={14} /></button>
+              </div>
+              <p className={`text-sm truncate ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                {currentMessages.find(m => m.id === pinnedMessageId)?.text || 'Message'}
+              </p>
+            </div>
+          )}
+
           {currentMessages.length === 0 && (
             <div className="flex-1 flex items-center justify-center text-gray-500 text-sm">
               Send a message to start the conversation!
@@ -1567,9 +1682,9 @@ export default function QuickChat({ onBack }) {
                   >
                     <Star size={16} className={starredMessages.includes(msg.id) ? 'fill-yellow-400 text-yellow-400' : ''} />
                   </button>
-                  <button className="hover:text-white transition-colors"><Reply size={16} /></button>
-                  <button className="hover:text-white transition-colors"><Smile size={16} /></button>
-                  <button className="hover:text-white transition-colors"><MoreVertical size={16} /></button>
+                  <button className="hover:text-white transition-colors" title="Reply"><Reply size={16} /></button>
+                  <button onClick={() => { setEditingMessageId(msg.id); setMessage(msg.text); }} className="hover:text-white transition-colors" title="Edit message"><Edit size={16} /></button>
+                  <button onClick={() => setPinnedMessageId(msg.id)} className="hover:text-white transition-colors" title="Pin message"><Pin size={16} /></button>
                 </div>
               )}
 
@@ -1698,10 +1813,12 @@ export default function QuickChat({ onBack }) {
                   </div>
                 )}
                 <div className={`flex items-center justify-end mt-0.5 space-x-1 float-right ml-3 pt-2 text-[11px] text-gray-500`}>
+                  {editingMessageId === msg.id && <span className="italic mr-1">Edited</span>}
                   <span className="mt-[2px]">{msg.time}</span>
                   {msg.sender === 'me' && (
                     ghostMode ? <Ghost size={12} className="text-gray-400" /> : <CheckCheck size={14} className="text-[#53bdeb]" />
                   )}
+                  {disappearingTimer !== 'off' && <Clock size={10} className="text-gray-400 ml-1" />}
                 </div>
               </div>
 
@@ -1932,19 +2049,19 @@ export default function QuickChat({ onBack }) {
               <div className="w-full text-left space-y-4 mb-2">
                 <label className="flex items-center justify-between cursor-pointer p-2 rounded-lg hover:bg-black/5">
                   <span>24 hours</span>
-                  <input type="radio" name="disappear" className="w-4 h-4 text-[#00a884] focus:ring-[#00a884]" />
+                  <input type="radio" name="disappear" checked={disappearingTimer === '24h'} onChange={() => setDisappearingTimer('24h')} className="w-4 h-4 text-[#00a884] focus:ring-[#00a884]" />
                 </label>
                 <label className="flex items-center justify-between cursor-pointer p-2 rounded-lg hover:bg-black/5">
                   <span>7 days</span>
-                  <input type="radio" name="disappear" className="w-4 h-4 text-[#00a884] focus:ring-[#00a884]" />
+                  <input type="radio" name="disappear" checked={disappearingTimer === '7d'} onChange={() => setDisappearingTimer('7d')} className="w-4 h-4 text-[#00a884] focus:ring-[#00a884]" />
                 </label>
                 <label className="flex items-center justify-between cursor-pointer p-2 rounded-lg hover:bg-black/5">
                   <span>90 days</span>
-                  <input type="radio" name="disappear" className="w-4 h-4 text-[#00a884] focus:ring-[#00a884]" />
+                  <input type="radio" name="disappear" checked={disappearingTimer === '90d'} onChange={() => setDisappearingTimer('90d')} className="w-4 h-4 text-[#00a884] focus:ring-[#00a884]" />
                 </label>
                 <label className="flex items-center justify-between cursor-pointer p-2 rounded-lg hover:bg-black/5">
                   <span>Off</span>
-                  <input type="radio" name="disappear" defaultChecked className="w-4 h-4 text-[#00a884] focus:ring-[#00a884]" />
+                  <input type="radio" name="disappear" checked={disappearingTimer === 'off'} onChange={() => setDisappearingTimer('off')} className="w-4 h-4 text-[#00a884] focus:ring-[#00a884]" />
                 </label>
               </div>
             </div>
@@ -2088,9 +2205,12 @@ export default function QuickChat({ onBack }) {
               {callType === 'video' ? 'HOLO-LINK ESTABLISHED...' : 'SECURE AUDIO LINK...'}
             </p>
             
-            <div className="flex space-x-8">
+            <div className="flex space-x-6">
               <button className="w-16 h-16 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center backdrop-blur-md border border-white/20 transition-all hover:scale-110 shadow-[0_0_20px_rgba(255,255,255,0.1)]">
                 <Mic size={28} className="text-white" />
+              </button>
+              <button onClick={() => setIsScreenSharing(!isScreenSharing)} className={`w-16 h-16 ${isScreenSharing ? 'bg-blue-600 hover:bg-blue-500 border-blue-400 shadow-[0_0_30px_rgba(37,99,235,0.6)]' : 'bg-white/10 hover:bg-white/20 border-white/20 shadow-[0_0_20px_rgba(255,255,255,0.1)]'} rounded-full flex items-center justify-center backdrop-blur-md border transition-all hover:scale-110`}>
+                <ScreenShare size={26} className="text-white" />
               </button>
               <button onClick={() => setIsCalling(false)} className="w-16 h-16 bg-red-600 hover:bg-red-500 rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(220,38,38,0.6)] transition-all hover:scale-110 border border-red-400">
                 <Phone size={28} className="rotate-[135deg] text-white" />
@@ -2290,12 +2410,16 @@ export default function QuickChat({ onBack }) {
                  {[
                    { icon: <ShieldCheck size={20} />, title: 'Security notifications' },
                    { icon: <Lock size={20} />, title: 'Passkeys' },
+                   { icon: <CheckCheck size={20} />, title: 'Two-step verification', onClick: () => setTwoStepVerification(!twoStepVerification), desc: twoStepVerification ? 'On' : 'Off' },
                    { icon: <FileText size={20} />, title: 'Request account info' },
                    { icon: <Trash2 size={20} className="text-red-500" />, title: <span className="text-red-500">Delete account</span> },
                  ].map((item, i) => (
-                   <div key={i} className={`flex items-center px-6 py-4 cursor-pointer transition-colors ${isDarkMode ? 'hover:bg-[#202c33]' : 'hover:bg-gray-50'}`}>
+                   <div key={i} onClick={item.onClick} className={`flex items-center px-6 py-4 cursor-pointer transition-colors ${isDarkMode ? 'hover:bg-[#202c33]' : 'hover:bg-gray-50'}`}>
                      <div className={`mr-6 ${isDarkMode ? 'text-[#8696a0]' : 'text-gray-500'}`}>{item.icon}</div>
-                     <div className="flex-1 border-b border-gray-100 dark:border-[#222d34] pb-4 -mb-4"><h3 className={`text-[16px] ${isDarkMode ? 'text-[#e9edef]' : 'text-[#111b21]'}`}>{item.title}</h3></div>
+                     <div className="flex-1 border-b border-gray-100 dark:border-[#222d34] pb-4 -mb-4 flex justify-between items-center">
+                       <h3 className={`text-[16px] ${isDarkMode ? 'text-[#e9edef]' : 'text-[#111b21]'}`}>{item.title}</h3>
+                       {item.desc && <span className={`text-sm ${isDarkMode ? 'text-[#00a884]' : 'text-emerald-600'}`}>{item.desc}</span>}
+                     </div>
                    </div>
                  ))}
                </div>
@@ -2353,6 +2477,23 @@ export default function QuickChat({ onBack }) {
                      <p className={`text-[14px] ${isDarkMode ? 'text-[#8696a0]' : 'text-gray-500'}`}>Request keyboard to disable personalized learning.</p>
                    </div>
                    <input type="checkbox" defaultChecked className="w-5 h-5 rounded border-gray-400 text-[#00a884] focus:ring-[#00a884]" />
+                 </div>
+
+                 <div className={`px-6 py-4 mt-2 text-sm font-medium flex items-center gap-2 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                   <Fingerprint size={16} /> Device Security
+                 </div>
+                 
+                 <div className={`flex items-center justify-between px-6 py-4 cursor-pointer transition-colors ${isDarkMode ? 'hover:bg-[#202c33]' : 'hover:bg-gray-50'}`}>
+                   <div className="flex-1 pr-4">
+                     <h3 className={`text-[16px] mb-1 font-medium ${isDarkMode ? 'text-[#e9edef]' : 'text-[#111b21]'}`}>App Lock (Biometric / PIN)</h3>
+                     <p className={`text-[14px] ${isDarkMode ? 'text-[#8696a0]' : 'text-gray-500'}`}>Require fingerprint or PIN to open QuickChat.</p>
+                   </div>
+                   <button 
+                     onClick={() => setIsBiometricEnabled(!isBiometricEnabled)}
+                     className={`w-10 h-5 rounded-full relative transition-colors ${isBiometricEnabled ? 'bg-[#00a884]' : 'bg-gray-400'}`}
+                   >
+                     <div className={`absolute top-0.5 left-0.5 bg-white w-4 h-4 rounded-full transition-transform ${isBiometricEnabled ? 'translate-x-5' : ''}`}></div>
+                   </button>
                  </div>
                </div>
             )}
